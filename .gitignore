@@ -1,0 +1,29 @@
+# Gradle build files and caches
+.gradle/
+build/
+
+# Gradle wrapper jar
+gradle/wrapper/gradle-wrapper.jar
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse files
+.project
+.classpath
+.settings/
+
+# Mac OS files
+.DS_Store
+
+# Logs
+*.log
+
+# Java class files
+*.class
+
+# Other temporary files
+*.tmp
