@@ -1,0 +1,16 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "DruckManager",
+            "request": "launch",
+            "mainClass": "de.fernausoft.druckmanager.DruckManager",
+            "projectName": "DruckManager",
+            "vmArgs": "-javaagent:C:\\MyFiles\\Eclipse\\Workspace\\Hello2\\opentelemetry-javaagent.jar -Dotel.service.name=DruckManager -Dotel.exporter.otlp.endpoint=http://localhost:4318"
+        }
+    ]
+}

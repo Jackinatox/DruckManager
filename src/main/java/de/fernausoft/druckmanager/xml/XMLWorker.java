@@ -5,6 +5,7 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import de.fernausoft.druckmanager.xml.schema.ObjectFactory;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterconfigDef;
+import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 
 public class XMLWorker {
     // private static final String JAXB_PACKAGE =
@@ -36,18 +38,30 @@ public class XMLWorker {
             if (jaxbElement.getValue() instanceof PrinterconfigDef) {
                 printerConfig = (PrinterconfigDef) jaxbElement.getValue();
             } else {
-                System.out.println("Root element is JAXBElement, but value is not Printerconfig.");
-                System.out.println("Type: " + jaxbElement.getDeclaredType().getName());
+                logger.warn("Root element is JAXBElement, but value is not Printerconfig.");
+                logger.warn("Type: " + jaxbElement.getDeclaredType().getName());
             }
 
             logger.info("XMLFile is an instance of: " + unmarshalledObject.getClass());
-
-            for (PrinterDef printer : printerConfig.getPrinters().getPrinter()) {
-                // System.out.println(printer.getName());
-            }
         } catch (JAXBException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public List<PrinterDef> getAllPrinters() {
+        List<PrinterDef> printerDefs = new ArrayList<>();
+        PrintersDef allPrinters = printerConfig.getPrinters();
+        if (allPrinters != null) {
+            List<PrinterDef> printerList = allPrinters.getPrinter();
+            if (printerList != null) {
+                for (PrinterDef printer : printerList) {
+                    if (printer != null && printer.getName() != null) {
+                        printerDefs.add(printer);
+                    }
+                }
+            }
+        }
+        return printerDefs;
     }
 }
