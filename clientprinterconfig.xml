@@ -3724,7 +3724,7 @@
         </target>
 
         <!-- Büro Creußen (ist in der Nähe von Empfang Creußen) -->
-        <target hostname="CREUSSEN-BUERO">
+        <target usename="CREUSSEN-BUERO">
             <!-- Auftrag -->
             <!-- Formularweg1 -->
             <env env="DR_3030AU_1" ref="ref95D" />

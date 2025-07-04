@@ -64,4 +64,9 @@ public class XMLWorker {
         }
         return printerDefs;
     }
+
+    public void something(){
+        // var target = printerConfig.getTargets().getTarget();
+        // target.get(0).getEnv().get
+    }
 }

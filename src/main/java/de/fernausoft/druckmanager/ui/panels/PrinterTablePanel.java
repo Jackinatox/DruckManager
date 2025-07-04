@@ -1,22 +1,19 @@
-package de.fernausoft.druckmanager.ui;
+package de.fernausoft.druckmanager.ui.panels;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.util.List;
+
+import de.fernausoft.druckmanager.ui.models.PrinterTableModel;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class PrinterTablePanel extends JPanel {
     private JTable table;
-    private DefaultTableModel tableModel;
+    private PrinterTableModel tableModel;
 
     public PrinterTablePanel(List<PrinterDef> printers) {
         setLayout(new java.awt.BorderLayout());
-        String[] columnNames = {"Name", "Beschreibung"};
-        tableModel = new DefaultTableModel(columnNames, 0);
+        tableModel = new PrinterTableModel(printers);
         table = new JTable(tableModel);
-        for (PrinterDef printer : printers) {
-            tableModel.addRow(new Object[]{printer.getName(), printer.getDescritpion()});
-        }
         add(new JScrollPane(table), java.awt.BorderLayout.CENTER);
     }
 }
