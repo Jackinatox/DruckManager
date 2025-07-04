@@ -10,11 +10,14 @@ import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+
+// TODO: is unused
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class EditPrinterName {
 
     public static String showPrinterDialog(String oldName, List<PrinterDef> allPrinters) {
+        String returnString = "";
         JDialog dialog = new JDialog();
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -25,6 +28,11 @@ public class EditPrinterName {
         JButton okButton = new JButton("OK");
         JButton cancelButton = new JButton("Abbrechen");
 
+
+        cancelButton.addActionListener(e -> dialog.dispose());
+        // okButton.addActionListener();
+
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setTitle("Druckername ändern");
         dialog.setModal(true);
         dialog.setLocationRelativeTo(null);
@@ -42,6 +50,6 @@ public class EditPrinterName {
         dialog.setResizable(false);
         dialog.setVisible(true);
 
-        return "";
+        return returnString;
     }
 }

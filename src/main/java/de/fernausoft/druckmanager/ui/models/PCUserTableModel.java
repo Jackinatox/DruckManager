@@ -4,19 +4,19 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import de.fernausoft.druckmanager.xml.schema.PrinterDef;
+import de.fernausoft.druckmanager.xml.schema.TargetDef;
 
-public class PrinterTableModel extends AbstractTableModel {
-    private final String[] columnNames = { "Name", "Beschreibung" };
-    private final List<PrinterDef> printers;
+public class PCUserTableModel extends AbstractTableModel {
+    private final String[] columnNames = { "PC", "Nutzer" };
+    private final List<TargetDef> targets;
 
-    public PrinterTableModel(List<PrinterDef> printers) {
-        this.printers = printers;
+    public PCUserTableModel(List<TargetDef> targets) {
+        this.targets = targets;
     }
 
     @Override
     public int getRowCount() {
-        return printers.size();
+        return targets.size();
     }
 
     @Override
@@ -31,12 +31,12 @@ public class PrinterTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        PrinterDef printer = printers.get(rowIndex);
+        TargetDef target = targets.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return printer.getName();
+                return target.getHostname();
             case 1:
-                return printer.getDescritpion();
+                return target.getUsername();
             default:
                 return null;
         }
@@ -44,13 +44,13 @@ public class PrinterTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        PrinterDef printer = printers.get(rowIndex);
+        TargetDef target = targets.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                printer.setName(aValue.toString());
+                target.setHostname(aValue.toString());
                 break;
             case 1:
-                printer.setDescritpion(aValue.toString());
+                target.setUsername(aValue.toString());
                 break;
         }
         fireTableCellUpdated(rowIndex, columnIndex);
@@ -58,11 +58,10 @@ public class PrinterTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        // All cells are non-editable; editing is handled via dialog on double-click
         return false;
     }
 
-    public PrinterDef getPrinterAt(int rowIndex) {
-        return printers.get(rowIndex);
+    public TargetDef getTargetAt(int rowIndex) {
+        return targets.get(rowIndex);
     }
 }

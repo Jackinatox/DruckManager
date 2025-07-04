@@ -1,20 +1,21 @@
 package de.fernausoft.druckmanager;
 
 import de.fernausoft.druckmanager.ui.forms.DruckManagerPanel;
-import de.fernausoft.druckmanager.ui.forms.EditPrinterName;
 import de.fernausoft.druckmanager.xml.XMLWorker;
-import de.fernausoft.druckmanager.xml.schema.PrinterDef;
+import de.fernausoft.druckmanager.xml.schema.TargetDef;
 
 public class DruckManager {
 
 	public static void main(String[] args) {
 		XMLWorker xmlworker = new XMLWorker("clientprinterconfig.xml");
 
-		// for (PrinterDef printer : xmlworker.getAllPrinters()) {
-		// 	System.out.println("Printer Name: " + printer.getName());
+		// for (TargetDef target : xmlworker.getAllTargets()) {
+		// 	System.out.println("Target Username: " + target.getUsername());
 		// }
-		EditPrinterName.showPrinterDialog("printe", xmlworker.getAllPrinters());
-
-		// DruckManagerPanel.launch(xmlworker);
+		// System.out.println(EditPrinterName.showPrinterDialog("printe",
+		// xmlworker.getAllPrinters()));
+		// String input = JOptionPane.showInputDialog(null, "Neuer Druckername:",
+		// "test", 1);
+		DruckManagerPanel.launch(xmlworker);
 	}
 }

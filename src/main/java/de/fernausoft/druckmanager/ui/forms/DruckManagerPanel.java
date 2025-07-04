@@ -3,10 +3,12 @@ package de.fernausoft.druckmanager.ui.forms;
 import javax.swing.*;
 import java.awt.GridLayout;
 
+import de.fernausoft.druckmanager.ui.panels.PCUserMappingPanel;
 import de.fernausoft.druckmanager.ui.panels.PrinterTablePanel;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import java.util.List;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
+import de.fernausoft.druckmanager.xml.schema.TargetDef;
 
 public class DruckManagerPanel {
 
@@ -20,9 +22,12 @@ public class DruckManagerPanel {
 		mainWindow.getContentPane().setLayout(new GridLayout(3, 1));
 
 		List<PrinterDef> printers = xmlWorker.getAllPrinters();
+		List<TargetDef> targets = xmlWorker.getAllTargets();
 		PrinterTablePanel tablePanel = new PrinterTablePanel(printers);
+		PCUserMappingPanel pcTaplePanel = new PCUserMappingPanel(targets);
+
 		mainWindow.getContentPane().add(tablePanel);
-		mainWindow.getContentPane().add(new JPanel()); // Placeholder for second bar
+		mainWindow.getContentPane().add(pcTaplePanel);
 		mainWindow.getContentPane().add(new JPanel()); // Placeholder for third bar
 	}
 

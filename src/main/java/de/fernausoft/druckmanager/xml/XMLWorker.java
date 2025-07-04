@@ -6,6 +6,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,7 @@ import de.fernausoft.druckmanager.xml.schema.ObjectFactory;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterconfigDef;
 import de.fernausoft.druckmanager.xml.schema.PrintersDef;
+import de.fernausoft.druckmanager.xml.schema.TargetDef;
 
 public class XMLWorker {
     // private static final String JAXB_PACKAGE =
@@ -65,8 +67,19 @@ public class XMLWorker {
         return printerDefs;
     }
 
-    public void something(){
-        // var target = printerConfig.getTargets().getTarget();
-        // target.get(0).getEnv().get
+    public List<TargetDef> getAllTargets() {
+        List<TargetDef> targetDefs = new ArrayList<>();
+        if (printerConfig.getTargets() != null) {
+            List<TargetDef> targetList = printerConfig.getTargets().getTarget();
+            if (targetList != null) {
+                for (TargetDef target : targetList) {
+                    targetDefs.add(target);
+                    if (target == null || (target.getHostname() == null && target.getUsername() == null)) {
+                        logger.warn("Target ohne Hostnamen und ohne User bei Element: " + (targetList.indexOf(target) + 1));
+                    }
+                }
+            }
+        }
+        return targetDefs;
     }
 }
