@@ -23,6 +23,10 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
     // Log4j2 Core - the logging implementation
     runtimeOnly 'org.apache.logging.log4j:log4j-core:2.20.0'
+    // https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api
+    implementation group: 'jakarta.persistence', name: 'jakarta.persistence-api', version: '3.2.0'
+       // https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api
+    implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.2'
 }
 
 
