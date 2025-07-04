@@ -1,7 +1,11 @@
 package de.fernausoft.druckmanager;
 
+import de.fernausoft.druckmanager.xml.XMLWorker;
+
 public class DruckManager {
+
 	public static void main(String[] args) {
-		System.out.println("test");
+		XMLWorker xmlworker = new XMLWorker("clientprinterconfig.xml");
+
 	}
 }
