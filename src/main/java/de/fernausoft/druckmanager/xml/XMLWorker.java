@@ -46,7 +46,7 @@ public class XMLWorker {
 
             logger.info("XMLFile is an instance of: " + unmarshalledObject.getClass());
         } catch (JAXBException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
 
     }

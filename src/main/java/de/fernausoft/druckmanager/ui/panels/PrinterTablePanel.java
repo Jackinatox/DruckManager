@@ -12,7 +12,7 @@ public class PrinterTablePanel extends JPanel {
     private PrinterTableModel tableModel;
 
     public PrinterTablePanel(List<PrinterDef> printers) {
-        // TODO:  Maybe add some validation so the name only contains valaid chars
+        // TODO: Maybe add some validation so the name only contains valaid chars
         setLayout(new java.awt.BorderLayout());
         tableModel = new PrinterTableModel(printers);
         table = new JTable(tableModel);
@@ -27,7 +27,7 @@ public class PrinterTablePanel extends JPanel {
 
                     PrinterDef printer = tableModel.getPrinterAt(row);
                     switch (column) {
-                        case 0: // First column eg Printer
+                        case 0: // First column, so Printer
                             String newName = JOptionPane.showInputDialog(
                                     PrinterTablePanel.this,
                                     "Druckername ändern:",
@@ -62,13 +62,15 @@ public class PrinterTablePanel extends JPanel {
                                     "Drucker Beschreibung:",
                                     printer.getDescritpion());
 
-                            String trimmedName = newDesc.trim();
-                            if (newDesc != null && !trimmedName.equals(printer.getDescritpion())) {
-                                String oldName = printer.getDescritpion();
+                            if (newDesc != null) {
+                                String trimmedName = newDesc.trim();
+                                if (newDesc != null && !trimmedName.equals(printer.getDescritpion())) {
+                                    String oldName = printer.getDescritpion();
 
-                                if (!trimmedName.equals(oldName)) {
-                                    printer.setDescritpion(trimmedName);
-                                    tableModel.fireTableRowsUpdated(row, row);
+                                    if (!trimmedName.equals(oldName)) {
+                                        printer.setDescritpion(trimmedName);
+                                        tableModel.fireTableRowsUpdated(row, row);
+                                    }
                                 }
                             }
                             break;

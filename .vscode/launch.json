@@ -10,7 +10,8 @@
             "request": "launch",
             "mainClass": "de.fernausoft.druckmanager.DruckManager",
             "projectName": "DruckManager",
-            "vmArgs": "-javaagent:C:\\MyFiles\\Eclipse\\Workspace\\Hello2\\opentelemetry-javaagent.jar -Dotel.service.name=DruckManager -Dotel.exporter.otlp.endpoint=http://localhost:4318"
+            "vmArgs": "-javaagent:C:\\MyFiles\\Eclipse\\Workspace\\Hello2\\opentelemetry-javaagent.jar -Dotel.service.name=DruckManager -Dotel.exporter.otlp.endpoint=http://localhost:4318 -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=otlp -Dotel.logs.exporter=otlp -Dotel.logs.include=true"
+
         }
     ]
 }
