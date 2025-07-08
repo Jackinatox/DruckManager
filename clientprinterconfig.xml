@@ -395,52 +395,13 @@
         <target hostname="WORK12-17">
             <!-- Auftrag -->
             <!-- Formularweg1 -->
-            <env env="DR_3030AU_1" ref="ref42" />
-            <env env="DR_3030AU_2" ref="ref43" />
-            <env env="DR_3030LI_1" ref="ref44" />
-            <env env="DR_3030LI_2" ref="ref43" />
-            <env env="DR_3030RE_1" ref="ref44" />
-            <env env="DR_3030RE_2" ref="ref18" />
 
-            <!-- Formularweg2 -->
-            <env env="DR_3031AU_1" ref="ref42" />
-            <env env="DR_3031AU_2" ref="ref43" />
-            <env env="DR_3031LI_1" ref="ref_ga_buero3" />
-            <env env="DR_3031LI_2" ref="ref43" />
-            <env env="DR_3031RE_1" ref="ref_ga_buero3" />
-            <env env="DR_3031RE_2" ref="ref18" />
+            <!-- Hier mehrere formuarwege für mein testen-->
+            <env env="DR_3031AU_1" ref="ref43" />
+            <env env="DR_3032AU_1" ref="ref43" />
+            <env env="DR_3033AU_1" ref="ref43" />
+            <env env="DR_3034AU_1" ref="ref43" />
 
-            <!-- Formularweg3 -->
-            <env env="DR_3032AU_1" ref="ref42" />
-            <env env="DR_3032AU_2" ref="ref43" />
-            <env env="DR_3032LI_1" ref="ref44" />
-            <env env="DR_3032LI_2" ref="ref43" />
-            <env env="DR_3032RE_1" ref="ref44" />
-            <env env="DR_3032RE_2" ref="ref18" />
-            <env env="DR_3032RE_3" ref="ref43" />
-
-            <!-- Formularweg4 -->
-            <env env="DR_3033AU_1" ref="ref42" />
-            <env env="DR_3033LI_1" ref="ref43" />
-            <env env="DR_3033RE_1" ref="ref20" />
-
-            <!-- Sammelrechnung -->
-            <env env="DR_304KFZ_1" ref="ref20" />
-
-            <!-- Mietwagen -->
-            <env env="DR_811KFZ_2" ref="ref18" />
-            <env env="DR_3035AU_1" ref="ref42" />
-            <env env="DR_3035AU_2" ref="ref43" />
-            <env env="DR_3035LI_1" ref="ref44" />
-            <env env="DR_3035LI_2" ref="ref43" />
-            <env env="DR_3035RE_1" ref="ref44" />
-            <env env="DR_3035RE_2" ref="ref18" />
-            <env env="DR_3036AU_1" ref="ref42" />
-            <env env="DR_3036AU_2" ref="ref43" />
-            <env env="DR_3036LI_1" ref="ref_ga_buero3" />
-            <env env="DR_3036LI_2" ref="ref43" />
-            <env env="DR_3036RE_1" ref="ref_ga_buero3" />
-            <env env="DR_3036RE_2" ref="ref18" />
         </target>
 
         <target hostname="elux-Goetz">

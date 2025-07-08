@@ -27,6 +27,7 @@ public class Target {
 
                 switch(ProgramTypeResolver.resolveType(env)) {
                     case WERKSTATT_AUFTRAG:
+                        logger.info("Creating Target replica for WERKSTATT_AUFTRAG with env: " + env + " and ref: " + ref);
                         WerkstattAuftrag.add(env, xmlWorker.printerLookup(ref));
                     case BESTELLUNGEN_PER_FAX:
                         break;

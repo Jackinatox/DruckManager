@@ -1,10 +1,13 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Formularweg;
 
-public class Formularweg {
+abstract public class Formularweg {
     public Formularweg() {
     }
+
+    abstract protected String getName();
+
     @Override
     public String toString() {
-        return this.getClass().getSimpleName();
+        return getName();
     }
 }

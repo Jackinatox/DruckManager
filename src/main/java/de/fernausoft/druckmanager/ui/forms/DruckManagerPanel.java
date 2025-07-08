@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import de.fernausoft.druckmanager.ui.panels.PCUserMappingPanel;
 import de.fernausoft.druckmanager.ui.panels.PrinterTablePanel;
 import de.fernausoft.druckmanager.ui.panels.Settings.Settings;
+import de.fernausoft.druckmanager.ui.panels.Settings.Target;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import java.util.List;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
@@ -22,8 +23,12 @@ public class DruckManagerPanel {
 
 		mainWindow.getContentPane().setLayout(new GridLayout(3, 1));
 
+		Target target = new Target(xmlWorker.forTesting(), xmlWorker);
+
 		List<PrinterDef> printers = xmlWorker.getAllPrinters();
 		List<TargetDef> targets = xmlWorker.getAllTargets();
+
+		// The 3 Main UI Panels
 		PrinterTablePanel tablePanel = new PrinterTablePanel(printers);
 		PCUserMappingPanel pcTaplePanel = new PCUserMappingPanel(targets);
 		Settings settingsPanel = new Settings(xmlWorker);

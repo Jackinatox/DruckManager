@@ -25,7 +25,7 @@ public class WerkstattAuftrag extends BaseProgram {
     // }
 
     public static void add(String env, PrinterDef printer) {
-        char formularId = env.charAt(5);
+        char formularId = env.charAt(6);
 
         WerkstattFormularweg werkstattFormularweg = (WerkstattFormularweg) map.get(formularId);
         if (werkstattFormularweg == null) {

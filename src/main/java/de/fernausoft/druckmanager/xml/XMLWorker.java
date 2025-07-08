@@ -93,4 +93,8 @@ public class XMLWorker {
     public PrinterDef printerLookup(String ref){
         return printerLookup.get(ref);
     }
+
+    public TargetDef forTesting(){
+        return printerConfig.getTargets().getTarget().get(0);
+    }
 }

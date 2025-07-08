@@ -15,4 +15,10 @@ public class WerkstattFormularweg extends Formularweg3 {
         return this;
     }
 
+    @Override
+    protected String getName() {
+        // return a completely random name for testing purposes
+        return "Werkstatt Formularweg " + Math.random();
+    }
+
 }

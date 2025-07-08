@@ -2,7 +2,7 @@ package de.fernausoft.druckmanager.ui.panels.Settings.Formularweg;
 
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
-public class Formularweg3 extends Formularweg {
+abstract public class Formularweg3 extends Formularweg {
     private PrinterDef printer1;
     private PrinterDef printer2;
     private PrinterDef printer3;
