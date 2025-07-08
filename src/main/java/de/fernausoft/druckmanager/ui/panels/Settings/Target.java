@@ -1,17 +1,12 @@
 package de.fernausoft.druckmanager.ui.panels.Settings;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.fernausoft.druckmanager.ui.panels.Settings.Programs.*;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.Werkstatt.WerkstattAuftrag;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.KeyvalueDef;
-import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 import de.fernausoft.druckmanager.xml.schema.TargetDef;
 
 public class Target {
@@ -22,7 +17,7 @@ public class Target {
     public Target(TargetDef targetDef, XMLWorker xmlWorker) {
         super();
         this.target = targetDef;
-        List<BaseProgram> programList = new ArrayList<>();
+        // List<BaseProgram> programList = new ArrayList<>();
 
         try {
             long startTime = System.currentTimeMillis();
