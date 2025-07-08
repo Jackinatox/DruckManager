@@ -1,20 +1,21 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
-import java.util.List;
 import java.util.Map;
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 
 public abstract class BaseProgram {
-    public BaseProgram() {
+    protected String name;
+    protected String prefix;
+    protected Map<Character, Formularweg> formularwegMap;
+
+    protected BaseProgram() {
     }
+
+    public abstract void addFormularweg(Formularweg formularweg);
 
     public abstract String getName();
-    public abstract List<Formularweg> getFormularweg();
 
+    public abstract String buildEnv();
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
 }

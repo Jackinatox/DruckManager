@@ -1,16 +1,20 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Formularweg;
 
+import de.fernausoft.druckmanager.ui.panels.Settings.ProgramType;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
-abstract public class Formularweg3 extends Formularweg {
+public class Formularweg3 extends Formularweg {
     private PrinterDef printer1;
     private PrinterDef printer2;
     private PrinterDef printer3;
 
-    public Formularweg3() {
+    public Formularweg3(String name, char FWayChar, ProgramType type) {
+        super(name, FWayChar, type);
     }
 
-    protected Formularweg3 addPrinter(char printerId, PrinterDef printer) {
+    public Formularweg3 addPrinter(String env, PrinterDef printer) {
+
+        char printerId = env.charAt(10);
         switch (printerId) {
             case '1':
                 setPrinter1(printer);
@@ -27,10 +31,8 @@ abstract public class Formularweg3 extends Formularweg {
             return this;
     }
 
-    public Formularweg3(PrinterDef printer1, PrinterDef printer2, PrinterDef printer3) {
-        this.printer1 = printer1;
-        this.printer2 = printer2;
-        this.printer3 = printer3;
+    public ProgramType getType() {
+        return type;
     }
 
     public PrinterDef getPrinter1() {
@@ -56,4 +58,5 @@ abstract public class Formularweg3 extends Formularweg {
     public void setPrinter3(PrinterDef printer3) {
         this.printer3 = printer3;
     }
+    
 }

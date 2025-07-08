@@ -2,5 +2,6 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "debug.javascript.defaultRuntimeExecutable": {
         "pwa-node": "node"
-    }
+    },
+    "java.debug.settings.onBuildFailureProceed": true
 }
