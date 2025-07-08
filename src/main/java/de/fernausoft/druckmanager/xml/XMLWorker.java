@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +25,7 @@ public class XMLWorker {
     private static final Logger logger = LogManager.getLogger(XMLWorker.class);
 
     private PrinterconfigDef printerConfig;
+    private Map<String, PrinterDef> printerLookup = new java.util.HashMap<>();
 
     public XMLWorker(String pathToFile) {
         JAXBContext jaxbContext;
@@ -45,6 +47,11 @@ public class XMLWorker {
             }
 
             logger.info("XMLFile is an instance of: " + unmarshalledObject.getClass());
+
+            for (PrinterDef printer: printerConfig.getPrinters().getPrinter()){
+                printerLookup.put(printer.getRef(), printer);
+            }
+            logger.info("Succesfully build PrinterLookup");
         } catch (JAXBException e) {
             logger.error(e);
         }
@@ -81,5 +88,9 @@ public class XMLWorker {
             }
         }
         return targetDefs;
+    }
+
+    public PrinterDef printerLookup(String ref){
+        return printerLookup.get(ref);
     }
 }

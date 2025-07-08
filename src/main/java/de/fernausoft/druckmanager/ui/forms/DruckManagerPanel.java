@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 
 import de.fernausoft.druckmanager.ui.panels.PCUserMappingPanel;
 import de.fernausoft.druckmanager.ui.panels.PrinterTablePanel;
+import de.fernausoft.druckmanager.ui.panels.Settings.Settings;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import java.util.List;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
@@ -25,10 +26,11 @@ public class DruckManagerPanel {
 		List<TargetDef> targets = xmlWorker.getAllTargets();
 		PrinterTablePanel tablePanel = new PrinterTablePanel(printers);
 		PCUserMappingPanel pcTaplePanel = new PCUserMappingPanel(targets);
+		Settings settingsPanel = new Settings(xmlWorker);
 
 		mainWindow.getContentPane().add(tablePanel);
 		mainWindow.getContentPane().add(pcTaplePanel);
-		mainWindow.getContentPane().add(new JPanel()); // Placeholder for third bar
+		mainWindow.getContentPane().add(settingsPanel);
 	}
 
 	public void show() {

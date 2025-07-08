@@ -2,7 +2,6 @@ package de.fernausoft.druckmanager;
 
 import de.fernausoft.druckmanager.ui.forms.DruckManagerPanel;
 import de.fernausoft.druckmanager.xml.XMLWorker;
-import de.fernausoft.druckmanager.xml.schema.TargetDef;
 
 public class DruckManager {
 
