@@ -8,9 +8,10 @@ import de.fernausoft.druckmanager.ui.panels.PrinterTablePanel;
 import de.fernausoft.druckmanager.ui.panels.Settings.Settings;
 import de.fernausoft.druckmanager.ui.panels.Settings.Target;
 import de.fernausoft.druckmanager.xml.XMLWorker;
+
+import java.util.ArrayList;
 import java.util.List;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
-import de.fernausoft.druckmanager.xml.schema.TargetDef;
 
 public class DruckManagerPanel {
 
@@ -23,14 +24,15 @@ public class DruckManagerPanel {
 
 		mainWindow.getContentPane().setLayout(new GridLayout(3, 1));
 
+		List<Target> myTargets = new ArrayList<>();
 		Target target = new Target(xmlWorker.forTesting(), xmlWorker);
+		myTargets.add(target);
 
 		List<PrinterDef> printers = xmlWorker.getAllPrinters();
-		List<TargetDef> targets = xmlWorker.getAllTargets();
 
 		// The 3 Main UI Panels
 		PrinterTablePanel tablePanel = new PrinterTablePanel(printers);
-		PCUserMappingPanel pcTaplePanel = new PCUserMappingPanel(targets);
+		PCUserMappingPanel pcTaplePanel = new PCUserMappingPanel(myTargets);
 		Settings settingsPanel = new Settings(xmlWorker);
 
 		mainWindow.getContentPane().add(tablePanel);
@@ -45,7 +47,8 @@ public class DruckManagerPanel {
 	}
 
 	public static void launch(XMLWorker xmlWorker) {
-		// Weil die UI einen speziellen Event Thread braucht, glaube windows macht das gleiche mit in der win api
+		// Weil die UI einen speziellen Event Thread braucht, glaube windows macht das
+		// gleiche mit in der win api
 		SwingUtilities.invokeLater(() -> {
 			DruckManagerPanel panel = new DruckManagerPanel(xmlWorker);
 			panel.show();

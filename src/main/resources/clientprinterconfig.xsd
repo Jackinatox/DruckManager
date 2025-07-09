@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.kfz3000plus.de/client/printerconfig"
+    targetNamespace="http://www.kfz3000plus.de/client/printerconfig" elementFormDefault="qualified">
+    <xs:element name="printerconfig" type="printerconfig_def" />
+    
+    <xs:complexType name="printerconfig_def">
+        <xs:sequence>
+            <xs:element name="printers" type="printers_def" minOccurs="0" />
+            <xs:element name="targets" type="targets_def" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="printers_def">
+        <xs:sequence>
+            <xs:element name="printer" type="printer_def" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="printer_def">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string" minOccurs="1"/>
+            <xs:element name="location" type="xs:string" minOccurs="0"/>
+            <xs:element name="descritpion" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="ref" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="targets_def">
+        <xs:sequence>
+            <xs:element name="target" type="target_def" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="continueOnHit" type="xs:boolean" default="false"/>
+        <xs:attribute name="searchSequence" type="searchSequenceType" default="fullThenHost"/>
+        <xs:attribute name="duplicateDealing" type="duplicateDealingType" default="keep"/>
+    </xs:complexType>
+    
+    <xs:simpleType name="searchSequenceType">
+        <xs:annotation>
+            <xs:documentation>
+                Gibt die Suchreihenfolge an
+                fullThenUser: Erst den vollen Treffer versuchen. Anschließend mit dem User fortfahren. Als letztes wird der Host verglichen
+                fullThenHost: Erst den vollen Treffer versuchen. Anschließend mit dem Host fortfahren. Als letztes wird der User verglichen
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="fullThenUser" />
+            <xs:enumeration value="fullThenHost" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="duplicateDealingType">
+        <xs:annotation>
+            <xs:documentation>
+                Gibt die Präferenz bei Dubletten an (nur wenn continueOnHit==true)
+                override: Nachfolgende Dubletten überschreiben die Vorgänger
+                keep:     Nachfolgende Dubletten werden ignoriert
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="override" />
+            <xs:enumeration value="keep" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:complexType name="target_def">
+        <xs:annotation>
+            <xs:documentation>
+                Angabe eines Ziels mittels Benutzer- und Hostname
+                - Der Username ist der in Windows eingeloggte Benutzer
+                - Der Hostname spiegelt den Rechner wieder an welchem man eingeloggt ist.
+                  Hinweis: In Terminalserverumgebungen wird statt der HOSTNAME
+                  Variable der CLIENTNAME abgefragt. Erkennen tue ich das daran,
+                  dass eine CLIENTNAME-Umgebungsvariable existiert und nicht leer
+                  ist. Diese Variable ist immer dann gesetzt, wenn man sich 
+                  Remote an einen Rechner angemeldet hat.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="env" type="keyvalue_def" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="username" type="nonEmptyString" use="optional"/>
+        <xs:attribute name="hostname" type="nonEmptyString" use="optional"/>
+    </xs:complexType>
+    
+    <xs:simpleType name="nonEmptyString">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:complexType name="keyvalue_def">
+        <xs:attribute name="env" type="nonEmptyString" use="required"/>
+        <xs:attribute name="value" type="xs:string" use="optional"/>
+        <xs:attribute name="ref" type="nonEmptyString" use="optional"/>
+    </xs:complexType>
+</xs:schema>

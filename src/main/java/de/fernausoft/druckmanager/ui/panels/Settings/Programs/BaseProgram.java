@@ -1,20 +1,20 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
-import java.util.Map;
 
-import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
+import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public abstract class BaseProgram {
     protected String name;
     protected String prefix;
-    protected Map<Character, Formularweg> formularwegMap;
 
     protected BaseProgram() {
     }
 
-    public abstract void addFormularweg(Formularweg formularweg);
+    public abstract void addPrinter(String env, PrinterDef printer);
 
-    public abstract String getName();
+    public String getName() {
+        return this.name;
+    }
 
     public abstract String buildEnv();
 

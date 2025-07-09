@@ -5,15 +5,20 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.fernausoft.druckmanager.xml.schema.ObjectFactory;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterconfigDef;
 import de.fernausoft.druckmanager.xml.schema.PrintersDef;
@@ -30,9 +35,15 @@ public class XMLWorker {
     public XMLWorker(String pathToFile) {
         JAXBContext jaxbContext;
         try {
-            jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
+            InputStream xsdStream = getClass().getResourceAsStream("/clientprinterconfig.xsd");
+
+            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+            javax.xml.validation.Schema schema = sf.newSchema(new StreamSource(xsdStream));
+            jaxbContext = JAXBContext.newInstance("de.fernausoft.druckmanager.xml.schema");
 
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            unmarshaller.setSchema(schema);
 
             File xmlFile = new File(pathToFile); // Use an XML file that matches the generated schema
 
@@ -48,11 +59,11 @@ public class XMLWorker {
 
             logger.info("XMLFile is an instance of: " + unmarshalledObject.getClass());
 
-            for (PrinterDef printer: printerConfig.getPrinters().getPrinter()){
+            for (PrinterDef printer : printerConfig.getPrinters().getPrinter()) {
                 printerLookup.put(printer.getRef(), printer);
             }
             logger.info("Succesfully build PrinterLookup");
-        } catch (JAXBException e) {
+        } catch (Exception e) {
             logger.error(e);
         }
 
@@ -82,7 +93,8 @@ public class XMLWorker {
                 for (TargetDef target : targetList) {
                     targetDefs.add(target);
                     if (target == null || (target.getHostname() == null && target.getUsername() == null)) {
-                        logger.warn("Target ohne Hostnamen und ohne User bei Element: " + (targetList.indexOf(target) + 1));
+                        logger.warn(
+                                "Target ohne Hostnamen und ohne User bei Element: " + (targetList.indexOf(target) + 1));
                     }
                 }
             }
@@ -90,11 +102,11 @@ public class XMLWorker {
         return targetDefs;
     }
 
-    public PrinterDef printerLookup(String ref){
+    public PrinterDef printerLookup(String ref) {
         return printerLookup.get(ref);
     }
 
-    public TargetDef forTesting(){
+    public TargetDef forTesting() {
         return printerConfig.getTargets().getTarget().get(0);
     }
 }

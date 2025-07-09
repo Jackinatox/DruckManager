@@ -1,16 +1,12 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Formularweg;
 
-import de.fernausoft.druckmanager.ui.panels.Settings.ProgramType;
-
 abstract public class Formularweg {
-    protected ProgramType type;
     protected char FWayChar;
     protected String name;
 
-    public Formularweg(String name, char FWayChar, ProgramType type) {
+    public Formularweg(String name, char FWayChar) {
         this.name = name;
         this.FWayChar = FWayChar;
-        this.type = type;
     }
 
     public String getName() {

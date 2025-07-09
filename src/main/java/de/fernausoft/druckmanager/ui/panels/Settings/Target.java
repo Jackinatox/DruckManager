@@ -11,11 +11,12 @@ import org.apache.logging.log4j.Logger;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg3;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
-import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayout;
+import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.KeyvalueDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 import de.fernausoft.druckmanager.xml.schema.TargetDef;
+
 public class Target {
     private TargetDef target;
     private Map<ProgramType, BaseProgram> programMap = new HashMap<>();
@@ -39,14 +40,9 @@ public class Target {
 
                 switch (ProgramTypeResolver.resolveType(env)) {
                     case WERKSTATT_AUFTRAG:
-                        Formularweg3 formularweg = new Formularweg3("Formularweg " + env.charAt(6), env.charAt(6), ProgramType.WERKSTATT_AUFTRAG);
-                        formularweg.addPrinter(env, printer);
-
-                        DefaultLayout defaultLayout = new DefaultLayout(ProgramType.WERKSTATT_AUFTRAG.name(),
-                                env.substring(0, 6));
-
-                        addEnv(ProgramType.WERKSTATT_AUFTRAG, defaultLayout, formularweg);
-
+                        // DR_3030AU_1
+                        handleDefaultLayoutProgram(ProgramType.WERKSTATT_AUFTRAG, env, printer);
+                        break;
                     case BESTELLUNGEN_PER_FAX:
                         break;
                     case BONDRUCK:
@@ -104,17 +100,22 @@ public class Target {
         }
     }
 
-    private void addEnv(ProgramType type, BaseProgram base, Formularweg formularweg) {
-        BaseProgram existingProgram;
-
-        if (programMap.containsKey(type)) {
-            existingProgram = programMap.get(type);
-        } else {
-            existingProgram = base;
+    private void handleDefaultLayoutProgram(ProgramType type, String env, PrinterDef printer) {
+        DefaultLayoutProgram defaultLayoutProgram = (DefaultLayoutProgram) programMap.get(type);
+        if (defaultLayoutProgram == null) {
+            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.substring(0, 6));
+            programMap.put(type, defaultLayoutProgram);
         }
 
-        existingProgram.addFormularweg(formularweg);
+        defaultLayoutProgram.addPrinter(env, printer);
+    }
 
+    public String getHostname() {
+        return target.getHostname();
+    }
+
+    public String getUsername() {
+        return target.getUsername();
     }
 
 }

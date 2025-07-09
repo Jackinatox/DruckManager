@@ -4,13 +4,13 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import de.fernausoft.druckmanager.xml.schema.TargetDef;
+import de.fernausoft.druckmanager.ui.panels.Settings.Target;
 
 public class PCUserTableModel extends AbstractTableModel {
     private final String[] columnNames = { "PC", "Nutzer" };
-    private final List<TargetDef> targets;
+    private final List<Target> targets;
 
-    public PCUserTableModel(List<TargetDef> targets) {
+    public PCUserTableModel(List<Target> targets) {
         this.targets = targets;
     }
 
@@ -31,7 +31,7 @@ public class PCUserTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        TargetDef target = targets.get(rowIndex);
+        Target target = targets.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return target.getHostname();
@@ -44,14 +44,14 @@ public class PCUserTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        TargetDef target = targets.get(rowIndex);
+        // Target target = targets.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                target.setHostname(aValue.toString());
-                break;
+                // target.setHostname(aValue.toString());
+                throw new UnsupportedOperationException("Hostname is not editable");
             case 1:
-                target.setUsername(aValue.toString());
-                break;
+                // target.setUsername(aValue.toString());
+                throw new UnsupportedOperationException("Username is not editable");
         }
         fireTableCellUpdated(rowIndex, columnIndex);
     }
@@ -61,7 +61,7 @@ public class PCUserTableModel extends AbstractTableModel {
         return false;
     }
 
-    public TargetDef getTargetAt(int rowIndex) {
+    public Target getTargetAt(int rowIndex) {
         return targets.get(rowIndex);
     }
 }

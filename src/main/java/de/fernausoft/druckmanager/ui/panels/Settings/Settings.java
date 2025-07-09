@@ -8,12 +8,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Vector; // Using Vector for JComboBox model
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
-import de.fernausoft.druckmanager.ui.panels.Settings.Programs.Werkstatt.WerkstattAuftrag;
+import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
@@ -26,8 +25,6 @@ public class Settings extends JPanel {
     private JComboBox<PrinterDef> drucker2ComboBox;
     private JComboBox<PrinterDef> drucker3ComboBox;
     private JComboBox<Formularweg> formularComboBox;
-
-
 
     public Settings(XMLWorker xmlWorker) {
         this.xmlWorker = xmlWorker;
@@ -51,9 +48,10 @@ public class Settings extends JPanel {
         gbcNav.insets = new Insets(0, 0, 0, 0); // No internal padding for buttons
 
         // Create navigation buttons/items with reverted styling
-        JButton werkstattButton = createNavItem(new WerkstattAuftrag(), true); // Pass true for selected
+        // JButton werkstattButton = createNavItem(, true); //
+        // // Pass true for selected
 
-        navPanel.add(werkstattButton, gbcNav);
+        // navPanel.add(werkstattButton, gbcNav);
         // navPanel.add(neuGebrauchtWagenButton, gbcNav);
         // navPanel.add(nutzerButton, gbcNav);
         // navPanel.add(emptyButton1, gbcNav);
@@ -147,7 +145,7 @@ public class Settings extends JPanel {
         // Initialize drucker3ComboBox
         drucker3ComboBox = new JComboBox<>(); // Empty initially
         drucker3ComboBox.setPreferredSize(new Dimension(150, 25));
-        
+
         gbcContent.gridx = 1;
         gbcContent.gridy = 4;
         gbcContent.gridwidth = 2;
@@ -186,16 +184,16 @@ public class Settings extends JPanel {
         gbcMain.weighty = 1.0;
         add(contentPanel, gbcMain);
 
-
         // Initialize Values
         setPrinterOptions(xmlWorker.getAllPrinters());
-        setProgram(new WerkstattAuftrag());
+        // setProgram(new WerkstattAuftrag());
 
     }
 
     /**
      * Helper method to create a navigation item (JButton) with specific styling.
-     * @param text The text to display on the button.
+     * 
+     * @param text       The text to display on the button.
      * @param isSelected A boolean indicating if the item is currently selected.
      * @return A styled JButton.
      */
@@ -239,6 +237,7 @@ public class Settings extends JPanel {
     /**
      * Method to set the available printer options for all printer dropdowns.
      * This method should be called externally with the list of PrinterDef objects.
+     * 
      * @param printerDefs A list of PrinterDef objects to populate the dropdowns.
      */
     public void setPrinterOptions(List<PrinterDef> printerDefs) {
@@ -253,30 +252,37 @@ public class Settings extends JPanel {
         drucker3ComboBox.setModel(model3);
     }
 
-    public void setProgram(BaseProgram program){
+    public void setProgram(BaseProgram program) {
         // Clear existing items in formularComboBox
         formularComboBox.removeAllItems();
         logger.info("Setting program: " + program.getName());
 
         // Populate formularComboBox with the formularweg from the program
-        List<Formularweg> formularList = program.getFormularweg();
-        for (Formularweg formular : formularList) {
-            formularComboBox.addItem(formular);
-            logger.info("Added formular: " + formular.toString());
-        }
+        // List<Formularweg> formularList = program.get
+        if (program instanceof DefaultLayoutProgram) {
+            DefaultLayoutProgram def = (DefaultLayoutProgram) program;
 
-        // Optionally, you can set a default selected item if needed
-        if (!formularList.isEmpty()) {
-            formularComboBox.setSelectedIndex(0);
-        } else {
-            logger.info("No formular found for program: " + program.getName());
+            for (Formularweg formular : def.getMap().values()) {
+                formularComboBox.addItem(formular);
+                logger.info("Added formular: " + formular.toString());
+            }
+
+            // Optionally, you can set a default selected item if needed
+            // if (!formularList.isEmpty()) {
+            //     formularComboBox.setSelectedIndex(0);
+            // } else {
+            //     logger.info("No formular found for program: " + program.getName());
+            // }
         }
     }
 
     /**
      * Method to set the selected printer for a specific dropdown.
-     * You will implement the logic to determine which printer to select based on your application's state.
-     * @param dropdownIndex The index of the dropdown (1 for Drucker 1, 2 for Drucker 2, 3 for Drucker 3).
+     * You will implement the logic to determine which printer to select based on
+     * your application's state.
+     * 
+     * @param dropdownIndex      The index of the dropdown (1 for Drucker 1, 2 for
+     *                           Drucker 2, 3 for Drucker 3).
      * @param selectedPrinterRef The 'ref' of the PrinterDef to be selected.
      */
     public void setSelectedPrinter(int dropdownIndex, String selectedPrinterRef) {
@@ -311,6 +317,7 @@ public class Settings extends JPanel {
     /**
      * Method to set the selected formular.
      * You will implement the logic to determine which formular to select.
+     * 
      * @param selectedFormular The string value of the formular to be selected.
      */
     public void setSelectedFormular(String selectedFormular) {

@@ -1,6 +1,5 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Formularweg;
 
-import de.fernausoft.druckmanager.ui.panels.Settings.ProgramType;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class Formularweg3 extends Formularweg {
@@ -8,31 +7,26 @@ public class Formularweg3 extends Formularweg {
     private PrinterDef printer2;
     private PrinterDef printer3;
 
-    public Formularweg3(String name, char FWayChar, ProgramType type) {
-        super(name, FWayChar, type);
+    public Formularweg3(String name, char FWayChar) {
+        super(name, FWayChar);
     }
 
-    public Formularweg3 addPrinter(String env, PrinterDef printer) {
+    public Formularweg3 addPrinter(char printerIndex, PrinterDef printer) {
 
-        char printerId = env.charAt(10);
-        switch (printerId) {
+        switch (printerIndex) {
             case '1':
                 setPrinter1(printer);
-            break;
+                break;
             case '2':
                 setPrinter2(printer);
-            break;
+                break;
             case '3':
                 setPrinter3(printer);
-            break;
+                break;
             default:
-                throw new IllegalArgumentException("Invalid printer environment: " + printerId);
-            }
-            return this;
-    }
-
-    public ProgramType getType() {
-        return type;
+                throw new IllegalArgumentException("Invalid printer index: " + printerIndex);
+        }
+        return this;
     }
 
     public PrinterDef getPrinter1() {
@@ -58,5 +52,5 @@ public class Formularweg3 extends Formularweg {
     public void setPrinter3(PrinterDef printer3) {
         this.printer3 = printer3;
     }
-    
+
 }
