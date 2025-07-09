@@ -7,6 +7,12 @@ public class Formularweg3 extends Formularweg {
     private PrinterDef printer2;
     private PrinterDef printer3;
 
+    /**
+     * Formularweg3 is a representation of 3 Printers and a Formularweg
+     *
+     * @param name      The name of the formularweg. Used for building the Name in the Dropdown.
+     * @param FWayChar  The character representing the formularweg in the ENV.
+     */
     public Formularweg3(String name, char FWayChar) {
         super(name, FWayChar);
     }
@@ -29,14 +35,17 @@ public class Formularweg3 extends Formularweg {
         return this;
     }
 
+    @Override
     public PrinterDef getPrinter1() {
         return printer1;
     }
 
+    @Override
     public PrinterDef getPrinter2() {
         return printer2;
     }
 
+    @Override
     public PrinterDef getPrinter3() {
         return printer3;
     }

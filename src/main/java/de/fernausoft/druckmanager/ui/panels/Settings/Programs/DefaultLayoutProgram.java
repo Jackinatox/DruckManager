@@ -1,7 +1,9 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
+import java.util.List;
 import java.util.Map;
 
+import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg3;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
@@ -32,8 +34,9 @@ public class DefaultLayoutProgram extends BaseProgram {
 
     }
 
-    public Map<Character, Formularweg3> getMap(){
-        return this.formularwegMap;
+    @Override
+    public List<Formularweg> getFormularwegList() {
+        return List.copyOf(formularwegMap.values());
     }
 
 }

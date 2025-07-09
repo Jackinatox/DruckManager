@@ -8,7 +8,7 @@ public class ProgramTypeResolver {
     private static final Map<Pattern, ProgramType> regexPatterns = new LinkedHashMap<>();
 
     static {
-        // Exact matches
+        // Exact matches      DR_301UEB_1
         exactMatches.put("DR_301UEB_1", ProgramType.UEBERWEISUNGSTRAEGER);
 
     
@@ -25,6 +25,8 @@ public class ProgramTypeResolver {
         regexPatterns.put(Pattern.compile("DR_288KFZ_\\d"), ProgramType.ETIKETTENDRUCK_TEILE);
 
         regexPatterns.put(Pattern.compile("DR_303BON_\\d"), ProgramType.BONDRUCK_TEILERECHNUNGEN);
+
+
     }
 
     public static ProgramType resolveType(String code) {
@@ -47,15 +49,5 @@ public class ProgramTypeResolver {
     // Gibt den Beschreibungs string zurück
     public static String resolveTypeLabel(String code) {
         return resolveType(code).getLabel();
-    }
-
-    public static void main(String[] args) {
-        List<String> testCodes = List.of(
-                "DR_3030AU_1", "DR_256KFZ_1", "DR_903ETI_1", "DR_PICKER_1", "DR_UNKNOWN_1");
-
-        for (String code : testCodes) {
-            ProgramType type = resolveType(code);
-            System.out.printf("%s → %s (%s)%n", code, type.name(), type.getLabel());
-        }
     }
 }

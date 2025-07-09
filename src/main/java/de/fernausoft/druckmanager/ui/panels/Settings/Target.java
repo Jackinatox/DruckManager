@@ -8,10 +8,9 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
-import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg3;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
+import de.fernausoft.druckmanager.ui.panels.Settings.Programs.OnlyOnePrinterProgram;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.KeyvalueDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
@@ -80,6 +79,8 @@ public class Target {
                     case UEBERWEISUNG:
                         break;
                     case UEBERWEISUNGSTRAEGER:
+                        // DR_301UEB_1
+                        handleOnlyOnePrinterProgram(ProgramType.UEBERWEISUNGSTRAEGER, env, printer);
                         break;
                     case UNBEKANNT:
                         break;
@@ -98,6 +99,18 @@ public class Target {
         } catch (Exception e) {
             logger.error("creating Target replica failed: " + e.getMessage());
         }
+    }
+
+    private void handleOnlyOnePrinterProgram(ProgramType type, String env, PrinterDef printer) {
+        OnlyOnePrinterProgram onlyOnePrinterProgram = (OnlyOnePrinterProgram) programMap.get(type);
+        if (onlyOnePrinterProgram == null) {
+            onlyOnePrinterProgram = new OnlyOnePrinterProgram(type.toString(), env.substring(0, 9));
+            programMap.put(type, onlyOnePrinterProgram);
+        } else {
+            logger.warn("Doppelte Konfiguration gefunden für: " + type + " in " + target.getHostname() + " ENV: " + env);
+        }
+
+        onlyOnePrinterProgram.addPrinter(env, printer);
     }
 
     private void handleDefaultLayoutProgram(ProgramType type, String env, PrinterDef printer) {

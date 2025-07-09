@@ -16,6 +16,7 @@ import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg3;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
+import de.fernausoft.druckmanager.ui.panels.Settings.Programs.OnlyOnePrinterProgram;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
@@ -91,33 +92,38 @@ public class Settings extends JPanel {
 
         // Initialize formularComboBox
         formularComboBox = new JComboBox<>(); // Empty initially, will be set by external method
+        formularComboBox.setEnabled(false); // Enable the combo box
         formularComboBox.setPreferredSize(new Dimension(160, 25)); // Set preferred size
         formularComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logger.info("selection changed to: " + formularComboBox.getSelectedItem().getClass());
-                PrinterDef printer1 = ((Formularweg3) formularComboBox.getSelectedItem()).getPrinter1();
-                PrinterDef printer2 = ((Formularweg3) formularComboBox.getSelectedItem()).getPrinter2();
-                PrinterDef printer3 = ((Formularweg3) formularComboBox.getSelectedItem()).getPrinter3();
+                if (formularComboBox.getSelectedItem() != null) {
+                    // logger.info("selection changed to: " +
+                    // formularComboBox.getSelectedItem().getClass());
+                    PrinterDef printer1 = ((Formularweg) formularComboBox.getSelectedItem()).getPrinter1();
+                    PrinterDef printer2 = ((Formularweg) formularComboBox.getSelectedItem()).getPrinter2();
+                    PrinterDef printer3 = ((Formularweg) formularComboBox.getSelectedItem()).getPrinter3();
 
-                if (printer1 != null) {
-                    drucker1ComboBox.setSelectedItem(printer1);
-                } else {
-                    drucker1ComboBox.setEnabled(false);
+                    boolean isPrinter1Enabled = printer1 != null;
+                    boolean isPrinter2Enabled = printer2 != null;
+                    boolean isPrinter3Enabled = printer3 != null;
+
+                    if (isPrinter1Enabled) {
+                        drucker1ComboBox.setSelectedItem(printer1);
+                    }
+
+                    if (isPrinter2Enabled) {
+                        drucker2ComboBox.setSelectedItem(printer2);
+                    }
+
+                    if (isPrinter3Enabled) {
+                        drucker3ComboBox.setSelectedItem(printer3);
+                    }
+
+                    drucker1ComboBox.setEnabled(isPrinter1Enabled);
+                    drucker2ComboBox.setEnabled(isPrinter2Enabled);
+                    drucker3ComboBox.setEnabled(isPrinter3Enabled);
                 }
-
-                if (printer2 != null) {
-                    drucker2ComboBox.setSelectedItem(printer2);
-                } else {
-                    drucker2ComboBox.setEnabled(false);
-                }
-
-                if (printer3 != null) {
-                    drucker3ComboBox.setSelectedItem(printer3);
-                } else {
-                    drucker3ComboBox.setEnabled(false);
-                }
-
             }
         });
         gbcContent.gridx = 1;
@@ -145,6 +151,7 @@ public class Settings extends JPanel {
 
         // Initialize drucker1ComboBox
         drucker1ComboBox = new JComboBox<>(); // Empty initially, will be populated by setPrinterOptions
+        drucker1ComboBox.setEnabled(false);
         drucker1ComboBox.setPreferredSize(new Dimension(150, 25));
         gbcContent.gridx = 1;
         gbcContent.gridy = 2;
@@ -161,6 +168,7 @@ public class Settings extends JPanel {
 
         // Initialize drucker2ComboBox
         drucker2ComboBox = new JComboBox<>(); // Empty initially
+        drucker2ComboBox.setEnabled(false);
         drucker2ComboBox.setPreferredSize(new Dimension(150, 25));
         gbcContent.gridx = 1;
         gbcContent.gridy = 3;
@@ -176,6 +184,7 @@ public class Settings extends JPanel {
 
         // Initialize drucker3ComboBox
         drucker3ComboBox = new JComboBox<>(); // Empty initially
+        drucker3ComboBox.setEnabled(false);
         drucker3ComboBox.setPreferredSize(new Dimension(150, 25));
 
         gbcContent.gridx = 1;
@@ -282,25 +291,33 @@ public class Settings extends JPanel {
 
     private void setProgram(BaseProgram program) {
         // Clear existing items in formularComboBox
-        formularComboBox.removeAllItems();
-        logger.info("Setting program: " + program.getName());
+        try {
+            formularComboBox.removeAllItems();
+            logger.info("Setting program: " + program.getName());
 
-        // Populate formularComboBox with the formularweg from the program
-        // List<Formularweg> formularList = program.get
-        if (program instanceof DefaultLayoutProgram) {
-            DefaultLayoutProgram def = (DefaultLayoutProgram) program;
+            // Populate formularComboBox with the formularweg from the program
+            // List<Formularweg> formularList = program.get
+            if (program instanceof DefaultLayoutProgram) {
+                DefaultLayoutProgram def = (DefaultLayoutProgram) program;
 
-            for (Formularweg formular : def.getMap().values()) {
-                formularComboBox.addItem(formular);
-                logger.info("Added formular: " + formular.toString());
+                for (Formularweg formular : def.getFormularwegList()) {
+                    formularComboBox.addItem(formular);
+                }
+
+            } else if (program instanceof OnlyOnePrinterProgram) {
+                OnlyOnePrinterProgram singlePrinterProgram = (OnlyOnePrinterProgram) program;
+                for (Formularweg formular : singlePrinterProgram.getFormularwegList()) {
+                    formularComboBox.addItem(formular);
+                }
+            } else {
+                logger.error("Program type not supported for formular selection: " + program.getClass().getName());
             }
 
-            // Optionally, you can set a default selected item if needed
-            // if (!formularList.isEmpty()) {
-            // formularComboBox.setSelectedIndex(0);
-            // } else {
-            // logger.info("No formular found for program: " + program.getName());
-            // }
+            formularComboBox.setEnabled(formularComboBox.getItemCount() > 1);
+
+        } catch (Exception e) {
+            logger.error("Error setting program: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

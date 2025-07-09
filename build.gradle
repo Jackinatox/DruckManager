@@ -9,6 +9,7 @@
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 repositories {
@@ -32,9 +33,10 @@ dependencies {
 }
 
 
-//mainClassName = 'de.dmsserver.deployer.Deployer'
+mainClassName = 'de.fernausoft.druckmanager.DruckManager'
 version = "1.0.0"
 sourceCompatibility = '17'
 targetCompatibility = '17'
+group = 'de.fernausoft'
 
 // Hinweis: Erzeugen der FAT-Jar mittels: ./gradlew shadowJar
