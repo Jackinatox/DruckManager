@@ -13,10 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
-public class DruckManagerPanel {
+import de.fernausoft.druckmanager.ui.listeners.PCUserSelectionListener;
+
+public class DruckManagerPanel implements PCUserSelectionListener{
 
 	private JFrame mainWindow;
 	private XMLWorker xmlWorker;
+	private Settings settingsPanel;
 
 	private DruckManagerPanel(XMLWorker xmlWorker) {
 		this.xmlWorker = xmlWorker;
@@ -33,11 +36,18 @@ public class DruckManagerPanel {
 		// The 3 Main UI Panels
 		PrinterTablePanel tablePanel = new PrinterTablePanel(printers);
 		PCUserMappingPanel pcTaplePanel = new PCUserMappingPanel(myTargets);
-		Settings settingsPanel = new Settings(xmlWorker);
+		pcTaplePanel.setPcUserSelectionListener(this);
+		settingsPanel = new Settings(xmlWorker);
 
 		mainWindow.getContentPane().add(tablePanel);
 		mainWindow.getContentPane().add(pcTaplePanel);
 		mainWindow.getContentPane().add(settingsPanel);
+	}
+
+	@Override
+	public void onUserSelected(Target target) {
+		// Update the settings panel here
+		settingsPanel.setPrograms(target.getPrograms());
 	}
 
 	public void show() {

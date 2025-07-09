@@ -118,4 +118,8 @@ public class Target {
         return target.getUsername();
     }
 
+    public List<BaseProgram> getPrograms() {
+        return new ArrayList<>(programMap.values());
+    }
+
 }

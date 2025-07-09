@@ -21,6 +21,7 @@ public class Settings extends JPanel {
     private static final Logger logger = LogManager.getLogger(Settings.class);
 
     // JComboBoxes for printers and formular, made accessible for external methods
+    private JPanel navPanel = new JPanel();
     private JComboBox<PrinterDef> drucker1ComboBox;
     private JComboBox<PrinterDef> drucker2ComboBox;
     private JComboBox<PrinterDef> drucker3ComboBox;
@@ -35,7 +36,7 @@ public class Settings extends JPanel {
         setBorder(new EmptyBorder(10, 10, 10, 10)); // Add some padding around the panel
 
         // --- Left Navigation Panel ---
-        JPanel navPanel = new JPanel();
+        
         navPanel.setLayout(new GridBagLayout()); // Using GridBagLayout for flexible stacking
         navPanel.setPreferredSize(new Dimension(180, 0)); // Fixed width for navigation
         navPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Re-added border for visual separation
@@ -224,6 +225,7 @@ public class Settings extends JPanel {
         // Add onClick listener to change the selected state
         button.addActionListener(e -> {
             setProgram(program);
+            logger.info("setting to: " + program.getName());
         });
 
         // Remove hover effect
@@ -252,7 +254,7 @@ public class Settings extends JPanel {
         drucker3ComboBox.setModel(model3);
     }
 
-    public void setProgram(BaseProgram program) {
+    private void setProgram(BaseProgram program) {
         // Clear existing items in formularComboBox
         formularComboBox.removeAllItems();
         logger.info("Setting program: " + program.getName());
@@ -269,9 +271,9 @@ public class Settings extends JPanel {
 
             // Optionally, you can set a default selected item if needed
             // if (!formularList.isEmpty()) {
-            //     formularComboBox.setSelectedIndex(0);
+            // formularComboBox.setSelectedIndex(0);
             // } else {
-            //     logger.info("No formular found for program: " + program.getName());
+            // logger.info("No formular found for program: " + program.getName());
             // }
         }
     }
@@ -322,5 +324,15 @@ public class Settings extends JPanel {
      */
     public void setSelectedFormular(String selectedFormular) {
         formularComboBox.setSelectedItem(selectedFormular);
+    }
+
+    public void setPrograms(List<BaseProgram> programs) {
+        for (BaseProgram pg : programs) {
+            JButton werkstattButton = createNavItem(pg, true); //
+            // Pass true for selected
+
+            navPanel.add(werkstattButton);
+
+        }
     }
 }
