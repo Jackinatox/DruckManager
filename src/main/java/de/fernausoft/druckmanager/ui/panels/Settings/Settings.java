@@ -7,10 +7,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector; // Using Vector for JComboBox model
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
+import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg3;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
 import de.fernausoft.druckmanager.xml.XMLWorker;
@@ -36,7 +39,7 @@ public class Settings extends JPanel {
         setBorder(new EmptyBorder(10, 10, 10, 10)); // Add some padding around the panel
 
         // --- Left Navigation Panel ---
-        
+
         navPanel.setLayout(new GridBagLayout()); // Using GridBagLayout for flexible stacking
         navPanel.setPreferredSize(new Dimension(180, 0)); // Fixed width for navigation
         navPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Re-added border for visual separation
@@ -89,6 +92,34 @@ public class Settings extends JPanel {
         // Initialize formularComboBox
         formularComboBox = new JComboBox<>(); // Empty initially, will be set by external method
         formularComboBox.setPreferredSize(new Dimension(160, 25)); // Set preferred size
+        formularComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logger.info("selection changed to: " + formularComboBox.getSelectedItem().getClass());
+                PrinterDef printer1 = ((Formularweg3) formularComboBox.getSelectedItem()).getPrinter1();
+                PrinterDef printer2 = ((Formularweg3) formularComboBox.getSelectedItem()).getPrinter2();
+                PrinterDef printer3 = ((Formularweg3) formularComboBox.getSelectedItem()).getPrinter3();
+
+                if (printer1 != null) {
+                    drucker1ComboBox.setSelectedItem(printer1);
+                } else {
+                    drucker1ComboBox.setEnabled(false);
+                }
+
+                if (printer2 != null) {
+                    drucker2ComboBox.setSelectedItem(printer2);
+                } else {
+                    drucker2ComboBox.setEnabled(false);
+                }
+
+                if (printer3 != null) {
+                    drucker3ComboBox.setSelectedItem(printer3);
+                } else {
+                    drucker3ComboBox.setEnabled(false);
+                }
+
+            }
+        });
         gbcContent.gridx = 1;
         gbcContent.gridy = 0;
         gbcContent.gridwidth = 2; // Span across remaining columns
@@ -228,11 +259,6 @@ public class Settings extends JPanel {
             logger.info("setting to: " + program.getName());
         });
 
-        // Remove hover effect
-        for (java.awt.event.MouseListener listener : button.getMouseListeners()) {
-            button.removeMouseListener(listener);
-        }
-
         return button;
     }
 
@@ -327,6 +353,7 @@ public class Settings extends JPanel {
     }
 
     public void setPrograms(List<BaseProgram> programs) {
+        navPanel.removeAll();
         for (BaseProgram pg : programs) {
             JButton werkstattButton = createNavItem(pg, true); //
             // Pass true for selected
@@ -334,5 +361,7 @@ public class Settings extends JPanel {
             navPanel.add(werkstattButton);
 
         }
+        navPanel.revalidate();
+        navPanel.repaint();
     }
 }

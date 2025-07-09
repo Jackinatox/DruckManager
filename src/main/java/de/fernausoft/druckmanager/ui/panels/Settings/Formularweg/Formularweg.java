@@ -10,7 +10,7 @@ abstract public class Formularweg {
     }
 
     public String getName() {
-        return name;
+        return name + " " + FWayChar;
     }
 
     public char getFWayChar() {

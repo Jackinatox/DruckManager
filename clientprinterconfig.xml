@@ -3,16 +3,16 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <printers>
         <printer ref="ref2">
-            <name>\\mildefernau\Q_Arnold_IR1018_4</name>
+            <name>Jakob</name>
         </printer>
         <printer ref="ref3">
-            <name>\\mildefernau\Q_Arnold_IR1018_1D</name>
+            <name>Skoda</name>
         </printer>
         <printer ref="ref4">
-            <name>\\mildefernau\Q_Arnold_IR1018_2</name>
+            <name>Hier Ref4</name>
         </printer>
         <printer ref="ref5">
-            <name>\\mildefernau\Q_Arnold_IR1018_1</name>
+            <name>Java</name>
         </printer>
         <printer ref="ref6">
             <name>\\mildefernau\Q_Arnold_IR1018_3</name>
@@ -397,10 +397,10 @@
             <!-- Formularweg1 -->
 
             <!-- Hier mehrere formuarwege für mein testen-->
-            <env env="DR_3031AU_1" ref="ref43" />
-            <env env="DR_3032AU_1" ref="ref43" />
-            <env env="DR_3033AU_1" ref="ref43" />
-            <env env="DR_3034AU_1" ref="ref43" />
+            <env env="DR_3035AU_1" ref="ref2" />
+            <env env="DR_3032AU_1" ref="ref3" />
+            <env env="DR_3033AU_1" ref="ref4" />
+            <env env="DR_3034AU_1" ref="ref5" />
 
         </target>
 
