@@ -12,7 +12,7 @@ public class OnlyOnePrinterProgram extends BaseProgram {
     private Formularweg1 formularweg;
     
     public OnlyOnePrinterProgram(String name, String prefix, XMLWorker xmlWorker) {
-        this.formularweg = new Formularweg1(name, '0', xmlWorker);
+        this.formularweg = new Formularweg1("Formularweg", '0', xmlWorker);
         this.name = name;
         this.prefix = prefix;
     }

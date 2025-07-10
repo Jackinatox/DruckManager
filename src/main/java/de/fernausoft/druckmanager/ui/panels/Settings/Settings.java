@@ -45,11 +45,11 @@ public class Settings extends JPanel {
         gbcNav.gridy = 0;
         gbcNav.weighty = 1.0;
         gbcNav.anchor = GridBagConstraints.NORTHWEST;
-        gbcNav.fill = GridBagConstraints.VERTICAL;
-        gbcNav.insets = new Insets(0, 0, 0, 10);
+        gbcNav.fill = GridBagConstraints.BOTH;
 
-        navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
+        navPanel.setLayout(new GridLayout(0, 1)); // This will make all buttons the same width
         JScrollPane scrollPane = new JScrollPane(navPanel);
+        scrollPane.setPreferredSize(new Dimension(280, 0));
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         add(scrollPane, gbcNav);
 
@@ -217,7 +217,7 @@ public class Settings extends JPanel {
         GridBagConstraints gbcContentPanel = new GridBagConstraints();
         gbcContentPanel.gridx = 1;
         gbcContentPanel.gridy = 0;
-        gbcContentPanel.weightx = 1.0;
+        gbcContentPanel.weightx = 0.8;
         gbcContentPanel.weighty = 1.0;
         gbcContentPanel.fill = GridBagConstraints.BOTH;
         add(contentPanel, gbcContentPanel);

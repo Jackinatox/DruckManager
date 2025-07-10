@@ -111,7 +111,7 @@ public class XMLWorker {
     }
 
     public TargetDef forTesting() {
-        return printerConfig.getTargets().getTarget().get(0);
+        return printerConfig.getTargets().getTarget().get(2);
     }
 
     public PrinterDef getNoPrinter() {

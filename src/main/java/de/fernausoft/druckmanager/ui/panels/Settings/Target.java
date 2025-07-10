@@ -39,68 +39,45 @@ public class Target {
                     logger.warn("Printer not found for environment: " + env);
                     continue;
                 }
-
-                switch (ProgramTypeResolver.resolveType(env)) {
+                var resolvedType = ProgramTypeResolver.resolveType(env);
+                switch (resolvedType) {
                     case WERKSTATT_AUFTRAG:
-                        // DR_3030AU_1
-                        handleDefaultLayoutProgram(ProgramType.WERKSTATT_AUFTRAG, env, printer);
-                        break;
                     case WERKSTATT_LIEFERSCHEIN:
-                        handleDefaultLayoutProgram(ProgramType.WERKSTATT_LIEFERSCHEIN, env, printer);
-                        break;
                     case WERKSTATT_RECHNUNG:
-                        handleDefaultLayoutProgram(ProgramType.WERKSTATT_RECHNUNG, env, printer);
-                        break;
-                    case BESTELLUNGEN_PER_FAX:
-                        break;
-                    case BONDRUCK:
-                        break;
-                    case BONDRUCK_TEILERECHNUNGEN:
-                        break;
-                    case ETIKETTEN:
-                        break;
-                    case ETIKETTENDRUCK_TEILE:
-                        break;
-                    case GARANTIERUECKNAHME_GWE:
-                        break;
-                    case KF1_ANGEBOTE:
-                        break;
-                    case KFZ_DOKUMENTE:
-                        break;
-                    case KUNDENKARTEN:
-                        break;
-                    case LAGERENTNAHME:
-                        break;
-                    case LAGERZUGANG_AUS_BESTELLUNG:
+                    case NEU_GEBRAUCHT_WAGEN_AUFTRAG:
+                    case NEU_GEBRAUCHT_WAGEN_LIEFERSCHEIN:
+                    case NEU_GEBRAUCHT_WAGEN_RECHNUNG:
+                        handleDefaultLayoutProgram(resolvedType, env, printer);
                         break;
                     case LAGER_ZU_ABGANGS_BUCHUNG:
-                        handleThreePrintersProgram(ProgramType.LAGER_ZU_ABGANGS_BUCHUNG, env, printer);
-                    case NEU_GEBRAUCHT_WAGEN_AUFTRAG:
-                        break;
-                    case NEU_GEBRAUCHT_WAGEN_LIEFERSCHEIN:
-                        break;
-                    case NEU_GEBRAUCHT_WAGEN_RECHNUNG:
-                        break;
-                    case PICKERZETTEL_WERKSTATT:
-                        break;
+                    case BESTELLUNGEN_PER_FAX:
+                    case LAGERZUGANG_AUS_BESTELLUNG:
+                    case ETIKETTENDRUCK_TEILE:
+                    case BONDRUCK:
+                    case BONDRUCK_TEILERECHNUNGEN:
+                    case ETIKETTEN:
+                    case GARANTIERUECKNAHME_GWE:
+                    case KF1_ANGEBOTE:
+                    case KFZ_DOKUMENTE:
+                    case KUNDENKARTEN:
+                    case LAGERENTNAHME:
                     case SAMMELRECHNUNGEN:
-                        break;
                     case UEBERWEISUNG:
+                        handleThreePrintersProgram(resolvedType, env, printer);
                         break;
                     case UEBERWEISUNGSTRAEGER:
-                        // DR_301UEB_1
-                        handleOnlyOnePrinterProgram(ProgramType.UEBERWEISUNGSTRAEGER, env, printer);
+                    case PICKERZETTEL_WERKSTATT:
+                        handleOnlyOnePrinterProgram(resolvedType, env, printer);
                         break;
                     case UNBEKANNT:
-                        break;
-                    default:
+                        logger.error("Unknown program type for environment: " + env);
                         break;
 
                 }
 
-                long endTime = System.currentTimeMillis();
-                logger.info("Target replica created successfully, Time: " + (endTime - startTime) + " ms");
             }
+            long endTime = System.currentTimeMillis();
+            logger.info("Target replica created successfully, Time: " + (endTime - startTime) + " ms");
         } catch (Exception e) {
             logger.error("creating Target replica failed: " + e.getMessage());
         }

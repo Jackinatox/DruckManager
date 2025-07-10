@@ -14,7 +14,7 @@ public class ThreePrintersProgram extends BaseProgram{
         this.name = name;
         this.prefix = prefix;   
         this.xmlWorker = xmlWorker;
-        this.formularweg = new Formularweg3(name, '0', xmlWorker);
+        this.formularweg = new Formularweg3("Formularweg", '0', xmlWorker);
     }
 
     @Override

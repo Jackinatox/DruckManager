@@ -22,7 +22,7 @@ public class DefaultLayoutProgram extends BaseProgram {
 
         Formularweg3 weg;
         for (char c = '0'; c <= '8'; c++){
-            weg = new Formularweg3(name, c, xmlWorker);
+            weg = new Formularweg3("Formularweg", c, xmlWorker);
             formularwegMap.put(c, weg);
         }
     }

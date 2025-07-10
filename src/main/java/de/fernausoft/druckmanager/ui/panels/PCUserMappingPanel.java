@@ -10,13 +10,15 @@ import de.fernausoft.druckmanager.ui.panels.Settings.Target;
 
 import de.fernausoft.druckmanager.ui.listeners.PCUserSelectionListener;
 
-public class PCUserMappingPanel extends JPanel{
+public class PCUserMappingPanel extends JPanel {
     private PCUserSelectionListener listener;
     private JTable table;
     private PCUserTableModel tableModel;
-                                            // TODO: also a method for the callback so teh other component knows when to change
+
+    // TODO: also a method for the callback so teh other component knows when to
+    // change
     public PCUserMappingPanel(List<Target> targets) {
-        setLayout(new BorderLayout());        
+        setLayout(new BorderLayout());
         tableModel = new PCUserTableModel(targets);
         table = new JTable(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -32,10 +34,13 @@ public class PCUserMappingPanel extends JPanel{
         });
 
         add(new JScrollPane(table), BorderLayout.CENTER);
+        if (table.getRowCount() > 0) {
+            table.setRowSelectionInterval(0, 0);
+        }
+
     }
 
     public void setPcUserSelectionListener(PCUserSelectionListener listener) {
         this.listener = listener;
     }
 }
-
