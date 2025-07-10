@@ -9,7 +9,7 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>
- * Java-Klasse f�r printer_def complex type.
+ * Java-Klasse für printer_def complex type.
  * </p>
  * 
  * <p>

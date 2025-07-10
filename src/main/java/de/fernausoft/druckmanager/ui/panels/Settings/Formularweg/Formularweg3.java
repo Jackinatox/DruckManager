@@ -11,11 +11,12 @@ public class Formularweg3 extends Formularweg {
     /**
      * Formularweg3 is a representation of 3 Printers and a Formularweg
      *
-     * @param name      The name of the formularweg. Used for building the Name in the Dropdown.
-     * @param FWayChar  The character representing the formularweg in the ENV.
+     * @param name     The name of the formularweg. Used for building the Name in
+     *                 the Dropdown.
+     * @param FWayChar The character representing the formularweg in the ENV.
      */
     public Formularweg3(String name, char FWayChar, XMLWorker xmlWorker) {
-        super(name, FWayChar);
+        super(name, FWayChar, xmlWorker);
         printer1 = xmlWorker.getNoPrinter();
         printer2 = xmlWorker.getNoPrinter();
         printer3 = xmlWorker.getNoPrinter();
@@ -37,6 +38,13 @@ public class Formularweg3 extends Formularweg {
                 throw new IllegalArgumentException("Invalid printer index: " + printerIndex);
         }
         return this;
+    }
+
+    @Override
+    public boolean getEdited() {
+        return printer1 != xmlWorker.getNoPrinter() ||
+                printer2 != xmlWorker.getNoPrinter() ||
+                printer3 != xmlWorker.getNoPrinter();
     }
 
     @Override

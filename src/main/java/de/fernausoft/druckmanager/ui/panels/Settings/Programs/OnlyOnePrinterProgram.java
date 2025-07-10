@@ -4,14 +4,15 @@ import java.util.List;
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg1;
+import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 
 public class OnlyOnePrinterProgram extends BaseProgram {
     private Formularweg1 formularweg;
     
-    public OnlyOnePrinterProgram(String name, String prefix) {
-        this.formularweg = new Formularweg1(name, '0');
+    public OnlyOnePrinterProgram(String name, String prefix, XMLWorker xmlWorker) {
+        this.formularweg = new Formularweg1(name, '0', xmlWorker);
         this.name = name;
         this.prefix = prefix;
     }

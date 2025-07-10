@@ -18,6 +18,12 @@ public class DefaultLayoutProgram extends BaseProgram {
         this.name = name;
         this.prefix = prefix;
         this.xmlWorker = xmlWorker;
+
+        Formularweg3 weg;
+        for (char c = '0'; c <= '8'; c++){
+            weg = new Formularweg3(name, c, xmlWorker);
+            formularwegMap.put(c, weg);
+        }
     }
 
     @Override
@@ -27,14 +33,10 @@ public class DefaultLayoutProgram extends BaseProgram {
 
     @Override
     public void addPrinter(String env, PrinterDef printer) {
-        var weg = formularwegMap.get(env.charAt(6));
-        if (weg == null) {
-            weg = new Formularweg3(name, env.charAt(6), xmlWorker);
-            formularwegMap.put(env.charAt(6), weg);
-        }
+        Formularweg3 weg = formularwegMap.get(env.charAt(6));
+        
         char printerIndex = env.charAt(10);
         weg.setPrinter(printerIndex, printer);
-
     }
 
     @Override

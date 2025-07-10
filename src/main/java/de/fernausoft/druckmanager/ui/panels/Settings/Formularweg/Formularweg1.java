@@ -1,5 +1,6 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Formularweg;
 
+import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class Formularweg1 extends Formularweg {
@@ -11,8 +12,8 @@ public class Formularweg1 extends Formularweg {
      * @param name      The name of the formularweg. Used for building the Name in the Dropdown.
      * @param FWayChar  The character representing the formularweg in the ENV.
      */
-    public Formularweg1(String name, Character FWayChar) {
-        super(name, FWayChar);
+    public Formularweg1(String name, Character FWayChar, XMLWorker xmlWorker) {
+        super(name, FWayChar, xmlWorker);
     }
 
     public void addPrinter(char printerIndex, PrinterDef printer) {

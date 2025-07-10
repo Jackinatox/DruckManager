@@ -108,10 +108,11 @@ public class Target {
     private void handleOnlyOnePrinterProgram(ProgramType type, String env, PrinterDef printer) {
         OnlyOnePrinterProgram onlyOnePrinterProgram = (OnlyOnePrinterProgram) programMap.get(type);
         if (onlyOnePrinterProgram == null) {
-            onlyOnePrinterProgram = new OnlyOnePrinterProgram(type.toString(), env.substring(0, 9));
+            onlyOnePrinterProgram = new OnlyOnePrinterProgram(type.toString(), env.substring(0, 9), xmlWorker);
             programMap.put(type, onlyOnePrinterProgram);
         } else {
-            logger.warn("Doppelte Konfiguration gefunden für: " + type + " in " + target.getHostname() + " ENV: " + env);
+            logger.warn(
+                    "Doppelte Konfiguration gefunden für: " + type + " in " + target.getHostname() + " ENV: " + env);
         }
 
         onlyOnePrinterProgram.addPrinter(env, printer);
@@ -120,7 +121,7 @@ public class Target {
     private void handleDefaultLayoutProgram(ProgramType type, String env, PrinterDef printer) {
         DefaultLayoutProgram defaultLayoutProgram = (DefaultLayoutProgram) programMap.get(type);
         if (defaultLayoutProgram == null) {
-            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env, xmlWorker);
+            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.substring(0, 9), xmlWorker);
             programMap.put(type, defaultLayoutProgram);
         }
 

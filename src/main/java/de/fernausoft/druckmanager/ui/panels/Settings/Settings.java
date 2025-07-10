@@ -40,12 +40,18 @@ public class Settings extends JPanel {
         setBorder(new EmptyBorder(10, 10, 10, 10)); // Add some padding around the panel
 
         // --- Left Navigation Panel ---
+        GridBagConstraints gbcNav = new GridBagConstraints();
+        gbcNav.gridx = 0;
+        gbcNav.gridy = 0;
+        gbcNav.weighty = 1.0;
+        gbcNav.anchor = GridBagConstraints.NORTHWEST;
+        gbcNav.fill = GridBagConstraints.VERTICAL;
+        gbcNav.insets = new Insets(0, 0, 0, 10);
 
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(navPanel);
-        scrollPane.setBorder(null); // Remove border from scroll pane
-
-        add(navPanel);
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        add(scrollPane, gbcNav);
 
         // --- Right Content Panel (Form) ---
         JPanel contentPanel = new JPanel();
@@ -97,6 +103,26 @@ public class Settings extends JPanel {
                 }
             }
         });
+        formularComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                    boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
+                        cellHasFocus);
+
+                if (value instanceof Formularweg) {
+                    Formularweg formular = (Formularweg) value;
+                    boolean isEnabled = formular.getEdited();
+                    // boolean isEnabled = false;
+
+                    label.setFont(label.getFont().deriveFont(isEnabled ? Font.BOLD : Font.PLAIN));
+                    label.setText(formular.toString());
+                }
+
+                return label;
+            }
+        });
+
         gbcContent.gridx = 1;
         gbcContent.gridy = 0;
         gbcContent.gridwidth = 2; // Span across remaining columns
@@ -188,8 +214,13 @@ public class Settings extends JPanel {
         gbcContent.insets = new Insets(10, 5, 5, 5); // Padding above buttons
         contentPanel.add(buttonPanel, gbcContent);
 
-
-        add(contentPanel);
+        GridBagConstraints gbcContentPanel = new GridBagConstraints();
+        gbcContentPanel.gridx = 1;
+        gbcContentPanel.gridy = 0;
+        gbcContentPanel.weightx = 1.0;
+        gbcContentPanel.weighty = 1.0;
+        gbcContentPanel.fill = GridBagConstraints.BOTH;
+        add(contentPanel, gbcContentPanel);
 
         // Initialize Values
         setPrinterOptions(xmlWorker.getAllPrinters());
@@ -265,6 +296,12 @@ public class Settings extends JPanel {
 
                 for (Formularweg formular : def.getFormularwegList()) {
                     formularComboBox.addItem(formular);
+                }
+                for (int i = 0; i < formularComboBox.getItemCount(); i++) {
+                    if (formularComboBox.getItemAt(i).getEdited()) {
+                        formularComboBox.setSelectedIndex(i);
+                        break;
+                    }
                 }
 
             } else if (program instanceof OnlyOnePrinterProgram) {
