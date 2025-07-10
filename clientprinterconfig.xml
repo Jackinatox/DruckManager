@@ -406,6 +406,11 @@
             <env env="DR_3030LI_2" ref="ref43" />
             <env env="DR_3030RE_1" ref="ref44" />
 
+            <!-- Test for ThreeePrinterProgram -->
+            <env env="DR_251KFZ_1" ref="ref44" />
+
+            
+            
         </target>
 
         <target hostname="elux-Goetz">

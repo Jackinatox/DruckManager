@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.OnlyOnePrinterProgram;
+import de.fernausoft.druckmanager.ui.panels.Settings.Programs.ThreePrintersProgram;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.KeyvalueDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
@@ -73,7 +74,7 @@ public class Target {
                     case LAGERZUGANG_AUS_BESTELLUNG:
                         break;
                     case LAGER_ZU_ABGANGS_BUCHUNG:
-                        break;
+                        handleThreePrintersProgram(ProgramType.LAGER_ZU_ABGANGS_BUCHUNG, env, printer);
                     case NEU_GEBRAUCHT_WAGEN_AUFTRAG:
                         break;
                     case NEU_GEBRAUCHT_WAGEN_LIEFERSCHEIN:
@@ -105,6 +106,17 @@ public class Target {
         }
     }
 
+    private void handleThreePrintersProgram(ProgramType type, String env, PrinterDef printer) {
+        ThreePrintersProgram threePrintersProgram = (ThreePrintersProgram) programMap.get(type);
+        if (threePrintersProgram == null) {
+            threePrintersProgram = new ThreePrintersProgram(type.toString(), env.substring(0, 8),
+                    xmlWorker);
+            programMap.put(type, threePrintersProgram);
+        }
+
+        threePrintersProgram.addPrinter(env, printer);
+    }
+
     private void handleOnlyOnePrinterProgram(ProgramType type, String env, PrinterDef printer) {
         OnlyOnePrinterProgram onlyOnePrinterProgram = (OnlyOnePrinterProgram) programMap.get(type);
         if (onlyOnePrinterProgram == null) {
@@ -121,7 +133,8 @@ public class Target {
     private void handleDefaultLayoutProgram(ProgramType type, String env, PrinterDef printer) {
         DefaultLayoutProgram defaultLayoutProgram = (DefaultLayoutProgram) programMap.get(type);
         if (defaultLayoutProgram == null) {
-            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.substring(0, 9), xmlWorker);
+            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.substring(0, 5), env.substring(7, 8),
+                    xmlWorker);
             programMap.put(type, defaultLayoutProgram);
         }
 

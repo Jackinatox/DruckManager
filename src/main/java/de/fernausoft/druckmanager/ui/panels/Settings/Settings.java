@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.Vector; // Using Vector for JComboBox model
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
-import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg3;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.OnlyOnePrinterProgram;
+import de.fernausoft.druckmanager.ui.panels.Settings.Programs.ThreePrintersProgram;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class Settings extends JPanel {
-    private XMLWorker xmlWorker;
+    // private XMLWorker xmlWorker;
     private static final Logger logger = LogManager.getLogger(Settings.class);
 
     // JComboBoxes for printers and formular, made accessible for external methods
@@ -32,7 +32,7 @@ public class Settings extends JPanel {
     private JComboBox<Formularweg> formularComboBox;
 
     public Settings(XMLWorker xmlWorker) {
-        this.xmlWorker = xmlWorker;
+        // this.xmlWorker = xmlWorker;
         // Set the overall layout for the Settings panel
         // Using GridBagLayout to divide the panel into two main sections:
         // a left navigation/list area and a right content/form area.
@@ -307,6 +307,11 @@ public class Settings extends JPanel {
             } else if (program instanceof OnlyOnePrinterProgram) {
                 OnlyOnePrinterProgram singlePrinterProgram = (OnlyOnePrinterProgram) program;
                 for (Formularweg formular : singlePrinterProgram.getFormularwegList()) {
+                    formularComboBox.addItem(formular);
+                }
+            } else if (program instanceof ThreePrintersProgram) {
+                ThreePrintersProgram threePrintersProgram = (ThreePrintersProgram) program;
+                for (Formularweg formular : threePrintersProgram.getFormularwegList()) {
                     formularComboBox.addItem(formular);
                 }
             } else {
