@@ -41,40 +41,11 @@ public class Settings extends JPanel {
 
         // --- Left Navigation Panel ---
 
-        navPanel.setLayout(new GridBagLayout()); // Using GridBagLayout for flexible stacking
-        navPanel.setPreferredSize(new Dimension(180, 0)); // Fixed width for navigation
-        navPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Re-added border for visual separation
-        navPanel.setBackground(UIManager.getColor("Panel.background")); // Revert to default panel background
+        navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
+        JScrollPane scrollPane = new JScrollPane(navPanel);
+        scrollPane.setBorder(null); // Remove border from scroll pane
 
-        GridBagConstraints gbcNav = new GridBagConstraints();
-        gbcNav.gridx = 0;
-        gbcNav.gridy = GridBagConstraints.RELATIVE; // Stack components vertically
-        gbcNav.fill = GridBagConstraints.HORIZONTAL; // Make buttons fill horizontally
-        gbcNav.insets = new Insets(0, 0, 0, 0); // No internal padding for buttons
-
-        // Create navigation buttons/items with reverted styling
-        // JButton werkstattButton = createNavItem(, true); //
-        // // Pass true for selected
-
-        // navPanel.add(werkstattButton, gbcNav);
-        // navPanel.add(neuGebrauchtWagenButton, gbcNav);
-        // navPanel.add(nutzerButton, gbcNav);
-        // navPanel.add(emptyButton1, gbcNav);
-        // navPanel.add(emptyButton2, gbcNav);
-
-        // Add a vertical strut to push content to the top if there aren't enough items
-        gbcNav.weighty = 1.0; // This makes the last component take up all remaining vertical space
-        navPanel.add(Box.createVerticalGlue(), gbcNav);
-
-        // Add the navigation panel to the main Settings panel
-        GridBagConstraints gbcMain = new GridBagConstraints();
-        gbcMain.gridx = 0;
-        gbcMain.gridy = 0;
-        gbcMain.fill = GridBagConstraints.BOTH; // Fill both horizontal and vertical space
-        gbcMain.weightx = 0.2; // Give 20% of horizontal space to navigation
-        gbcMain.weighty = 1.0; // Give all vertical space
-        gbcMain.insets = new Insets(0, 0, 0, 10); // Padding to the right of nav panel
-        add(navPanel, gbcMain);
+        add(navPanel);
 
         // --- Right Content Panel (Form) ---
         JPanel contentPanel = new JPanel();
@@ -217,13 +188,8 @@ public class Settings extends JPanel {
         gbcContent.insets = new Insets(10, 5, 5, 5); // Padding above buttons
         contentPanel.add(buttonPanel, gbcContent);
 
-        // Add the content panel to the main Settings panel
-        gbcMain.gridx = 1;
-        gbcMain.gridy = 0;
-        gbcMain.fill = GridBagConstraints.BOTH;
-        gbcMain.weightx = 0.8; // Give 80% of horizontal space to content
-        gbcMain.weighty = 1.0;
-        add(contentPanel, gbcMain);
+
+        add(contentPanel);
 
         // Initialize Values
         setPrinterOptions(xmlWorker.getAllPrinters());
@@ -240,27 +206,24 @@ public class Settings extends JPanel {
      */
     private JButton createNavItem(BaseProgram program, boolean isSelected) {
         JButton button = new JButton(program.getName());
-        button.setHorizontalAlignment(SwingConstants.LEFT); // Align text to the left
-        button.setForeground(UIManager.getColor("Button.foreground")); // Revert to default text color
-        button.setFocusPainted(false); // Remove focus border
-        button.setOpaque(true); // Ensure background is painted
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setForeground(UIManager.getColor("Button.foreground"));
+        button.setFocusPainted(false);
+        button.setOpaque(true);
 
-        // Styling for selected vs. unselected states
+        // TODO: Remove Later
         if (isSelected) {
             button.setBackground(Color.LIGHT_GRAY); // Light gray for selected
             button.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY), // Bottom border
-                    BorderFactory.createEmptyBorder(8, 10, 8, 10) // Internal padding
-            ));
+                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                    BorderFactory.createEmptyBorder(8, 10, 8, 10)));
         } else {
-            button.setBackground(Color.WHITE); // White background for unselected
+            button.setBackground(Color.WHITE);
             button.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY), // Bottom border
-                    BorderFactory.createEmptyBorder(8, 10, 8, 10) // Internal padding
-            ));
+                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                    BorderFactory.createEmptyBorder(8, 10, 8, 10)));
         }
-
-        button.setFont(button.getFont().deriveFont(Font.PLAIN, 12f)); // Revert to plain font and smaller size
+        button.setFont(button.getFont().deriveFont(Font.PLAIN, 12f));
 
         // Add onClick listener to change the selected state
         button.addActionListener(e -> {

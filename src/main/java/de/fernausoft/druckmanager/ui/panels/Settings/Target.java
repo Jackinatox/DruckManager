@@ -19,12 +19,14 @@ import de.fernausoft.druckmanager.xml.schema.TargetDef;
 public class Target {
     private TargetDef target;
     private Map<ProgramType, BaseProgram> programMap = new HashMap<>();
+    private XMLWorker xmlWorker;
 
     private static final Logger logger = LogManager.getLogger(Target.class);
 
     public Target(TargetDef targetDef, XMLWorker xmlWorker) {
         super();
         this.target = targetDef;
+        this.xmlWorker = xmlWorker;
 
         try {
             long startTime = System.currentTimeMillis();
@@ -41,6 +43,12 @@ public class Target {
                     case WERKSTATT_AUFTRAG:
                         // DR_3030AU_1
                         handleDefaultLayoutProgram(ProgramType.WERKSTATT_AUFTRAG, env, printer);
+                        break;
+                    case WERKSTATT_LIEFERSCHEIN:
+                        handleDefaultLayoutProgram(ProgramType.WERKSTATT_LIEFERSCHEIN, env, printer);
+                        break;
+                    case WERKSTATT_RECHNUNG:
+                        handleDefaultLayoutProgram(ProgramType.WERKSTATT_RECHNUNG, env, printer);
                         break;
                     case BESTELLUNGEN_PER_FAX:
                         break;
@@ -84,10 +92,6 @@ public class Target {
                         break;
                     case UNBEKANNT:
                         break;
-                    case WERKSTATT_LIEFERSCHEIN:
-                        break;
-                    case WERKSTATT_RECHNUNG:
-                        break;
                     default:
                         break;
 
@@ -116,7 +120,7 @@ public class Target {
     private void handleDefaultLayoutProgram(ProgramType type, String env, PrinterDef printer) {
         DefaultLayoutProgram defaultLayoutProgram = (DefaultLayoutProgram) programMap.get(type);
         if (defaultLayoutProgram == null) {
-            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.substring(0, 6));
+            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env, xmlWorker);
             programMap.put(type, defaultLayoutProgram);
         }
 

@@ -31,6 +31,7 @@ public class XMLWorker {
 
     private PrinterconfigDef printerConfig;
     private Map<String, PrinterDef> printerLookup = new java.util.HashMap<>();
+    private PrinterDef noPrinter = new PrinterDef();
 
     public XMLWorker(String pathToFile) {
         JAXBContext jaxbContext;
@@ -63,6 +64,9 @@ public class XMLWorker {
                 printerLookup.put(printer.getRef(), printer);
             }
             logger.info("Succesfully build PrinterLookup");
+
+            noPrinter.setName("Kein Drucker");
+            printerConfig.getPrinters().getPrinter().add(noPrinter);
         } catch (Exception e) {
             logger.error(e);
         }
@@ -108,5 +112,9 @@ public class XMLWorker {
 
     public TargetDef forTesting() {
         return printerConfig.getTargets().getTarget().get(0);
+    }
+
+    public PrinterDef getNoPrinter() {
+        return noPrinter;
     }
 }
