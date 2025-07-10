@@ -55,7 +55,7 @@ public class Target {
                     case ETIKETTENDRUCK_TEILE:
                     case BONDRUCK:
                     case BONDRUCK_TEILERECHNUNGEN:
-                    case ETIKETTEN:
+                    case ETIKETTEN_REIFEN:
                     case GARANTIERUECKNAHME_GWE:
                     case KF1_ANGEBOTE:
                     case KFZ_DOKUMENTE:

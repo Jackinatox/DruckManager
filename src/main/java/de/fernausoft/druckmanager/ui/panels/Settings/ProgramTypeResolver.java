@@ -23,8 +23,13 @@ public class ProgramTypeResolver {
         regexPatterns.put(Pattern.compile("DR_256KFZ_\\d"), ProgramType.BESTELLUNGEN_PER_FAX);
         regexPatterns.put(Pattern.compile("DR_258KFZ_\\d"), ProgramType.LAGERZUGANG_AUS_BESTELLUNG);
         regexPatterns.put(Pattern.compile("DR_288KFZ_\\d"), ProgramType.ETIKETTENDRUCK_TEILE);
-
         regexPatterns.put(Pattern.compile("DR_303BON_\\d"), ProgramType.BONDRUCK_TEILERECHNUNGEN);
+        regexPatterns.put(Pattern.compile("DR_304KFZ_\\d"), ProgramType.SAMMELRECHNUNGEN);
+        regexPatterns.put(Pattern.compile("DR_518GWE_\\d"), ProgramType.GARANTIERUECKNAHME_GWE);
+        regexPatterns.put(Pattern.compile("DR_677KFZ_\\d"), ProgramType.KF1_ANGEBOTE); //TODO: Checck
+        regexPatterns.put(Pattern.compile("DR_677KF1_\\d"), ProgramType.); 
+
+
 
 
     }

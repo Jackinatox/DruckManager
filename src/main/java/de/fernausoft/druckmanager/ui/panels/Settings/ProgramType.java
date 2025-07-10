@@ -17,16 +17,24 @@ public enum ProgramType {
     SAMMELRECHNUNGEN("Sammelrechnungen"),
     GARANTIERUECKNAHME_GWE("Garantierücknahme GWE"),
 
-    PICKERZETTEL_WERKSTATT("Pickerzettel Werkstatt"),
+    NEUGEBRAUCHTWAGEN_ANGEBOTE_F0("Neu- & Gebrauchtwagen Angebote Formularweg 0"),
+    NEUGEBRAUCHTWAGEN_ANGEBOTE_F1("Neu- & Gebrauchtwagen Angebote Formularweg 1"),
+
+    FAHRZEUG_ANKAUF("Fahrzeugankauf"),
+    SHOP_BARVERKAUF("Shop/Barverkauf"),
+    BON_BOXENSTOP("Bon Boxenstop"),
+
+    LEIH_WAGEN_VERTRÄGE("Leihwagenverträge"),
+    LEIH_WAGEN_RECHNUNG("Leihwagenrechnungen"),
+    ETIKETTEN_REIFEN("Etiketten Reifeneinlagerungen"),
+    REIFEN_EEINLAGERUNG("Reifeneinlagerungen"),
     KUNDENKARTEN("Kundenkarten bedrucken"),
     LAGERENTNAHME("Lagerentnahmeschein"),
-
-    KFZ_DOKUMENTE("KFZ Dokumente"),
-    KF1_ANGEBOTE("KF1 Angebote Formularweg 1"),
-    BONDRUCK("Bondruck Teilerechnungen"),
+    
+    DRUCK_AUS_KASSENABWICKLUNG("Druck aus Kassenabwicklung"),
     UEBERWEISUNG("Überweisungsträger"),
-    ETIKETTEN("Etiketten Reifeneinlagerungen"),
-
+    PICKERZETTEL_WERKSTATT("Pickerzettel Werkstatt"),
+    
     // Fallback
     UNBEKANNT("Unbekannter Dokumententyp");
 
