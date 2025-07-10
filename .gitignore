@@ -2,9 +2,6 @@
 .gradle/
 build/
 
-# Gradle wrapper jar
-gradle/wrapper/gradle-wrapper.jar
-
 # IntelliJ IDEA files
 .idea/
 *.iml

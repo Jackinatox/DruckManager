@@ -11,7 +11,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *                 override: Nachfolgende Dubletten überschreiben die Vorgänger
  *                 keep:     Nachfolgende Dubletten werden ignoriert
  * 
- * <p>Java-Klasse f�r duplicateDealingType.</p>
+ * <p>Java-Klasse für duplicateDealingType.</p>
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.</p>
  * <pre>{@code

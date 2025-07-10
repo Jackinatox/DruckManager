@@ -1,4 +1,3 @@
-
 package de.fernausoft.druckmanager.xml.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -8,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für keyvalue_def complex type.</p>
+ * <p>Java-Klasse fÃ¼r keyvalue_def complex type.</p>
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.</p>
  * 
