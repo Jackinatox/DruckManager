@@ -34,10 +34,13 @@ public class PCUserMappingPanel extends JPanel {
         });
 
         add(new JScrollPane(table), BorderLayout.CENTER);
+
+    }
+
+    public void selectFirstRow() {
         if (table.getRowCount() > 0) {
             table.setRowSelectionInterval(0, 0);
         }
-
     }
 
     public void setPcUserSelectionListener(PCUserSelectionListener listener) {

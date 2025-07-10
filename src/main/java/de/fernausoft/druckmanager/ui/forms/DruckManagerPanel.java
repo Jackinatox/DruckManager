@@ -21,6 +21,8 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 	private XMLWorker xmlWorker;
 	private Settings settingsPanel;
 
+	private PCUserMappingPanel pcTaplePanel;
+
 	private DruckManagerPanel(XMLWorker xmlWorker) {
 		this.xmlWorker = xmlWorker;
 		mainWindow = new JFrame();
@@ -39,11 +41,12 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 		List<PrinterDef> printers = xmlWorker.getAllPrinters();
 
 		// The 3 Main UI Panels
-		PrinterTablePanel tablePanel = new PrinterTablePanel(printers);
-		PCUserMappingPanel pcTaplePanel = new PCUserMappingPanel(myTargets);
-		pcTaplePanel.setPcUserSelectionListener(this);
 		settingsPanel = new Settings(xmlWorker);
-
+		
+		PrinterTablePanel tablePanel = new PrinterTablePanel(printers);
+		pcTaplePanel = new PCUserMappingPanel(myTargets);
+		pcTaplePanel.setPcUserSelectionListener(this);
+		
 		mainWindow.getContentPane().add(tablePanel);
 		mainWindow.getContentPane().add(pcTaplePanel);
 		mainWindow.getContentPane().add(settingsPanel);
@@ -59,6 +62,9 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow.setSize(650, 900); // Example size
 		mainWindow.setVisible(true);
+		SwingUtilities.invokeLater(() -> {
+			pcTaplePanel.selectFirstRow();
+		});
 	}
 
 	public static void launch(XMLWorker xmlWorker) {

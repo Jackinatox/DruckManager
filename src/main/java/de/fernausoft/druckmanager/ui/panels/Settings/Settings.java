@@ -383,7 +383,16 @@ public class Settings extends JPanel {
             navPanel.add(werkstattButton);
 
         }
+
         navPanel.revalidate();
         navPanel.repaint();
+
+        if (navPanel.getComponentCount() > 0) {
+            Component firstComponent = navPanel.getComponent(0);
+            if (firstComponent instanceof JButton) {
+                JButton firstButton = (JButton) firstComponent;
+                firstButton.doClick();
+            }
+        }
     }
 }
