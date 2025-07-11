@@ -12,27 +12,26 @@ public enum ProgramType {
     BESTELLUNGEN_PER_FAX("Bestellungen per Fax"),
     LAGERZUGANG_AUS_BESTELLUNG("Lagerzugang aus Bestellung"),
     ETIKETTENDRUCK_TEILE("Etikettendruck Teile"),
-    UEBERWEISUNGSTRAEGER("Überweisungsträger"),
     BONDRUCK_TEILERECHNUNGEN("Bondruck Teilerechnungen"),
     SAMMELRECHNUNGEN("Sammelrechnungen"),
     GARANTIERUECKNAHME_GWE("Garantierücknahme GWE"),
-
+    
     NEUGEBRAUCHTWAGEN_ANGEBOTE_F0("Neu- & Gebrauchtwagen Angebote Formularweg 0"),
     NEUGEBRAUCHTWAGEN_ANGEBOTE_F1("Neu- & Gebrauchtwagen Angebote Formularweg 1"),
-
+    
     FAHRZEUG_ANKAUF("Fahrzeugankauf"),
     SHOP_BARVERKAUF("Shop/Barverkauf"),
     BON_BOXENSTOP("Bon Boxenstop"),
-
+    
     LEIH_WAGEN_VERTRÄGE("Leihwagenverträge"),
     LEIH_WAGEN_RECHNUNG("Leihwagenrechnungen"),
-    ETIKETTEN_REIFEN("Etiketten Reifeneinlagerungen"),
-    REIFEN_EEINLAGERUNG("Reifeneinlagerungen"),
+    ETIKETTEN_REIFEN_EINLAGEERUNG("Etiketten Reifeneinlagerungen"),
+    REIFEN_EINLAGERUNG("Reifeneinlagerungen"),
     KUNDENKARTEN("Kundenkarten bedrucken"),
-    LAGERENTNAHME("Lagerentnahmeschein"),
+    LAGERENTNAHME_SCHEIN("Lagerentnahmeschein"),
     
     DRUCK_AUS_KASSENABWICKLUNG("Druck aus Kassenabwicklung"),
-    UEBERWEISUNG("Überweisungsträger"),
+    UEBERWEISUNGSTRAEGER("Überweisungsträger"),
     PICKERZETTEL_WERKSTATT("Pickerzettel Werkstatt"),
     
     // Fallback

@@ -15,8 +15,6 @@ public class PCUserMappingPanel extends JPanel {
     private JTable table;
     private PCUserTableModel tableModel;
 
-    // TODO: also a method for the callback so teh other component knows when to
-    // change
     public PCUserMappingPanel(List<Target> targets) {
         setLayout(new BorderLayout());
         tableModel = new PCUserTableModel(targets);

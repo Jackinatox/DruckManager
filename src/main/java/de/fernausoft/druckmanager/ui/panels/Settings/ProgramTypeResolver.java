@@ -26,8 +26,16 @@ public class ProgramTypeResolver {
         regexPatterns.put(Pattern.compile("DR_303BON_\\d"), ProgramType.BONDRUCK_TEILERECHNUNGEN);
         regexPatterns.put(Pattern.compile("DR_304KFZ_\\d"), ProgramType.SAMMELRECHNUNGEN);
         regexPatterns.put(Pattern.compile("DR_518GWE_\\d"), ProgramType.GARANTIERUECKNAHME_GWE);
-        regexPatterns.put(Pattern.compile("DR_677KFZ_\\d"), ProgramType.KF1_ANGEBOTE); //TODO: Checck
-        regexPatterns.put(Pattern.compile("DR_677KF1_\\d"), ProgramType.); 
+        regexPatterns.put(Pattern.compile("DR_677KFZ_\\d"), ProgramType.NEUGEBRAUCHTWAGEN_ANGEBOTE_F0);
+        regexPatterns.put(Pattern.compile("DR_677KF1_\\d"), ProgramType.NEUGEBRAUCHTWAGEN_ANGEBOTE_F1); 
+        regexPatterns.put(Pattern.compile("DR_701KFZ_\\d"), ProgramType.SHOP_BARVERKAUF); 
+        regexPatterns.put(Pattern.compile("DR_721KFZ_\\d"), ProgramType.BON_BOXENSTOP); 
+        regexPatterns.put(Pattern.compile("DR_806KFZ_\\d"), ProgramType.LEIH_WAGEN_VERTRÄGE); 
+        regexPatterns.put(Pattern.compile("DR_811KFZ_\\d"), ProgramType.LEIH_WAGEN_RECHNUNG); 
+        regexPatterns.put(Pattern.compile("DR_903KFZ_\\d"), ProgramType.REIFEN_EINLAGERUNG); 
+        //DR_903KFZ_1
+        regexPatterns.put(Pattern.compile("DR_KARTEN_\\d"), ProgramType.KUNDENKARTEN); 
+        regexPatterns.put(Pattern.compile("DR_LENTNA_\\d"), ProgramType.LAGERENTNAHME_SCHEIN); 
 
 
 

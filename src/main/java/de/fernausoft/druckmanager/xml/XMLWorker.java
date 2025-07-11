@@ -1,19 +1,13 @@
 package de.fernausoft.druckmanager.xml;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,6 +17,9 @@ import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterconfigDef;
 import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 import de.fernausoft.druckmanager.xml.schema.TargetDef;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.Unmarshaller;
 
 public class XMLWorker {
     // private static final String JAXB_PACKAGE =

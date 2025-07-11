@@ -18,13 +18,13 @@ import de.fernausoft.druckmanager.ui.listeners.PCUserSelectionListener;
 public class DruckManagerPanel implements PCUserSelectionListener{
 
 	private JFrame mainWindow;
-	private XMLWorker xmlWorker;
+	// private XMLWorker xmlWorker;
 	private Settings settingsPanel;
 
 	private PCUserMappingPanel pcTaplePanel;
 
 	private DruckManagerPanel(XMLWorker xmlWorker) {
-		this.xmlWorker = xmlWorker;
+		// this.xmlWorker = xmlWorker;
 		mainWindow = new JFrame();
 
 		mainWindow.getContentPane().setLayout(new GridLayout(3, 1));

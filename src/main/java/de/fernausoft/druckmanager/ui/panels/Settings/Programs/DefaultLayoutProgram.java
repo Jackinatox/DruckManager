@@ -10,14 +10,14 @@ import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class DefaultLayoutProgram extends BaseProgram {
     private Map<Character, Formularweg3> formularwegMap;
-    private String sufix;
+    // private String sufix;
 
     // This is only for teh ones with multiple FormularWege and multiple printer
     public DefaultLayoutProgram(String name, String prefix, String sufix, XMLWorker xmlWorker) {
         formularwegMap = new java.util.HashMap<>();
         this.name = name;
         this.prefix = prefix;
-        this.sufix = sufix;
+        // this.sufix = sufix;
         this.xmlWorker = xmlWorker;
 
         Formularweg3 weg;

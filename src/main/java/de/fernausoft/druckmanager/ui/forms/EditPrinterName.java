@@ -11,7 +11,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 
-// TODO: is unused
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class EditPrinterName {

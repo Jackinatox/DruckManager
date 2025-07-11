@@ -36,7 +36,12 @@ public class Target {
                 PrinterDef printer = xmlWorker.printerLookup(keyValue.getRef());
 
                 if (printer == null) {
-                    logger.warn("Printer not found for environment: " + env);
+                    String target = (targetDef.getUsername() != null && !targetDef.getUsername().isEmpty())
+                            ? targetDef.getUsername()
+                            : targetDef.getHostname();
+
+                    logger.warn("Printer not found for target: " + target + " ENV: " + env);
+
                     continue;
                 }
                 var resolvedType = ProgramTypeResolver.resolveType(env);
@@ -53,23 +58,29 @@ public class Target {
                     case BESTELLUNGEN_PER_FAX:
                     case LAGERZUGANG_AUS_BESTELLUNG:
                     case ETIKETTENDRUCK_TEILE:
-                    case BONDRUCK:
                     case BONDRUCK_TEILERECHNUNGEN:
-                    case ETIKETTEN_REIFEN:
-                    case GARANTIERUECKNAHME_GWE:
-                    case KF1_ANGEBOTE:
-                    case KFZ_DOKUMENTE:
-                    case KUNDENKARTEN:
-                    case LAGERENTNAHME:
                     case SAMMELRECHNUNGEN:
-                    case UEBERWEISUNG:
+                    case GARANTIERUECKNAHME_GWE:
+                    case NEUGEBRAUCHTWAGEN_ANGEBOTE_F0:
+                    case NEUGEBRAUCHTWAGEN_ANGEBOTE_F1:
+                    case FAHRZEUG_ANKAUF:
+                    case SHOP_BARVERKAUF:
+                    case BON_BOXENSTOP:
+                    case LEIH_WAGEN_VERTRÄGE:
+                    case LEIH_WAGEN_RECHNUNG:
+                    case ETIKETTEN_REIFEN_EINLAGEERUNG:
+                    case REIFEN_EINLAGERUNG:
+                    case KUNDENKARTEN:
+                    case LAGERENTNAHME_SCHEIN:
                         handleThreePrintersProgram(resolvedType, env, printer);
                         break;
+                    case DRUCK_AUS_KASSENABWICKLUNG:
                     case UEBERWEISUNGSTRAEGER:
                     case PICKERZETTEL_WERKSTATT:
                         handleOnlyOnePrinterProgram(resolvedType, env, printer);
                         break;
                     case UNBEKANNT:
+                    default:
                         logger.error("Unknown program type for environment: " + env);
                         break;
 
