@@ -33,11 +33,11 @@ public class DefaultLayoutProgram extends BaseProgram {
     }
 
     @Override
-    public void addPrinter(String env, PrinterDef printer) {
+    public void addPrinter(String env, PrinterDef printer, Boolean enabled) {
         Formularweg3 weg = formularwegMap.get(env.charAt(6));
         
         char printerIndex = env.charAt(10);
-        weg.setPrinter(printerIndex, printer);
+        weg.setPrinter(printerIndex, printer, enabled);
     }
 
     @Override

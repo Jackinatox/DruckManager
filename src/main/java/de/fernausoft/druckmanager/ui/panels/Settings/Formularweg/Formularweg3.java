@@ -7,6 +7,9 @@ public class Formularweg3 extends Formularweg {
     private PrinterDef printer1;
     private PrinterDef printer2;
     private PrinterDef printer3;
+    private boolean printer1Enabled = true;
+    private boolean printer2Enabled = true;
+    private boolean printer3Enabled = true;
 
     /**
      * Formularweg3 is a representation of 3 Printers and a Formularweg
@@ -22,17 +25,20 @@ public class Formularweg3 extends Formularweg {
         printer3 = null;
     }
 
-    public Formularweg3 setPrinter(char printerIndex, PrinterDef printer) {
+    public Formularweg3 setPrinter(char printerIndex, PrinterDef printer, Boolean enabled) {
 
         switch (printerIndex) {
             case '1':
                 setPrinter1(printer);
+                setPrinter1Enabled(enabled);
                 break;
             case '2':
                 setPrinter2(printer);
+                setPrinter2Enabled(enabled);
                 break;
             case '3':
                 setPrinter3(printer);
+                setPrinter3Enabled(enabled);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid printer index: " + printerIndex);
@@ -72,6 +78,30 @@ public class Formularweg3 extends Formularweg {
 
     public void setPrinter3(PrinterDef printer3) {
         this.printer3 = printer3;
+    }
+
+    public void setPrinter1Enabled(boolean enabled) {
+        this.printer1Enabled = enabled;
+    }
+
+    public boolean getPrinter1Enabled() {
+        return printer1Enabled;
+    }
+
+    public void setPrinter2Enabled(boolean enabled) {
+        this.printer2Enabled = enabled;
+    }
+
+    public boolean getPrinter2Enabled() {
+        return printer2Enabled;
+    }
+
+    public void setPrinter3Enabled(boolean enabled) {
+        this.printer3Enabled = enabled;
+    }
+
+    public boolean getPrinter3Enabled() {
+        return printer3Enabled;
     }
 
 }

@@ -14,7 +14,7 @@ public abstract class BaseProgram {
     protected BaseProgram() {
     }
 
-    public abstract void addPrinter(String env, PrinterDef printer);
+    public abstract void addPrinter(String env, PrinterDef printer, Boolean enabled);
 
     public abstract List<Formularweg> getFormularwegList();
 

@@ -18,8 +18,8 @@ public class ThreePrintersProgram extends BaseProgram{
     }
 
     @Override
-    public void addPrinter(String env, PrinterDef printer) {
-        formularweg.setPrinter(env.charAt(10), printer);
+    public void addPrinter(String env, PrinterDef printer, Boolean enabled) {
+        formularweg.setPrinter(env.charAt(10), printer, enabled);
     }
 
     @Override

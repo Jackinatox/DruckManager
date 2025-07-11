@@ -18,8 +18,8 @@ public class OnlyOnePrinterProgram extends BaseProgram {
     }
 
     @Override
-    public void addPrinter(String env, PrinterDef printer) {
-        formularweg.addPrinter(env.charAt(10), printer);
+    public void addPrinter(String env, PrinterDef printer, Boolean enabled) {
+        formularweg.addPrinter(env.charAt(10), printer, enabled);
     }
 
     @Override
