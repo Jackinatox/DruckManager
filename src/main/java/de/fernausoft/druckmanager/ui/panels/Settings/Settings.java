@@ -32,6 +32,9 @@ public class Settings extends JPanel {
     private JComboBox<PrinterDef> drucker2ComboBox;
     private JComboBox<PrinterDef> drucker3ComboBox;
     private JComboBox<Formularweg> formularComboBox;
+    private JCheckBox drucker1CheckBox;
+    private JCheckBox drucker2CheckBox;
+    private JCheckBox drucker3CheckBox;
 
     public Settings(XMLWorker xmlWorker) {
         // this.xmlWorker = xmlWorker;
@@ -101,6 +104,10 @@ public class Settings extends JPanel {
                     drucker1ComboBox.setEnabled(isPrinter1Enabled);
                     drucker2ComboBox.setEnabled(isPrinter2Enabled);
                     drucker3ComboBox.setEnabled(isPrinter3Enabled);
+
+                    drucker1CheckBox.setSelected(isPrinter1Enabled);
+                    drucker2CheckBox.setSelected(isPrinter2Enabled);
+                    drucker3CheckBox.setSelected(isPrinter3Enabled);
                 }
             }
         });
@@ -139,57 +146,18 @@ public class Settings extends JPanel {
         gbcContent.insets = new Insets(10, 5, 10, 5); // More padding for separator
         contentPanel.add(new JSeparator(), gbcContent);
 
-        // Row 3: Drucker 1 Label and ComboBox
-        gbcContent.gridx = 0;
-        gbcContent.gridy = 2;
-        gbcContent.gridwidth = 1; // Reset gridwidth
-        gbcContent.fill = GridBagConstraints.NONE; // Reset fill
-        gbcContent.anchor = GridBagConstraints.WEST;
-        contentPanel.add(new JLabel("Drucker 1"), gbcContent);
+        // Create printer rows
+        drucker1ComboBox = new JComboBox<>();
+        drucker1CheckBox = new JCheckBox();
+        createPrinterRow(contentPanel, gbcContent, "Drucker 1", drucker1ComboBox, drucker1CheckBox, 2);
 
-        // Initialize drucker1ComboBox
-        drucker1ComboBox = new JComboBox<>(); // Empty initially, will be populated by setPrinterOptions
-        drucker1ComboBox.setEnabled(false);
-        drucker1ComboBox.setPreferredSize(new Dimension(150, 25));
-        gbcContent.gridx = 1;
-        gbcContent.gridy = 2;
-        gbcContent.gridwidth = 2; // Span across remaining columns
-        gbcContent.fill = GridBagConstraints.HORIZONTAL;
-        contentPanel.add(drucker1ComboBox, gbcContent);
+        drucker2ComboBox = new JComboBox<>();
+        drucker2CheckBox = new JCheckBox();
+        createPrinterRow(contentPanel, gbcContent, "Drucker 2", drucker2ComboBox, drucker2CheckBox, 3);
 
-        // Row 4: Drucker 2 Label and ComboBox
-        gbcContent.gridx = 0;
-        gbcContent.gridy = 3;
-        gbcContent.gridwidth = 1;
-        gbcContent.fill = GridBagConstraints.NONE;
-        contentPanel.add(new JLabel("Drucker 2"), gbcContent);
-
-        // Initialize drucker2ComboBox
-        drucker2ComboBox = new JComboBox<>(); // Empty initially
-        drucker2ComboBox.setEnabled(false);
-        drucker2ComboBox.setPreferredSize(new Dimension(150, 25));
-        gbcContent.gridx = 1;
-        gbcContent.gridy = 3;
-        gbcContent.gridwidth = 2;
-        gbcContent.fill = GridBagConstraints.HORIZONTAL;
-        contentPanel.add(drucker2ComboBox, gbcContent);
-
-        // Row 5: Drucker 3 Label and ComboBox
-        gbcContent.gridx = 0;
-        gbcContent.gridy = 4;
-        gbcContent.fill = GridBagConstraints.NONE;
-        contentPanel.add(new JLabel("Drucker 3"), gbcContent);
-
-        // Initialize drucker3ComboBox
-        drucker3ComboBox = new JComboBox<>(); // Empty initially
-        drucker3ComboBox.setEnabled(false);
-        drucker3ComboBox.setPreferredSize(new Dimension(150, 25));
-
-        gbcContent.gridx = 1;
-        gbcContent.gridy = 4;
-        gbcContent.gridwidth = 2;
-        gbcContent.fill = GridBagConstraints.HORIZONTAL;
-        contentPanel.add(drucker3ComboBox, gbcContent);
+        drucker3ComboBox = new JComboBox<>();
+        drucker3CheckBox = new JCheckBox();
+        createPrinterRow(contentPanel, gbcContent, "Drucker 3", drucker3ComboBox, drucker3CheckBox, 4);
 
         // Add a vertical strut to push content to the top
         gbcContent.gridx = 0;
@@ -228,6 +196,31 @@ public class Settings extends JPanel {
         // setProgram(new WerkstattAuftrag());
 
     }
+
+    private void createPrinterRow(JPanel panel, GridBagConstraints gbc, String label, JComboBox<PrinterDef> comboBox, JCheckBox checkBox, int gridy) {
+        gbc.gridx = 0;
+        gbc.gridy = gridy;
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(new JLabel(label), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = gridy;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(checkBox, gbc);
+
+        comboBox.setEnabled(false);
+        comboBox.setPreferredSize(new Dimension(150, 25));
+        gbc.gridx = 2;
+        gbc.gridy = gridy;
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(comboBox, gbc);
+
+        checkBox.addActionListener(e -> comboBox.setEnabled(checkBox.isSelected()));
+    }
+
 
     /**
      * Helper method to create a navigation item (JButton) with specific styling.

@@ -9,7 +9,7 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für printer_def complex type.</p>
+ * <p>Java-Klasse fÃ¼r printer_def complex type.</p>
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.</p>
  * 
@@ -67,6 +67,11 @@ public class PrinterDef {
      */
     public void setName(String value) {
         this.name = value;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     /**

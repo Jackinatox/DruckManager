@@ -8,10 +8,10 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * Gibt die Suchreihenfolge an
- *                 fullThenUser: Erst den vollen Treffer versuchen. Anschlieﬂend mit dem User fortfahren. Als letztes wird der Host verglichen
- *                 fullThenHost: Erst den vollen Treffer versuchen. Anschlieﬂend mit dem Host fortfahren. Als letztes wird der User verglichen
+ *                 fullThenUser: Erst den vollen Treffer versuchen. Anschlie√üend mit dem User fortfahren. Als letztes wird der Host verglichen
+ *                 fullThenHost: Erst den vollen Treffer versuchen. Anschlie√üend mit dem Host fortfahren. Als letztes wird der User verglichen
  * 
- * <p>Java-Klasse f¸r searchSequenceType.</p>
+ * <p>Java-Klasse f√ºr searchSequenceType.</p>
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.</p>
  * <pre>{@code
