@@ -23,9 +23,11 @@ import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 public class Settings extends JPanel {
     // private XMLWorker xmlWorker;
     private static final Logger logger = LogManager.getLogger(Settings.class);
+    private BaseProgram activeProgram;
+
 
     // JComboBoxes for printers and formular, made accessible for external methods
-    private JPanel navPanel = new JPanel();
+    private NavPanel navPanel = new NavPanel();
     private JComboBox<PrinterDef> drucker1ComboBox;
     private JComboBox<PrinterDef> drucker2ComboBox;
     private JComboBox<PrinterDef> drucker3ComboBox;
@@ -47,7 +49,6 @@ public class Settings extends JPanel {
         gbcNav.anchor = GridBagConstraints.NORTHWEST;
         gbcNav.fill = GridBagConstraints.BOTH;
 
-        navPanel.setLayout(new GridLayout(0, 1)); // This will make all buttons the same width
         JScrollPane scrollPane = new JScrollPane(navPanel);
         scrollPane.setPreferredSize(new Dimension(280, 0));
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
@@ -235,32 +236,29 @@ public class Settings extends JPanel {
      * @param isSelected A boolean indicating if the item is currently selected.
      * @return A styled JButton.
      */
-    private JButton createNavItem(BaseProgram program, boolean isSelected) {
+    private JButton createNavItem(BaseProgram program) {
         JButton button = new JButton(program.getName());
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setForeground(UIManager.getColor("Button.foreground"));
         button.setFocusPainted(false);
         button.setOpaque(true);
+        button.putClientProperty("program", program);
 
-        // TODO: Remove Later
-        if (isSelected) {
-            button.setBackground(Color.LIGHT_GRAY); // Light gray for selected
-            button.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
-                    BorderFactory.createEmptyBorder(8, 10, 8, 10)));
-        } else {
-            button.setBackground(Color.WHITE);
-            button.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
-                    BorderFactory.createEmptyBorder(8, 10, 8, 10)));
-        }
+
+        button.setBackground(Color.WHITE);
+        button.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                BorderFactory.createEmptyBorder(8, 10, 8, 10)));
         button.setFont(button.getFont().deriveFont(Font.PLAIN, 12f));
 
         // Add onClick listener to change the selected state
         button.addActionListener(e -> {
-            setProgram(program);
-            logger.info("setting to: " + program.getName());
+            activeProgram = (BaseProgram) ((JButton) e.getSource()).getClientProperty("program");
+            setProgram(activeProgram);
+            updateNavPanel();
+            logger.info("setting to: " + activeProgram.getName());
         });
+
 
         return button;
     }
@@ -376,23 +374,68 @@ public class Settings extends JPanel {
 
     public void setPrograms(List<BaseProgram> programs) {
         navPanel.removeAll();
-        for (BaseProgram pg : programs) {
-            JButton werkstattButton = createNavItem(pg, true); //
-            // Pass true for selected
-
-            navPanel.add(werkstattButton);
-
+        if (programs != null && !programs.isEmpty()) {
+            activeProgram = programs.get(0);
+        } else {
+            activeProgram = null;
         }
-
+    
+        for (BaseProgram pg : programs) {
+            JButton button = createNavItem(pg);
+            navPanel.add(button);
+        }
+    
         navPanel.revalidate();
         navPanel.repaint();
+    
+        if (activeProgram != null) {
+            setProgram(activeProgram);
+            updateNavPanel();
+        }
+    }
 
-        if (navPanel.getComponentCount() > 0) {
-            Component firstComponent = navPanel.getComponent(0);
-            if (firstComponent instanceof JButton) {
-                JButton firstButton = (JButton) firstComponent;
-                firstButton.doClick();
+    private void updateNavPanel() {
+        for (Component comp : navPanel.getComponents()) {
+            if (comp instanceof JButton) {
+                JButton button = (JButton) comp;
+                BaseProgram program = (BaseProgram) button.getClientProperty("program");
+                if (program != null && program.equals(activeProgram)) {
+                    button.setBackground(Color.LIGHT_GRAY);
+                } else {
+                    button.setBackground(Color.WHITE);
+                }
             }
+        }
+    }
+
+    private class NavPanel extends JPanel implements Scrollable {
+        public NavPanel() {
+            setLayout(new GridLayout(0, 1));
+        }
+
+        @Override
+        public Dimension getPreferredScrollableViewportSize() {
+            return getPreferredSize();
+        }
+
+        @Override
+        public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+            return 16;
+        }
+
+        @Override
+        public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+            return 16;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportWidth() {
+            return true;
+        }
+
+        @Override
+        public boolean getScrollableTracksViewportHeight() {
+            return false;
         }
     }
 }
