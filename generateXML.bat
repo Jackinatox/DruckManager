@@ -1,0 +1,1 @@
+xjc -no-header -p de.fernausoft.druckmanager.xml.schema -d src\main\java src\main\resources\clientprinterconfig.xsd

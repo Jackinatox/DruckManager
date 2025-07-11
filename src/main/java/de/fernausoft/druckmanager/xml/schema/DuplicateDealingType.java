@@ -7,11 +7,11 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * Gibt die PrÃ¤ferenz bei Dubletten an (nur wenn continueOnHit==true)
- *                 override: Nachfolgende Dubletten Ã¼berschreiben die VorgÃ¤nger
+ * Gibt die Präferenz bei Dubletten an (nur wenn continueOnHit==true)
+ *                 override: Nachfolgende Dubletten überschreiben die Vorgänger
  *                 keep:     Nachfolgende Dubletten werden ignoriert
  * 
- * <p>Java-Klasse fÃ¼r duplicateDealingType.</p>
+ * <p>Java-Klasse für duplicateDealingType.</p>
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.</p>
  * <pre>{@code

@@ -1,3 +1,4 @@
+
 package de.fernausoft.druckmanager.xml.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -6,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse fÃ¼r printerconfig_def complex type.</p>
+ * <p>Java-Klasse für printerconfig_def complex type.</p>
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.</p>
  * 

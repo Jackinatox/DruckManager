@@ -17,9 +17,9 @@ public class Formularweg3 extends Formularweg {
      */
     public Formularweg3(String name, char FWayChar, XMLWorker xmlWorker) {
         super(name, FWayChar, xmlWorker);
-        printer1 = xmlWorker.getNoPrinter();
-        printer2 = xmlWorker.getNoPrinter();
-        printer3 = xmlWorker.getNoPrinter();
+        printer1 = null;
+        printer2 = null;
+        printer3 = null;
     }
 
     public Formularweg3 setPrinter(char printerIndex, PrinterDef printer) {

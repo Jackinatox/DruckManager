@@ -1,3 +1,4 @@
+
 package de.fernausoft.druckmanager.xml.schema;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *                   ist. Diese Variable ist immer dann gesetzt, wenn man sich 
  *                   Remote an einen Rechner angemeldet hat.
  * 
- * <p>Java-Klasse fÃ¼r target_def complex type.</p>
+ * <p>Java-Klasse für target_def complex type.</p>
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.</p>
  * 

@@ -89,8 +89,22 @@
     </xs:simpleType>
     
     <xs:complexType name="keyvalue_def">
-        <xs:attribute name="env" type="nonEmptyString" use="required"/>
-        <xs:attribute name="value" type="xs:string" use="optional"/>
-        <xs:attribute name="ref" type="nonEmptyString" use="optional"/>
+        <xs:attribute name="env" type="nonEmptyString" use="required" />
+        <xs:attribute name="value" type="xs:string" use="optional" />
+        <xs:attribute name="ref" type="nonEmptyString" use="optional" />
+        <xs:attribute name="printer-dialog" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Wird dieser Parameter auf true gesetzt, wird der User nach einem Drucker gefragt
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
+            <xs:annotation>
+                <xs:documentation>
+                    Bei false wird dieser Eintrag bei der Interpretation der Einstellungen ignoriert
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 </xs:schema>
