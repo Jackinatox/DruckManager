@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector; // Using Vector for JComboBox model
 
@@ -21,13 +22,12 @@ import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class Settings extends JPanel {
-    // private XMLWorker xmlWorker;
     private static final Logger logger = LogManager.getLogger(Settings.class);
     private BaseProgram activeProgram;
 
-
     // JComboBoxes for printers and formular, made accessible for external methods
     private NavPanel navPanel = new NavPanel();
+    private XMLWorker xmlWorker;
     private JComboBox<PrinterDef> drucker1ComboBox;
     private JComboBox<PrinterDef> drucker2ComboBox;
     private JComboBox<PrinterDef> drucker3ComboBox;
@@ -37,7 +37,7 @@ public class Settings extends JPanel {
     private JCheckBox drucker3CheckBox;
 
     public Settings(XMLWorker xmlWorker) {
-        // this.xmlWorker = xmlWorker;
+        this.xmlWorker = xmlWorker;
         // Set the overall layout for the Settings panel
         // Using GridBagLayout to divide the panel into two main sections:
         // a left navigation/list area and a right content/form area.
@@ -81,9 +81,10 @@ public class Settings extends JPanel {
                 if (formularComboBox.getSelectedItem() != null) {
                     // logger.info("selection changed to: " +
                     // formularComboBox.getSelectedItem().getClass());
-                    PrinterDef printer1 = ((Formularweg) formularComboBox.getSelectedItem()).getPrinter1();
-                    PrinterDef printer2 = ((Formularweg) formularComboBox.getSelectedItem()).getPrinter2();
-                    PrinterDef printer3 = ((Formularweg) formularComboBox.getSelectedItem()).getPrinter3();
+                    Formularweg selectedFormular = (Formularweg) formularComboBox.getSelectedItem();
+                    PrinterDef printer1 = selectedFormular.getPrinter1();
+                    PrinterDef printer2 = selectedFormular.getPrinter2();
+                    PrinterDef printer3 = selectedFormular.getPrinter3();
 
                     boolean isPrinter1Enabled = printer1 != null;
                     boolean isPrinter2Enabled = printer2 != null;
@@ -101,13 +102,18 @@ public class Settings extends JPanel {
                         drucker3ComboBox.setSelectedItem(printer3);
                     }
 
-                    drucker1ComboBox.setEnabled(isPrinter1Enabled);
-                    drucker2ComboBox.setEnabled(isPrinter2Enabled);
-                    drucker3ComboBox.setEnabled(isPrinter3Enabled);
+                    // Dickes TODO:
+                    drucker1ComboBox.setEnabled(selectedFormular.getPrinterXEnabled(1));
+                    drucker2ComboBox.setEnabled(selectedFormular.getPrinterXEnabled(2));
+                    drucker3ComboBox.setEnabled(selectedFormular.getPrinterXEnabled(3));
 
-                    drucker1CheckBox.setSelected(isPrinter1Enabled);
-                    drucker2CheckBox.setSelected(isPrinter2Enabled);
-                    drucker3CheckBox.setSelected(isPrinter3Enabled);
+                    drucker1CheckBox.setEnabled(isPrinter1Enabled);
+                    drucker2CheckBox.setEnabled(isPrinter2Enabled);
+                    drucker3CheckBox.setEnabled(isPrinter3Enabled);
+
+                    drucker1CheckBox.setSelected(isPrinter1Enabled && selectedFormular.getPrinterXEnabled(1));
+                    drucker2CheckBox.setSelected(isPrinter2Enabled && selectedFormular.getPrinterXEnabled(2));
+                    drucker3CheckBox.setSelected(isPrinter3Enabled && selectedFormular.getPrinterXEnabled(3));
                 }
             }
         });
@@ -197,7 +203,8 @@ public class Settings extends JPanel {
 
     }
 
-    private void createPrinterRow(JPanel panel, GridBagConstraints gbc, String label, JComboBox<PrinterDef> comboBox, JCheckBox checkBox, int gridy) {
+    private void createPrinterRow(JPanel panel, GridBagConstraints gbc, String label, JComboBox<PrinterDef> comboBox,
+            JCheckBox checkBox, int gridy) {
         gbc.gridx = 0;
         gbc.gridy = gridy;
         gbc.gridwidth = 1;
@@ -221,7 +228,6 @@ public class Settings extends JPanel {
         checkBox.addActionListener(e -> comboBox.setEnabled(checkBox.isSelected()));
     }
 
-
     /**
      * Helper method to create a navigation item (JButton) with specific styling.
      * 
@@ -237,7 +243,6 @@ public class Settings extends JPanel {
         button.setOpaque(true);
         button.putClientProperty("program", program);
 
-
         button.setBackground(Color.WHITE);
         button.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
@@ -252,7 +257,6 @@ public class Settings extends JPanel {
             logger.info("setting to: " + activeProgram.getName());
         });
 
-
         return button;
     }
 
@@ -263,6 +267,13 @@ public class Settings extends JPanel {
      * @param printerDefs A list of PrinterDef objects to populate the dropdowns.
      */
     public void setPrinterOptions(List<PrinterDef> printerDefs) {
+        printerDefs.remove(xmlWorker.getNoPrinter());
+        printerDefs.sort(Comparator.comparing(PrinterDef::toString));
+        printerDefs.add(0, xmlWorker.getNoPrinter()); // Add "Kein Drucker" at the top
+
+
+
+        // drucker1ComboBox.add(new JSeparator(JSeparator.HORIZONTAL));
         // Clear existing items and add new ones
         DefaultComboBoxModel<PrinterDef> model1 = new DefaultComboBoxModel<>(new Vector<>(printerDefs));
         drucker1ComboBox.setModel(model1);
@@ -372,15 +383,15 @@ public class Settings extends JPanel {
         } else {
             activeProgram = null;
         }
-    
+
         for (BaseProgram pg : programs) {
             JButton button = createNavItem(pg);
             navPanel.add(button);
         }
-    
+
         navPanel.revalidate();
         navPanel.repaint();
-    
+
         if (activeProgram != null) {
             setProgram(activeProgram);
             updateNavPanel();

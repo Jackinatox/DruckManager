@@ -112,6 +112,7 @@ public class XMLWorker {
     }
 
     public PrinterDef getNoPrinter() {
+        // The printer object isnt added to the xml file and is only used to select "Kein Drucker" in the UI.
         return noPrinter;
     }
 }

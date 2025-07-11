@@ -14,7 +14,7 @@ abstract public class Formularweg {
         this.xmlWorker = xmlWorker;
     }
 
-    public boolean getEdited(){
+    public boolean getEdited() {
         return true;
     }
 
@@ -42,4 +42,7 @@ abstract public class Formularweg {
     public PrinterDef getPrinter3() {
         return null;
     }
+
+    abstract public boolean getPrinterXEnabled(int id);
+
 }

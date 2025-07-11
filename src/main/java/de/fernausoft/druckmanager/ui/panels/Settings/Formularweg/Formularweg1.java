@@ -22,7 +22,7 @@ public class Formularweg1 extends Formularweg {
         switch (printerIndex) {
             case '1':
                 setPrinter1(printer);
-                setPrinter1Enabled(enabled);
+                printer1Enabled = enabled;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid printer index: " + printerIndex);
@@ -38,11 +38,16 @@ public class Formularweg1 extends Formularweg {
         return printer1;
     }
 
-    public void setPrinter1Enabled(boolean enabled) {
-        this.printer1Enabled = enabled;
+    @Override
+    public boolean getPrinterXEnabled(int id) {
+        switch (id) {
+            case 1:
+                return printer1Enabled;
+            default:
+                return false; // No other printers are defined
+        }
     }
-    public boolean getPrinter1Enabled() {
-        return printer1Enabled;
-    }
+
+    
 
 }
