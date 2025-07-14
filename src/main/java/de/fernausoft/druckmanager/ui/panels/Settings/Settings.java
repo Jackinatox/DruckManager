@@ -18,6 +18,7 @@ import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.OnlyOnePrinterProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.ThreePrintersProgram;
+import de.fernausoft.druckmanager.xml.PrinterWrapper;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
@@ -82,38 +83,37 @@ public class Settings extends JPanel {
                     // logger.info("selection changed to: " +
                     // formularComboBox.getSelectedItem().getClass());
                     Formularweg selectedFormular = (Formularweg) formularComboBox.getSelectedItem();
-                    PrinterDef printer1 = selectedFormular.getPrinter1();
-                    PrinterDef printer2 = selectedFormular.getPrinter2();
-                    PrinterDef printer3 = selectedFormular.getPrinter3();
+                    PrinterWrapper printer1 = selectedFormular.getPrinter1();
+                    PrinterWrapper printer2 = selectedFormular.getPrinter2();
+                    PrinterWrapper printer3 = selectedFormular.getPrinter3();
 
                     boolean isPrinter1Enabled = printer1 != null;
                     boolean isPrinter2Enabled = printer2 != null;
                     boolean isPrinter3Enabled = printer3 != null;
 
                     if (isPrinter1Enabled) {
-                        drucker1ComboBox.setSelectedItem(printer1);
+                        drucker1ComboBox.setSelectedItem(printer1.getPrinterDef());
+                        drucker1CheckBox.setSelected(printer1.getEnabled());
                     }
 
                     if (isPrinter2Enabled) {
-                        drucker2ComboBox.setSelectedItem(printer2);
+                        drucker2ComboBox.setSelectedItem(printer2.getPrinterDef());
+                        drucker2CheckBox.setSelected(printer2.getEnabled());
                     }
 
                     if (isPrinter3Enabled) {
-                        drucker3ComboBox.setSelectedItem(printer3);
+                        drucker3ComboBox.setSelectedItem(printer3.getPrinterDef());
+                        drucker3CheckBox.setSelected(printer3.getEnabled());
                     }
 
-                    // Dickes TODO:
-                    drucker1ComboBox.setEnabled(selectedFormular.getPrinterXEnabled(1));
-                    drucker2ComboBox.setEnabled(selectedFormular.getPrinterXEnabled(2));
-                    drucker3ComboBox.setEnabled(selectedFormular.getPrinterXEnabled(3));
+                    // Dickes TODO: Glaube ist fixed
+                    drucker1ComboBox.setEnabled(isPrinter1Enabled && drucker1CheckBox.isSelected());
+                    drucker2ComboBox.setEnabled(isPrinter2Enabled && drucker2CheckBox.isSelected());
+                    drucker3ComboBox.setEnabled(isPrinter3Enabled && drucker3CheckBox.isSelected());
 
                     drucker1CheckBox.setEnabled(isPrinter1Enabled);
                     drucker2CheckBox.setEnabled(isPrinter2Enabled);
                     drucker3CheckBox.setEnabled(isPrinter3Enabled);
-
-                    drucker1CheckBox.setSelected(isPrinter1Enabled && selectedFormular.getPrinterXEnabled(1));
-                    drucker2CheckBox.setSelected(isPrinter2Enabled && selectedFormular.getPrinterXEnabled(2));
-                    drucker3CheckBox.setSelected(isPrinter3Enabled && selectedFormular.getPrinterXEnabled(3));
                 }
             }
         });
@@ -267,9 +267,7 @@ public class Settings extends JPanel {
      * @param printerDefs A list of PrinterDef objects to populate the dropdowns.
      */
     public void setPrinterOptions(List<PrinterDef> printerDefs) {
-        printerDefs.remove(xmlWorker.getNoPrinter());
         printerDefs.sort(Comparator.comparing(PrinterDef::toString));
-        printerDefs.add(0, xmlWorker.getNoPrinter()); // Add "Kein Drucker" at the top
 
 
 

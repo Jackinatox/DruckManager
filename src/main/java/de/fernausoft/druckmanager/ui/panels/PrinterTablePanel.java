@@ -60,15 +60,15 @@ public class PrinterTablePanel extends JPanel {
                             String newDesc = JOptionPane.showInputDialog(
                                     PrinterTablePanel.this,
                                     "Drucker Beschreibung:",
-                                    printer.getDescritpion());
+                                    printer.getDescription());
 
                             if (newDesc != null) {
                                 String trimmedName = newDesc.trim();
-                                if (newDesc != null && !trimmedName.equals(printer.getDescritpion())) {
-                                    String oldName = printer.getDescritpion();
+                                if (newDesc != null && !trimmedName.equals(printer.getDescription())) {
+                                    String oldName = printer.getDescription();
 
                                     if (!trimmedName.equals(oldName)) {
-                                        printer.setDescritpion(trimmedName);
+                                        printer.setDescription(trimmedName);
                                         tableModel.fireTableRowsUpdated(row, row);
                                     }
                                 }

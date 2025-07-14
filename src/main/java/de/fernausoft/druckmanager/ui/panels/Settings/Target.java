@@ -52,7 +52,7 @@ public class Target {
                     case NEU_GEBRAUCHT_WAGEN_AUFTRAG:
                     case NEU_GEBRAUCHT_WAGEN_LIEFERSCHEIN:
                     case NEU_GEBRAUCHT_WAGEN_RECHNUNG:
-                        handleDefaultLayoutProgram(resolvedType, env, printer, keyValue.isEnabled());
+                        handleDefaultLayoutProgram(resolvedType, keyValue, printer);
                         break;
                     case LAGER_ZU_ABGANGS_BUCHUNG:
                     case BESTELLUNGEN_PER_FAX:
@@ -72,12 +72,12 @@ public class Target {
                     case REIFEN_EINLAGERUNG:
                     case KUNDENKARTEN:
                     case LAGERENTNAHME_SCHEIN:
-                        handleThreePrintersProgram(resolvedType, env, printer, keyValue.isEnabled());
+                        handleThreePrintersProgram(resolvedType, keyValue, printer);
                         break;
                     case DRUCK_AUS_KASSENABWICKLUNG:
                     case UEBERWEISUNGSTRAEGER:
                     case PICKERZETTEL_WERKSTATT:
-                        handleOnlyOnePrinterProgram(resolvedType, env, printer, keyValue.isEnabled());
+                        handleOnlyOnePrinterProgram(resolvedType, keyValue, printer);
                         break;
                     case UNBEKANNT:
                     default:
@@ -94,39 +94,38 @@ public class Target {
         }
     }
 
-    private void handleThreePrintersProgram(ProgramType type, String env, PrinterDef printer, Boolean enabled) {
+    private void handleThreePrintersProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         ThreePrintersProgram threePrintersProgram = (ThreePrintersProgram) programMap.get(type);
         if (threePrintersProgram == null) {
-            threePrintersProgram = new ThreePrintersProgram(type.toString(), env.substring(0, 8),
+            threePrintersProgram = new ThreePrintersProgram(type.toString(), env.getEnv().substring(0, 8),
                     xmlWorker);
             programMap.put(type, threePrintersProgram);
         }
 
-        threePrintersProgram.addPrinter(env, printer, enabled);
+        threePrintersProgram.addPrinter(env, printer);
     }
 
-    private void handleOnlyOnePrinterProgram(ProgramType type, String env, PrinterDef printer, Boolean enabled) {
+    private void handleOnlyOnePrinterProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         OnlyOnePrinterProgram onlyOnePrinterProgram = (OnlyOnePrinterProgram) programMap.get(type);
         if (onlyOnePrinterProgram == null) {
-            onlyOnePrinterProgram = new OnlyOnePrinterProgram(type.toString(), env.substring(0, 9), xmlWorker);
+            onlyOnePrinterProgram = new OnlyOnePrinterProgram(type.toString(), env.getEnv().substring(0, 9), xmlWorker);
             programMap.put(type, onlyOnePrinterProgram);
         } else {
             logger.warn(
                     "Doppelte Konfiguration gefunden für: " + type + " in " + target.getHostname() + " ENV: " + env);
         }
 
-        onlyOnePrinterProgram.addPrinter(env, printer, enabled);
+        onlyOnePrinterProgram.addPrinter(env, printer);
     }
 
-    private void handleDefaultLayoutProgram(ProgramType type, String env, PrinterDef printer, Boolean enabled) {
+    private void handleDefaultLayoutProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         DefaultLayoutProgram defaultLayoutProgram = (DefaultLayoutProgram) programMap.get(type);
         if (defaultLayoutProgram == null) {
-            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.substring(0, 5), env.substring(7, 8),
+            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.getEnv().substring(0, 5), env.getEnv().substring(7, 8),
                     xmlWorker);
             programMap.put(type, defaultLayoutProgram);
         }
-
-        defaultLayoutProgram.addPrinter(env, printer, enabled);
+        defaultLayoutProgram.addPrinter(env, printer);
     }
 
     public String getHostname() {

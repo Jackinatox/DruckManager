@@ -1,7 +1,7 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Formularweg;
 
+import de.fernausoft.druckmanager.xml.PrinterWrapper;
 import de.fernausoft.druckmanager.xml.XMLWorker;
-import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 abstract public class Formularweg {
     protected Character FWayChar;
@@ -31,18 +31,16 @@ abstract public class Formularweg {
         return getName();
     }
 
-    public PrinterDef getPrinter1() {
+    public PrinterWrapper getPrinter1() {
         return null;
     }
 
-    public PrinterDef getPrinter2() {
+    public PrinterWrapper getPrinter2() {
         return null;
     }
 
-    public PrinterDef getPrinter3() {
+    public PrinterWrapper getPrinter3() {
         return null;
     }
-
-    abstract public boolean getPrinterXEnabled(int id);
 
 }

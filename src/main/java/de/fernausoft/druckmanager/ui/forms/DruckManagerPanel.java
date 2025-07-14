@@ -7,6 +7,7 @@ import de.fernausoft.druckmanager.ui.panels.PCUserMappingPanel;
 import de.fernausoft.druckmanager.ui.panels.PrinterTablePanel;
 import de.fernausoft.druckmanager.ui.panels.Settings.Settings;
 import de.fernausoft.druckmanager.ui.panels.Settings.Target;
+import de.fernausoft.druckmanager.xml.PrinterWrapper;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 
 		// The 3 Main UI Panels
 		settingsPanel = new Settings(xmlWorker);
-		
+
 		PrinterTablePanel tablePanel = new PrinterTablePanel(printers);
 		pcTaplePanel = new PCUserMappingPanel(myTargets);
 		pcTaplePanel.setPcUserSelectionListener(this);

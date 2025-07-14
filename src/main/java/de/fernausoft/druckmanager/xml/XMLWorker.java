@@ -28,7 +28,6 @@ public class XMLWorker {
 
     private PrinterconfigDef printerConfig;
     private Map<String, PrinterDef> printerLookup = new java.util.HashMap<>();
-    private PrinterDef noPrinter = new PrinterDef();
 
     public XMLWorker(String pathToFile) {
         JAXBContext jaxbContext;
@@ -62,8 +61,6 @@ public class XMLWorker {
             }
             logger.info("Succesfully build PrinterLookup");
 
-            noPrinter.setName("Kein Drucker");
-            printerConfig.getPrinters().getPrinter().add(noPrinter);
         } catch (Exception e) {
             logger.error(e);
         }
@@ -74,13 +71,8 @@ public class XMLWorker {
         List<PrinterDef> printerDefs = new ArrayList<>();
         PrintersDef allPrinters = printerConfig.getPrinters();
         if (allPrinters != null) {
-            List<PrinterDef> printerList = allPrinters.getPrinter();
-            if (printerList != null) {
-                for (PrinterDef printer : printerList) {
-                    if (printer != null && printer.getName() != null) {
-                        printerDefs.add(printer);
-                    }
-                }
+            for (PrinterDef printer : allPrinters.getPrinter()) {
+                printerDefs.add(printer);
             }
         }
         return printerDefs;
@@ -109,10 +101,5 @@ public class XMLWorker {
 
     public TargetDef forTesting() {
         return printerConfig.getTargets().getTarget().get(2);
-    }
-
-    public PrinterDef getNoPrinter() {
-        // The printer object isnt added to the xml file and is only used to select "Kein Drucker" in the UI.
-        return noPrinter;
     }
 }

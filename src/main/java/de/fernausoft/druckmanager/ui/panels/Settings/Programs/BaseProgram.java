@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.xml.XMLWorker;
+import de.fernausoft.druckmanager.xml.schema.KeyvalueDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public abstract class BaseProgram {
@@ -14,7 +15,7 @@ public abstract class BaseProgram {
     protected BaseProgram() {
     }
 
-    public abstract void addPrinter(String env, PrinterDef printer, Boolean enabled);
+    public abstract void addPrinter(KeyvalueDef env, PrinterDef printer);
 
     public abstract List<Formularweg> getFormularwegList();
 

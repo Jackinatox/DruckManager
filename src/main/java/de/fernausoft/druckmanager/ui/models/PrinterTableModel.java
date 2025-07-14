@@ -36,7 +36,7 @@ public class PrinterTableModel extends AbstractTableModel {
             case 0:
                 return printer.getName();
             case 1:
-                return printer.getDescritpion();
+                return printer.getDescription();
             default:
                 return null;
         }
@@ -50,7 +50,7 @@ public class PrinterTableModel extends AbstractTableModel {
                 printer.setName(aValue.toString());
                 break;
             case 1:
-                printer.setDescritpion(aValue.toString());
+                printer.setDescription(aValue.toString());
                 break;
         }
         fireTableCellUpdated(rowIndex, columnIndex);

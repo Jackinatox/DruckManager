@@ -106,7 +106,7 @@ public class PrinterDef {
      *     {@link String }
      *     
      */
-    public String getDescritpion() {
+    public String getDescription() {
         return descritpion;
     }
 
@@ -118,7 +118,7 @@ public class PrinterDef {
      *     {@link String }
      *     
      */
-    public void setDescritpion(String value) {
+    public void setDescription(String value) {
         this.descritpion = value;
     }
 
