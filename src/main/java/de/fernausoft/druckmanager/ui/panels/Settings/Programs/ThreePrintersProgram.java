@@ -1,5 +1,6 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,11 +35,27 @@ public class ThreePrintersProgram extends BaseProgram {
     }
 
     @Override
-    public Map<KeyvalueDef, String> buildEnvs() {
-        return new HashMap<KeyvalueDef, String>();
+    public List<KeyvalueDef> buildEnvs() {
+        List<KeyvalueDef> envs = new ArrayList<>();
+
+        Integer i = 1;
+        for (PrinterWrapper printer : List.of(formularweg.getPrinter1(), formularweg.getPrinter2(),
+                formularweg.getPrinter3())) {
+            if (printer.getPrinterDef() != null) {
+                KeyvalueDef def = new KeyvalueDef();
+                def.setEnabled(printer.getEnabled());
+                def.setPrinterDialog(printer.getAskDialog());
+                def.setEnv(prefix + i);
+                def.setRef(printer.getPrinterDef().getRef());
+                envs.add(def);
+            }
+            i++;
+        }
+
+        return envs;
     }
 
-    // public Map<String, String> buildEnvs() {
+    // public Map<String, String> buildEnvssw() {
     // Map<String, String> envs = new HashMap<>();
 
     // if (formularweg.getPrinter1().getPrinterDef() != null) {

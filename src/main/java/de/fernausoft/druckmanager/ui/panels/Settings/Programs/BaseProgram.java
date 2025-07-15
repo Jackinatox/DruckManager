@@ -25,5 +25,5 @@ public abstract class BaseProgram {
     }
 
 
-    abstract public Map<KeyvalueDef, String> buildEnvs();
+    abstract public List<KeyvalueDef> buildEnvs();
 }

@@ -143,7 +143,7 @@ public class Target {
     private void handleThreePrintersProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         ThreePrintersProgram threePrintersProgram = (ThreePrintersProgram) programMap.get(type);
         if (threePrintersProgram == null) {
-            threePrintersProgram = new ThreePrintersProgram(type.toString(), env.getEnv().substring(0, 8),
+            threePrintersProgram = new ThreePrintersProgram(type.toString(), env.getEnv().substring(0, 10),
                     xmlWorker);
             programMap.put(type, threePrintersProgram);
         }

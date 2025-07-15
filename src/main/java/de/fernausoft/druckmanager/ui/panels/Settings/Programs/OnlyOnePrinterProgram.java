@@ -1,5 +1,6 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,8 @@ public class OnlyOnePrinterProgram extends BaseProgram {
         return List.of(formularweg);
     }
 
-    public Map<KeyvalueDef, String> buildEnvs() {
-        Map<KeyvalueDef, String> envs = new HashMap<>();
+    public List<KeyvalueDef> buildEnvs() {
+        List<KeyvalueDef> envs = new ArrayList<>();
         PrinterWrapper printer1 = formularweg.getPrinter1();
 
         if (printer1.getPrinterDef() != null) {
@@ -41,7 +42,8 @@ public class OnlyOnePrinterProgram extends BaseProgram {
             def.setEnabled(printer1.getEnabled());
             def.setPrinterDialog(printer1.getAskDialog());
             def.setEnv(prefix + formularweg.getFWayChar());
-            envs.put(def, printer1.getPrinterDef().getRef());
+            def.setRef(printer1.getPrinterDef().getRef());
+            envs.add(def);
         }
 
         return envs;

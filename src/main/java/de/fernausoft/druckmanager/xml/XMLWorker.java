@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Target;
-import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.xml.schema.KeyvalueDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
@@ -122,9 +121,9 @@ public class XMLWorker {
             targetDef.setHostname(target.getHostname());
 
             for (BaseProgram program : target.getPrograms()) {
-                for (Map.Entry<KeyvalueDef, String> entry : program.buildEnvs().entrySet()) {
+                for (KeyvalueDef entry : program.buildEnvs()) {
 
-                    targetDef.getEnv().add(entry.getKey());
+                    targetDef.getEnv().add(entry);
                 }
             }
             
