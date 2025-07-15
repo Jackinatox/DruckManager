@@ -8,6 +8,9 @@ public class DruckManager {
 	public static void main(String[] args) {
 		XMLWorker xmlworker = new XMLWorker("clientprinterconfig.xml");
 
+		xmlworker.verifyRegex();
+
+
 		// for (TargetDef target : xmlworker.getAllTargets()) {
 		// 	System.out.println("Target Username: " + target.getUsername());
 		// }

@@ -143,7 +143,7 @@ public class Target {
     private void handleThreePrintersProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         ThreePrintersProgram threePrintersProgram = (ThreePrintersProgram) programMap.get(type);
         if (threePrintersProgram == null) {
-            threePrintersProgram = new ThreePrintersProgram(type.toString(), env.getEnv().substring(0, 10),
+            threePrintersProgram = new ThreePrintersProgram(type.getLabel(), env.getEnv().substring(0, 10),
                     xmlWorker);
             programMap.put(type, threePrintersProgram);
         }
@@ -154,7 +154,7 @@ public class Target {
     private void handleOnlyOnePrinterProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         OnlyOnePrinterProgram onlyOnePrinterProgram = (OnlyOnePrinterProgram) programMap.get(type);
         if (onlyOnePrinterProgram == null) {
-            onlyOnePrinterProgram = new OnlyOnePrinterProgram(type.toString(), env.getEnv().substring(0, 10), xmlWorker);
+            onlyOnePrinterProgram = new OnlyOnePrinterProgram(type.getLabel(), env.getEnv().substring(0, 10), xmlWorker);
             programMap.put(type, onlyOnePrinterProgram);
         } else {
             logger.warn(
@@ -167,7 +167,7 @@ public class Target {
     private void handleDefaultLayoutProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         DefaultLayoutProgram defaultLayoutProgram = (DefaultLayoutProgram) programMap.get(type);
         if (defaultLayoutProgram == null) {
-            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.getEnv().substring(0, 6),
+            defaultLayoutProgram = new DefaultLayoutProgram(type.getLabel(), env.getEnv().substring(0, 6),
                     env.getEnv().substring(7, 10),
                     xmlWorker);
             programMap.put(type, defaultLayoutProgram);

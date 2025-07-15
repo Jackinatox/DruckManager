@@ -1,21 +1,21 @@
 package de.fernausoft.druckmanager.xml;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import de.fernausoft.druckmanager.ui.panels.Settings.ProgramType;
+import de.fernausoft.druckmanager.ui.panels.Settings.ProgramTypeResolver;
 import de.fernausoft.druckmanager.ui.panels.Settings.Target;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.xml.schema.KeyvalueDef;
@@ -26,6 +26,7 @@ import de.fernausoft.druckmanager.xml.schema.TargetDef;
 import de.fernausoft.druckmanager.xml.schema.TargetsDef;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 
 public class XMLWorker {
@@ -53,7 +54,9 @@ public class XMLWorker {
 
             Object unmarshalledObject = unmarshaller.unmarshal(xmlFile);
 
-            JAXBElement<?> jaxbElement = (JAXBElement<?>) unmarshalledObject;
+            JAXBElement<PrinterconfigDef> jaxbElement = (JAXBElement<PrinterconfigDef>) unmarshalledObject;
+            printerConfig = jaxbElement.getValue();
+
             if (jaxbElement.getValue() instanceof PrinterconfigDef) {
                 printerConfig = (PrinterconfigDef) jaxbElement.getValue();
             } else {
@@ -111,14 +114,14 @@ public class XMLWorker {
     }
 
     public void rewriteXML(List<Target> myTargets) {
+        // ObjectMapper mapper = new ObjectMapper();
         TargetsDef targetsDef = new TargetsDef();
 
-        ObjectMapper mapper = new ObjectMapper();
-        TargetDef targetDef = new TargetDef();
-        targetsDef.getTarget().add(targetDef);
-        
         for (Target target : myTargets) {
+            TargetDef targetDef = new TargetDef();
+            targetsDef.getTarget().add(targetDef);
             targetDef.setHostname(target.getHostname());
+            targetDef.setUsername(target.getUsername());
 
             for (BaseProgram program : target.getPrograms()) {
                 for (KeyvalueDef entry : program.buildEnvs()) {
@@ -126,14 +129,53 @@ public class XMLWorker {
                     targetDef.getEnv().add(entry);
                 }
             }
-            
         }
+
+        printerConfig.getTargets().getTarget().clear();
+        printerConfig.getTargets().getTarget().addAll(targetsDef.getTarget());
+
         try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("json.json"), targetsDef);
-            logger.info("Dumped json");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            JAXBContext context = JAXBContext.newInstance("de.fernausoft.druckmanager.xml.schema");
+            File xmlFile = new File("newXML.xml");
+
+            Marshaller marshaller = context.createMarshaller();
+
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            QName qName = new QName("http://www.kfz3000plus.de/client/printerconfig", "printerconfig");
+
+            JAXBElement<PrinterconfigDef> rootElement = new JAXBElement<>(
+                    qName,
+                    PrinterconfigDef.class,
+                    printerConfig);
+            marshaller.marshal(rootElement, xmlFile);
+
+            logger.info("Successfully wrote changes to XML file.");
+        } catch (Exception e) {
+            logger.error("Failed to write XML file", e);
+        }
+
+        // try {
+        // mapper.writerWithDefaultPrettyPrinter().writeValue(new File("json.json"),
+        // targetsDef);
+        // logger.info("Dumped json");
+        // } catch (IOException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
+    }
+
+    public void verifyRegex() {
+        for (TargetDef target : printerConfig.getTargets().getTarget()) {
+            for (KeyvalueDef env : target.getEnv()) {
+                if (ProgramTypeResolver.resolveType(env.getEnv()) == ProgramType.UNBEKANNT) {
+                    javax.swing.SwingUtilities.invokeLater(() -> javax.swing.JOptionPane.showMessageDialog(
+                            null,
+                            "Unbekannter ProgramType für Env: " + env.getEnv(),
+                            "Info",
+                            javax.swing.JOptionPane.INFORMATION_MESSAGE));
+                }
+            }
         }
     }
 }
