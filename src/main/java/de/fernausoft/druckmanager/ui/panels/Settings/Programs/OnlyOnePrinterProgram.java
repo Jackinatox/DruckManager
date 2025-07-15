@@ -1,6 +1,8 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg1;
@@ -13,7 +15,7 @@ public class OnlyOnePrinterProgram extends BaseProgram {
     private Formularweg1 formularweg;
 
     public OnlyOnePrinterProgram(String name, String prefix, XMLWorker xmlWorker) {
-        this.formularweg = new Formularweg1("Formularweg", '0', xmlWorker);
+        this.formularweg = new Formularweg1("Formularweg", '1', xmlWorker);
         this.name = name;
         this.prefix = prefix;
     }
@@ -26,14 +28,23 @@ public class OnlyOnePrinterProgram extends BaseProgram {
     }
 
     @Override
-    public String buildEnv() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buildEnv'");
-    }
-
-    @Override
     public List<Formularweg> getFormularwegList() {
         return List.of(formularweg);
+    }
+
+    public Map<KeyvalueDef, String> buildEnvs() {
+        Map<KeyvalueDef, String> envs = new HashMap<>();
+        PrinterWrapper printer1 = formularweg.getPrinter1();
+
+        if (printer1.getPrinterDef() != null) {
+            KeyvalueDef def = new KeyvalueDef();
+            def.setEnabled(printer1.getEnabled());
+            def.setPrinterDialog(printer1.getAskDialog());
+            def.setEnv(prefix + formularweg.getFWayChar());
+            envs.put(def, printer1.getPrinterDef().getRef());
+        }
+
+        return envs;
     }
 
 }

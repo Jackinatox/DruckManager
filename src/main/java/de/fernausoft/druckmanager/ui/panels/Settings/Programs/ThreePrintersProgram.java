@@ -1,6 +1,8 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg3;
@@ -32,9 +34,27 @@ public class ThreePrintersProgram extends BaseProgram {
     }
 
     @Override
-    public String buildEnv() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buildEnv'");
+    public Map<KeyvalueDef, String> buildEnvs() {
+        return new HashMap<KeyvalueDef, String>();
     }
+
+    // public Map<String, String> buildEnvs() {
+    // Map<String, String> envs = new HashMap<>();
+
+    // if (formularweg.getPrinter1().getPrinterDef() != null) {
+    // envs.put(prefix + formularweg.getFWayChar() + "1",
+    // formularweg.getPrinter1().getPrinterDef().getRef());
+    // }
+    // if (formularweg.getPrinter2().getPrinterDef() != null) {
+    // envs.put(prefix + formularweg.getFWayChar() + "2",
+    // formularweg.getPrinter2().getPrinterDef().getRef());
+    // }
+    // if (formularweg.getPrinter3().getPrinterDef() != null) {
+    // envs.put(prefix + formularweg.getFWayChar() + "3",
+    // formularweg.getPrinter3().getPrinterDef().getRef());
+    // }
+
+    // return envs;
+    // }
 
 }

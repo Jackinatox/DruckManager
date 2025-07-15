@@ -395,26 +395,29 @@
         <target hostname="WORK12-17">
             <!-- Auftrag -->
             <!-- Formularweg1 -->
-            <env env="DR_301UEB_1" ref="ref5"/>
+
+            <!-- Überwesiungsträger -->
+            <env env="DR_301UEB_1" ref="ref5" />
 
             <!-- Hier mehrere formuarwege für mein testen-->
             <env env="DR_3035AU_1" ref="ref2" />
             <env env="DR_3032AU_1" ref="ref3" />
             <env env="DR_3033AU_1" ref="ref4" />
             <env env="DR_3034AU_1" ref="ref5" />
-            <env env="DR_3030LI_1" ref="ref44" />
             <env env="DR_3030LI_2" ref="ref43" />
             <env env="DR_3030RE_1" ref="ref44" />
 
             <!-- Test for ThreeePrinterProgram -->
-            <env env="DR_251KFZ_1" ref="ref44" />
 
-            
-            
+
         </target>
 
         <target hostname="elux-Goetz">
             <!-- Auftrag -->
+
+            <!-- Überwesiungsträger -->
+            <env env="DR_301UEB_1" ref="ref5" />
+
             <!-- Formularweg1 -->
             <env env="DR_3030AU_1" ref="ref42" />
             <env env="DR_3030AU_2" ref="ref43" />

@@ -126,7 +126,7 @@ public class Target {
                         handleOnlyOnePrinterCreation(type);
                         break;
                     case UNBEKANNT:
-                    break;
+                        break;
                     default:
                         logger.error("Unknown program type for created Program: " + type.getLabel());
                         break;
@@ -154,7 +154,7 @@ public class Target {
     private void handleOnlyOnePrinterProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         OnlyOnePrinterProgram onlyOnePrinterProgram = (OnlyOnePrinterProgram) programMap.get(type);
         if (onlyOnePrinterProgram == null) {
-            onlyOnePrinterProgram = new OnlyOnePrinterProgram(type.toString(), env.getEnv().substring(0, 9), xmlWorker);
+            onlyOnePrinterProgram = new OnlyOnePrinterProgram(type.toString(), env.getEnv().substring(0, 10), xmlWorker);
             programMap.put(type, onlyOnePrinterProgram);
         } else {
             logger.warn(
@@ -203,4 +203,7 @@ public class Target {
         return new ArrayList<>(programMap.values());
     }
 
+    public TargetDef getTargetDef() {
+        return target;
+    }
 }

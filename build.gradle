@@ -28,8 +28,11 @@ dependencies {
     implementation group: 'jakarta.persistence', name: 'jakarta.persistence-api', version: '3.2.0'
        // https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api
     implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.2'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.19.1'
     // JAXB Runtime Implementation (Add this one!)
     runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:4.0.5' // Or 3.0.2 etc.
+
 }
 
 

@@ -1,6 +1,7 @@
 package de.fernausoft.druckmanager.xml;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,17 @@ import javax.xml.validation.SchemaFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import de.fernausoft.druckmanager.ui.panels.Settings.Target;
+import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
+import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
+import de.fernausoft.druckmanager.xml.schema.KeyvalueDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 import de.fernausoft.druckmanager.xml.schema.PrinterconfigDef;
 import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 import de.fernausoft.druckmanager.xml.schema.TargetDef;
+import de.fernausoft.druckmanager.xml.schema.TargetsDef;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.Unmarshaller;
@@ -101,5 +109,32 @@ public class XMLWorker {
 
     public TargetDef forTesting() {
         return printerConfig.getTargets().getTarget().get(2);
+    }
+
+    public void rewriteXML(List<Target> myTargets) {
+        TargetsDef targetsDef = new TargetsDef();
+
+        ObjectMapper mapper = new ObjectMapper();
+        TargetDef targetDef = new TargetDef();
+        targetsDef.getTarget().add(targetDef);
+        
+        for (Target target : myTargets) {
+            targetDef.setHostname(target.getHostname());
+
+            for (BaseProgram program : target.getPrograms()) {
+                for (Map.Entry<KeyvalueDef, String> entry : program.buildEnvs().entrySet()) {
+
+                    targetDef.getEnv().add(entry.getKey());
+                }
+            }
+            
+        }
+        try {
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("json.json"), targetsDef);
+            logger.info("Dumped json");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

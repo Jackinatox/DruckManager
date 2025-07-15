@@ -36,6 +36,7 @@ public class Settings extends JPanel {
     private JCheckBox drucker1CheckBox;
     private JCheckBox drucker2CheckBox;
     private JCheckBox drucker3CheckBox;
+    private JButton okButton;
 
     public Settings(XMLWorker xmlWorker) {
         this.xmlWorker = xmlWorker;
@@ -174,7 +175,7 @@ public class Settings extends JPanel {
 
         // Row for Ok and Abbrechen buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0)); // Align buttons to the right
-        JButton okButton = new JButton("Ok");
+        okButton = new JButton("Ok");
         JButton cancelButton = new JButton("Abbrechen");
 
         buttonPanel.add(okButton);
@@ -408,6 +409,10 @@ public class Settings extends JPanel {
                 }
             }
         }
+    }
+
+    public JButton getOkButton() {
+        return okButton;
     }
 
     private class NavPanel extends JPanel implements Scrollable {

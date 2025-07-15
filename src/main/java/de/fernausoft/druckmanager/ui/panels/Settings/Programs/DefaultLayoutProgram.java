@@ -1,5 +1,6 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,14 +13,14 @@ import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class DefaultLayoutProgram extends BaseProgram {
     private Map<Character, Formularweg3> formularwegMap;
-    // private String sufix;
+    private String sufix;
 
     // This is only for teh ones with multiple FormularWege and multiple printer
     public DefaultLayoutProgram(String name, String prefix, String sufix, XMLWorker xmlWorker) {
         formularwegMap = new java.util.HashMap<>();
         this.name = name;
         this.prefix = prefix;
-        // this.sufix = sufix;
+        this.sufix = sufix;
         this.xmlWorker = xmlWorker;
 
         Formularweg3 weg;
@@ -27,11 +28,6 @@ public class DefaultLayoutProgram extends BaseProgram {
             weg = new Formularweg3("Formularweg", c, xmlWorker);
             formularwegMap.put(c, weg);
         }
-    }
-
-    @Override
-    public String buildEnv() {
-        throw new UnsupportedOperationException("Unimplemented method 'buildEnv'");
     }
 
     @Override
@@ -48,5 +44,30 @@ public class DefaultLayoutProgram extends BaseProgram {
     public List<Formularweg> getFormularwegList() {
         return List.copyOf(formularwegMap.values());
     }
+
+    @Override
+    public Map<KeyvalueDef, String> buildEnvs() {
+        return new HashMap<KeyvalueDef,String>();
+    }
+
+    // public Map<String, String> buildEnvs() {
+    //     Map<String, String> envs = new HashMap<>();
+
+    //     for (Map.Entry<Character, Formularweg3> entry : formularwegMap.entrySet()) {
+    //         Formularweg3 way = entry.getValue();
+    //         if (way.getPrinter1().getPrinterDef() != null) {
+    //             envs.put(prefix + way.getFWayChar() + sufix + "1", way.getPrinter1().getPrinterDef().getRef());
+    //         }
+    //         if (way.getPrinter2().getPrinterDef() != null) {
+    //             envs.put(prefix + way.getFWayChar() + sufix + "2", way.getPrinter2().getPrinterDef().getRef());
+    //         }
+    //         if (way.getPrinter3().getPrinterDef() != null) {
+    //             envs.put(prefix + way.getFWayChar() + sufix + "3", way.getPrinter3().getPrinterDef().getRef());
+    //         }
+
+    //     }
+
+    //     return envs;
+    // }
 
 }

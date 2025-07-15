@@ -1,13 +1,16 @@
 package de.fernausoft.druckmanager.ui.forms;
 
 import javax.swing.*;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.GridLayout;
 
 import de.fernausoft.druckmanager.ui.panels.PCUserMappingPanel;
 import de.fernausoft.druckmanager.ui.panels.PrinterTablePanel;
 import de.fernausoft.druckmanager.ui.panels.Settings.Settings;
 import de.fernausoft.druckmanager.ui.panels.Settings.Target;
-import de.fernausoft.druckmanager.xml.PrinterWrapper;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 
 import java.util.ArrayList;
@@ -18,11 +21,15 @@ import de.fernausoft.druckmanager.ui.listeners.PCUserSelectionListener;
 
 public class DruckManagerPanel implements PCUserSelectionListener{
 
+	    private static final Logger logger = LogManager.getLogger(DruckManagerPanel.class);
+
+
 	private JFrame mainWindow;
 	// private XMLWorker xmlWorker;
 	private Settings settingsPanel;
 
 	private PCUserMappingPanel pcTaplePanel;
+	private List<Target> myTargets;
 
 	private DruckManagerPanel(XMLWorker xmlWorker) {
 		// this.xmlWorker = xmlWorker;
@@ -30,7 +37,7 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 
 		mainWindow.getContentPane().setLayout(new GridLayout(3, 1));
 
-		List<Target> myTargets = new ArrayList<>();
+		myTargets = new ArrayList<>();
 		for (TargetDef target : xmlWorker.getAllTargets()) {
 			// Create a Target object for each XML target
 			Target newTarget = new Target(target, xmlWorker);
@@ -51,6 +58,10 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 		mainWindow.getContentPane().add(tablePanel);
 		mainWindow.getContentPane().add(pcTaplePanel);
 		mainWindow.getContentPane().add(settingsPanel);
+		settingsPanel.getOkButton().addActionListener(e -> {
+			logger.info("Starting rewrite of XML");
+			xmlWorker.rewriteXML(myTargets);
+		});
 	}
 
 	@Override
