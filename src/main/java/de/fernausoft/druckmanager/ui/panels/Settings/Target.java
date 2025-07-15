@@ -167,8 +167,8 @@ public class Target {
     private void handleDefaultLayoutProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         DefaultLayoutProgram defaultLayoutProgram = (DefaultLayoutProgram) programMap.get(type);
         if (defaultLayoutProgram == null) {
-            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.getEnv().substring(0, 5),
-                    env.getEnv().substring(7, 8),
+            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.getEnv().substring(0, 6),
+                    env.getEnv().substring(7, 10),
                     xmlWorker);
             programMap.put(type, defaultLayoutProgram);
         }

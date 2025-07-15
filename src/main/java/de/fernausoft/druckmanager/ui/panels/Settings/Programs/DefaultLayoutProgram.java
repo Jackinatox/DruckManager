@@ -1,5 +1,6 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,28 +47,52 @@ public class DefaultLayoutProgram extends BaseProgram {
     }
 
     @Override
-    public Map<KeyvalueDef, String> buildEnvs() {
-        return new HashMap<KeyvalueDef,String>();
+    public List<KeyvalueDef> buildEnvs() {
+        List<KeyvalueDef> envs = new ArrayList<>();
+
+        for (Map.Entry<Character, Formularweg3> entry : formularwegMap.entrySet()) {
+            Integer i = 1;
+            Formularweg3 formularweg = entry.getValue();
+
+            for (PrinterWrapper printer : List.of(formularweg.getPrinter1(), formularweg.getPrinter2(),
+                    formularweg.getPrinter3())) {
+                if (printer.getPrinterDef() != null) {
+                    KeyvalueDef def = new KeyvalueDef();
+                    def.setEnabled(printer.getEnabled());
+                    def.setPrinterDialog(printer.getAskDialog());
+                    def.setEnv(prefix + formularweg.getFWayChar() + sufix + i);
+                    def.setRef(printer.getPrinterDef().getRef());
+                    envs.add(def);
+                }
+                i++;
+            }
+        }
+
+        return envs;
+
     }
 
     // public Map<String, String> buildEnvs() {
-    //     Map<String, String> envs = new HashMap<>();
+    // Map<String, String> envs = new HashMap<>();
 
-    //     for (Map.Entry<Character, Formularweg3> entry : formularwegMap.entrySet()) {
-    //         Formularweg3 way = entry.getValue();
-    //         if (way.getPrinter1().getPrinterDef() != null) {
-    //             envs.put(prefix + way.getFWayChar() + sufix + "1", way.getPrinter1().getPrinterDef().getRef());
-    //         }
-    //         if (way.getPrinter2().getPrinterDef() != null) {
-    //             envs.put(prefix + way.getFWayChar() + sufix + "2", way.getPrinter2().getPrinterDef().getRef());
-    //         }
-    //         if (way.getPrinter3().getPrinterDef() != null) {
-    //             envs.put(prefix + way.getFWayChar() + sufix + "3", way.getPrinter3().getPrinterDef().getRef());
-    //         }
+    // for (Map.Entry<Character, Formularweg3> entry : formularwegMap.entrySet()) {
+    // Formularweg3 way = entry.getValue();
+    // if (way.getPrinter1().getPrinterDef() != null) {
+    // envs.put(prefix + way.getFWayChar() + sufix + "1",
+    // way.getPrinter1().getPrinterDef().getRef());
+    // }
+    // if (way.getPrinter2().getPrinterDef() != null) {
+    // envs.put(prefix + way.getFWayChar() + sufix + "2",
+    // way.getPrinter2().getPrinterDef().getRef());
+    // }
+    // if (way.getPrinter3().getPrinterDef() != null) {
+    // envs.put(prefix + way.getFWayChar() + sufix + "3",
+    // way.getPrinter3().getPrinterDef().getRef());
+    // }
 
-    //     }
+    // }
 
-    //     return envs;
+    // return envs;
     // }
 
 }
