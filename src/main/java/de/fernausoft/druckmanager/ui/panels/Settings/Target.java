@@ -85,8 +85,54 @@ public class Target {
                         break;
 
                 }
-
             }
+
+            for (ProgramType type : ProgramType.values()) {
+                if (programMap.containsKey(type)) {
+                    continue;
+                }
+                switch (type) {
+                    case WERKSTATT_AUFTRAG:
+                    case WERKSTATT_LIEFERSCHEIN:
+                    case WERKSTATT_RECHNUNG:
+                    case NEU_GEBRAUCHT_WAGEN_AUFTRAG:
+                    case NEU_GEBRAUCHT_WAGEN_LIEFERSCHEIN:
+                    case NEU_GEBRAUCHT_WAGEN_RECHNUNG:
+                        handleDefaultLayoutCreation(type);
+                        break;
+                    case LAGER_ZU_ABGANGS_BUCHUNG:
+                    case BESTELLUNGEN_PER_FAX:
+                    case LAGERZUGANG_AUS_BESTELLUNG:
+                    case ETIKETTENDRUCK_TEILE:
+                    case BONDRUCK_TEILERECHNUNGEN:
+                    case SAMMELRECHNUNGEN:
+                    case GARANTIERUECKNAHME_GWE:
+                    case NEUGEBRAUCHTWAGEN_ANGEBOTE_F0:
+                    case NEUGEBRAUCHTWAGEN_ANGEBOTE_F1:
+                    case FAHRZEUG_ANKAUF:
+                    case SHOP_BARVERKAUF:
+                    case BON_BOXENSTOP:
+                    case LEIH_WAGEN_VERTRÄGE:
+                    case LEIH_WAGEN_RECHNUNG:
+                    case ETIKETTEN_REIFEN_EINLAGEERUNG:
+                    case REIFEN_EINLAGERUNG:
+                    case KUNDENKARTEN:
+                    case LAGERENTNAHME_SCHEIN:
+                        handleThreePrinterCreation(type);
+                        break;
+                    case DRUCK_AUS_KASSENABWICKLUNG:
+                    case UEBERWEISUNGSTRAEGER:
+                    case PICKERZETTEL_WERKSTATT:
+                        handleOnlyOnePrinterCreation(type);
+                        break;
+                    case UNBEKANNT:
+                    break;
+                    default:
+                        logger.error("Unknown program type for created Program: " + type.getLabel());
+                        break;
+                }
+            }
+
             long endTime = System.currentTimeMillis();
             logger.info("Target replica created successfully, Time: " + (endTime - startTime) + " ms");
         } catch (Exception e) {
@@ -121,11 +167,28 @@ public class Target {
     private void handleDefaultLayoutProgram(ProgramType type, KeyvalueDef env, PrinterDef printer) {
         DefaultLayoutProgram defaultLayoutProgram = (DefaultLayoutProgram) programMap.get(type);
         if (defaultLayoutProgram == null) {
-            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.getEnv().substring(0, 5), env.getEnv().substring(7, 8),
+            defaultLayoutProgram = new DefaultLayoutProgram(type.toString(), env.getEnv().substring(0, 5),
+                    env.getEnv().substring(7, 8),
                     xmlWorker);
             programMap.put(type, defaultLayoutProgram);
         }
         defaultLayoutProgram.addPrinter(env, printer);
+    }
+
+    private void handleThreePrinterCreation(ProgramType type) {
+        ThreePrintersProgram program = new ThreePrintersProgram(type.getLabel(), type.getPrefix(), xmlWorker);
+        programMap.put(type, program);
+    }
+
+    private void handleOnlyOnePrinterCreation(ProgramType type) {
+        OnlyOnePrinterProgram program = new OnlyOnePrinterProgram(type.getLabel(), type.getPrefix(), xmlWorker);
+        programMap.put(type, program);
+    }
+
+    private void handleDefaultLayoutCreation(ProgramType type) {
+        DefaultLayoutProgram program = new DefaultLayoutProgram(type.getLabel(), type.getPrefix(),
+                type.getSufix(), xmlWorker);
+        programMap.put(type, program);
     }
 
     public String getHostname() {

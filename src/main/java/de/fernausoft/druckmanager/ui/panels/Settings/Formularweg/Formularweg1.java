@@ -4,7 +4,7 @@ import de.fernausoft.druckmanager.xml.PrinterWrapper;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 
 public class Formularweg1 extends Formularweg {
-    private PrinterWrapper printer1;
+    private PrinterWrapper printer1 = new PrinterWrapper();
 
     /**
      * Formularweg1 is a representation of 1 Printer and a Formularweg

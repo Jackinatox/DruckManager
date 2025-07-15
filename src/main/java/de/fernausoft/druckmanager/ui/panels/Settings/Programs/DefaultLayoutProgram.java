@@ -23,7 +23,7 @@ public class DefaultLayoutProgram extends BaseProgram {
         this.xmlWorker = xmlWorker;
 
         Formularweg3 weg;
-        for (char c = '0'; c <= '8'; c++){
+        for (char c = '0'; c <= '8'; c++) {
             weg = new Formularweg3("Formularweg", c, xmlWorker);
             formularwegMap.put(c, weg);
         }
@@ -37,7 +37,8 @@ public class DefaultLayoutProgram extends BaseProgram {
     @Override
     public void addPrinter(KeyvalueDef env, PrinterDef printer) {
         Formularweg3 weg = formularwegMap.get(env.getEnv().charAt(6));
-        PrinterWrapper printerWrapper = new PrinterWrapper(printer, env.isEnabled(), env.isPrinterDialog());
+        PrinterWrapper printerWrapper = new PrinterWrapper(printer, env.isEnabled(),
+                env.isPrinterDialog() || printer == null);
 
         char printerIndex = env.getEnv().charAt(10);
         weg.setPrinter(printerIndex, printerWrapper);
