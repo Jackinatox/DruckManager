@@ -39,7 +39,6 @@ public class Formularweg3 extends Formularweg {
 
     @Override
     public boolean getEdited() {
-        // TODO: Neq Printer wrapper logic
         return printer1.getPrinterDef() != null ||
                 printer2.getPrinterDef() != null ||
                 printer3.getPrinterDef() != null;

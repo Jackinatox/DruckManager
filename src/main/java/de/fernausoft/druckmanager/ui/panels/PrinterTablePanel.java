@@ -1,18 +1,23 @@
 package de.fernausoft.druckmanager.ui.panels;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import de.fernausoft.druckmanager.ui.models.PrinterTableModel;
+import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class PrinterTablePanel extends JPanel {
     private JTable table;
     private PrinterTableModel tableModel;
+    private List<PrinterDef> printers;
+    private XMLWorker xmlWorker;
 
-    public PrinterTablePanel(List<PrinterDef> printers) {
-        // TODO: Maybe add some validation so the name only contains valaid chars
+    public PrinterTablePanel(List<PrinterDef> printers, XMLWorker xmlWorker) {
+        this.printers = printers;
+        this.xmlWorker = xmlWorker;
         setLayout(new java.awt.BorderLayout());
         tableModel = new PrinterTableModel(printers);
         table = new JTable(tableModel);
@@ -81,5 +86,45 @@ public class PrinterTablePanel extends JPanel {
             }
         });
         add(new JScrollPane(table), java.awt.BorderLayout.CENTER);
+
+        // Create a panel for the buttons
+        JPanel buttonPanel = new JPanel();
+        JButton createButton = new JButton("Create");
+        JButton deleteButton = new JButton("Delete");
+        buttonPanel.add(createButton);
+        buttonPanel.add(deleteButton);
+
+        // Add the button panel to the south of the main panel
+        add(buttonPanel, java.awt.BorderLayout.SOUTH);
+
+        // Add action listeners for the buttons
+        createButton.addActionListener(this::createPrinter);
+        deleteButton.addActionListener(this::deletePrinter);
+    }
+
+    private void createPrinter(ActionEvent e) {
+        String printerName = JOptionPane.showInputDialog(this, "Enter new printer name:");
+        if (printerName != null && !printerName.trim().isEmpty()) {
+            PrinterDef newPrinter = xmlWorker.newPrinter(printerName.trim());
+
+            if (newPrinter == null) {
+                JOptionPane.showMessageDialog(this, "Drucker mit diesem Namen existiert bereits.", "Fehler",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            printers.add(newPrinter);
+            tableModel.fireTableDataChanged();
+            // TODO: Add to comboBoxes
+        }
+    }
+
+    private void deletePrinter(ActionEvent e) {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            printers.remove(selectedRow);
+            tableModel.fireTableDataChanged();
+        } else {
+            // JOptionPane.showMessageDialog(this, "Bitte wählen Sie einen Drucker zum Löschen aus.", "Kein Drucker ausgewählt", JOptionPane.WARNING_MESSAGE);
+        }
     }
 }

@@ -154,15 +154,6 @@ public class XMLWorker {
         } catch (Exception e) {
             logger.error("Failed to write XML file", e);
         }
-
-        // try {
-        // mapper.writerWithDefaultPrettyPrinter().writeValue(new File("json.json"),
-        // targetsDef);
-        // logger.info("Dumped json");
-        // } catch (IOException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
     }
 
     public void verifyRegex() {
@@ -177,5 +168,18 @@ public class XMLWorker {
                 }
             }
         }
+    }
+
+    public PrinterDef newPrinter(String name) {
+        boolean exists = printerConfig.getPrinters().getPrinter().stream().anyMatch(p -> p.getName().equals(name.trim()));
+        if (exists) {
+            return null;
+        }
+
+        PrinterDef newPrinter = new PrinterDef();
+        newPrinter.setName(name);
+
+        printerConfig.getPrinters().getPrinter().add(newPrinter);
+        return newPrinter;
     }
 }

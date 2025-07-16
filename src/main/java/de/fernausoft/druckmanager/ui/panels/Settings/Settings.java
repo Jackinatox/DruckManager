@@ -28,7 +28,7 @@ public class Settings extends JPanel {
 
     // JComboBoxes for printers and formular, made accessible for external methods
     private NavPanel navPanel = new NavPanel();
-    private XMLWorker xmlWorker;
+    // private XMLWorker xmlWorker;
     private JComboBox<PrinterDef> drucker1ComboBox;
     private JComboBox<PrinterDef> drucker2ComboBox;
     private JComboBox<PrinterDef> drucker3ComboBox;
@@ -39,10 +39,7 @@ public class Settings extends JPanel {
     private JButton okButton;
 
     public Settings(XMLWorker xmlWorker) {
-        this.xmlWorker = xmlWorker;
-        // Set the overall layout for the Settings panel
-        // Using GridBagLayout to divide the panel into two main sections:
-        // a left navigation/list area and a right content/form area.
+        // this.xmlWorker = xmlWorker;
         setLayout(new GridBagLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10)); // Add some padding around the panel
 
@@ -61,22 +58,22 @@ public class Settings extends JPanel {
 
         // --- Right Content Panel (Form) ---
         JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new GridBagLayout()); // Use GridBagLayout for the form elements
-        contentPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Border for visual separation
+        contentPanel.setLayout(new GridBagLayout());
+        contentPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); 
 
         GridBagConstraints gbcContent = new GridBagConstraints();
-        gbcContent.insets = new Insets(5, 5, 5, 5); // Padding for components within the form
+        gbcContent.insets = new Insets(5, 5, 5, 5);
 
-        // Row 1: Formular Label and ComboBox (Text field removed)
+     
         gbcContent.gridx = 0;
         gbcContent.gridy = 0;
-        gbcContent.anchor = GridBagConstraints.WEST; // Align to the left
+        gbcContent.anchor = GridBagConstraints.WEST; 
         contentPanel.add(new JLabel("Formular"), gbcContent);
 
-        // Initialize formularComboBox
-        formularComboBox = new JComboBox<>(); // Empty initially, will be set by external method
-        formularComboBox.setEnabled(false); // Enable the combo box
-        formularComboBox.setPreferredSize(new Dimension(160, 25)); // Set preferred size
+       
+        formularComboBox = new JComboBox<>(); 
+        formularComboBox.setEnabled(false); 
+        formularComboBox.setPreferredSize(new Dimension(160, 25)); 
         formularComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,7 +104,6 @@ public class Settings extends JPanel {
                         drucker3CheckBox.setSelected(printer3.getEnabled());
                     }
 
-                    // Dickes TODO: Glaube ist fixed
                     drucker1ComboBox.setEnabled(isPrinter1Enabled && drucker1CheckBox.isSelected());
                     drucker2ComboBox.setEnabled(isPrinter2Enabled && drucker2CheckBox.isSelected());
                     drucker3ComboBox.setEnabled(isPrinter3Enabled && drucker3CheckBox.isSelected());
@@ -140,17 +136,17 @@ public class Settings extends JPanel {
 
         gbcContent.gridx = 1;
         gbcContent.gridy = 0;
-        gbcContent.gridwidth = 2; // Span across remaining columns
-        gbcContent.weightx = 1.0; // Allow it to stretch
+        gbcContent.gridwidth = 2; 
+        gbcContent.weightx = 1.0;
         gbcContent.fill = GridBagConstraints.HORIZONTAL;
         contentPanel.add(formularComboBox, gbcContent);
 
         // Row 2: Separator Line
         gbcContent.gridx = 0;
         gbcContent.gridy = 1;
-        gbcContent.gridwidth = 3; // Span across all columns
+        gbcContent.gridwidth = 3; 
         gbcContent.fill = GridBagConstraints.HORIZONTAL;
-        gbcContent.insets = new Insets(10, 5, 10, 5); // More padding for separator
+        gbcContent.insets = new Insets(10, 5, 10, 5); 
         contentPanel.add(new JSeparator(), gbcContent);
 
         // Create printer rows
@@ -169,12 +165,12 @@ public class Settings extends JPanel {
         // Add a vertical strut to push content to the top
         gbcContent.gridx = 0;
         gbcContent.gridy = 5;
-        gbcContent.weighty = 1.0; // This makes the last component take up all remaining vertical space
+        gbcContent.weighty = 1.0; 
         gbcContent.gridwidth = 3;
         contentPanel.add(Box.createVerticalGlue(), gbcContent);
 
         // Row for Ok and Abbrechen buttons
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0)); // Align buttons to the right
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0)); 
         okButton = new JButton("Ok");
         JButton cancelButton = new JButton("Abbrechen");
 
@@ -182,12 +178,12 @@ public class Settings extends JPanel {
         buttonPanel.add(cancelButton);
 
         gbcContent.gridx = 0;
-        gbcContent.gridy = 6; // Place below the last Drucker ComboBox
-        gbcContent.gridwidth = 3; // Span all columns
-        gbcContent.fill = GridBagConstraints.NONE; // Do not fill
-        gbcContent.anchor = GridBagConstraints.SOUTHEAST; // Align to bottom right
-        gbcContent.weighty = 0.0; // Don't take up extra vertical space
-        gbcContent.insets = new Insets(10, 5, 5, 5); // Padding above buttons
+        gbcContent.gridy = 6; 
+        gbcContent.gridwidth = 3;
+        gbcContent.fill = GridBagConstraints.NONE; 
+        gbcContent.anchor = GridBagConstraints.SOUTHEAST; 
+        gbcContent.weighty = 0.0;
+        gbcContent.insets = new Insets(10, 5, 5, 5); 
         contentPanel.add(buttonPanel, gbcContent);
 
         GridBagConstraints gbcContentPanel = new GridBagConstraints();

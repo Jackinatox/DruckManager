@@ -1,7 +1,6 @@
 package de.fernausoft.druckmanager.ui.panels.Settings.Programs;
 
 import java.util.List;
-import java.util.Map;
 
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.xml.XMLWorker;
