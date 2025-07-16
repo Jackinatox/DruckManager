@@ -17,6 +17,8 @@ import javax.xml.validation.SchemaFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.fernausoft.druckmanager.ui.dialogs.DeletePrinterDialog;
+import de.fernausoft.druckmanager.ui.dialogs.DeletePrinterDialog.DeletePrinterOption;
 import de.fernausoft.druckmanager.ui.panels.Settings.ProgramType;
 import de.fernausoft.druckmanager.ui.panels.Settings.ProgramTypeResolver;
 import de.fernausoft.druckmanager.ui.panels.Settings.Target;
@@ -193,5 +195,62 @@ public class XMLWorker {
         Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(PrinterDef::getName));
 
         return newPrinter;
+    }
+
+    public void tryDeletePrinter(List<Target> myTargets, PrinterDef printerToDelete) {
+        // ObjectMapper mapper = new ObjectMapper();
+        List<PrinterWrapper> printers = new ArrayList<>();
+
+        // Collections.sort(printerConfig.getPrinters().getPrinter(),
+        // Comparator.comparing(PrinterDef::getName));
+
+        for (Target target : myTargets) {
+
+            for (BaseProgram program : target.getPrograms()) {
+                for (var formularweg : program.getFormularwegList()) {
+                    if (formularweg.getPrinter1() != null && formularweg.getPrinter1().getPrinterDef() != null
+                            && formularweg.getPrinter1().getPrinterDef().getRef().equals(printerToDelete.getRef())) {
+
+                        printers.add(formularweg.getPrinter1());
+                    }
+                    if (formularweg.getPrinter2() != null && formularweg.getPrinter2().getPrinterDef() != null
+                            && formularweg.getPrinter2().getPrinterDef().getRef().equals(printerToDelete.getRef())) {
+
+                        printers.add(formularweg.getPrinter2());
+                    }
+                    if (formularweg.getPrinter3() != null && formularweg.getPrinter3().getPrinterDef() != null
+                            && formularweg.getPrinter3().getPrinterDef().getRef().equals(printerToDelete.getRef())) {
+
+                        printers.add(formularweg.getPrinter3());
+                    }
+                }
+            }
+        }
+
+        if (!printers.isEmpty()) {
+            DeletePrinterOption selection = DeletePrinterDialog.showDialog();
+
+            switch (selection) {
+                case SET_TO_ASK:
+                    printers.forEach(printer -> {
+                        printerConfig.getPrinters().getPrinter().remove(printer.getPrinterDef());
+                        printer.setAskDialog(true);
+                        printer.setPrinter(null);
+                    });
+                    break;
+                case DELETE_MAPPINGS:
+                    printers.forEach(printer -> {
+                        printerConfig.getPrinters().getPrinter().remove(printer.getPrinterDef());
+                        printer.setPrinter(null);
+
+                        // printer.setAskDialog(false);
+                    });
+                    break;
+                case CANCEL:
+                    // User canceled the operation
+                    return;
+            }
+
+        }
     }
 }

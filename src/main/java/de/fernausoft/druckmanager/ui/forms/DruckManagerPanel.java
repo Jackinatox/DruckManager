@@ -51,7 +51,7 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 		// The 3 Main UI Panels
 		settingsPanel = new Settings(xmlWorker);
 
-		PrinterTablePanel tablePanel = new PrinterTablePanel(printers, xmlWorker);
+		PrinterTablePanel tablePanel = new PrinterTablePanel(printers, xmlWorker, myTargets);
 		pcTaplePanel = new PCUserMappingPanel(myTargets, xmlWorker);
 		pcTaplePanel.setPcUserSelectionListener(this);
 		

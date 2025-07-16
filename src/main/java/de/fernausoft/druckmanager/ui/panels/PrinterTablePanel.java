@@ -3,6 +3,7 @@ package de.fernausoft.druckmanager.ui.panels;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -11,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import de.fernausoft.druckmanager.ui.models.PrinterTableModel;
+import de.fernausoft.druckmanager.ui.panels.Settings.Target;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 import de.fernausoft.druckmanager.xml.schema.PrintersDef;
@@ -20,10 +22,12 @@ public class PrinterTablePanel extends JPanel {
     private PrinterTableModel tableModel;
     private PrintersDef printers;
     private XMLWorker xmlWorker;
+    private List<Target> myTargets;
 
-    public PrinterTablePanel(PrintersDef printers, XMLWorker xmlWorker) {
+    public PrinterTablePanel(PrintersDef printers, XMLWorker xmlWorker, List<Target> myTargets) {
         this.printers = printers;
         this.xmlWorker = xmlWorker;
+        this.myTargets = myTargets;
         setLayout(new java.awt.BorderLayout());
         tableModel = new PrinterTableModel(printers);
         table = new JTable(tableModel);
@@ -127,10 +131,11 @@ public class PrinterTablePanel extends JPanel {
     private void deletePrinter(ActionEvent e) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
-            printers.getPrinter().remove(selectedRow);
+            PrinterDef selectedPrinter = tableModel.getPrinterAt(selectedRow);
+            xmlWorker.tryDeletePrinter(myTargets, selectedPrinter);
             tableModel.fireTableDataChanged();
         } else {
-            // JOptionPane.showMessageDialog(this, "Bitte wählen Sie einen Drucker zum Löschen aus.", "Kein Drucker ausgewählt", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Bitte wählen Sie einen Drucker zum Löschen aus.", "Kein Drucker ausgewählt", JOptionPane.WARNING_MESSAGE);
         }
     }
 }
