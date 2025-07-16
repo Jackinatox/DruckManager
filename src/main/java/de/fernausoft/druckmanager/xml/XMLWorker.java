@@ -3,6 +3,9 @@ package de.fernausoft.druckmanager.xml;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +69,9 @@ public class XMLWorker {
 
             logger.info("XMLFile is an instance of: " + unmarshalledObject.getClass());
 
+            Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(PrinterDef::getName));
+            Collections.sort(printerConfig.getTargets().getTarget(), Comparator.comparing(TargetDef::getHostname));
+
             for (PrinterDef printer : printerConfig.getPrinters().getPrinter()) {
                 printerLookup.put(printer.getRef(), printer);
             }
@@ -109,6 +115,15 @@ public class XMLWorker {
     public void rewriteXML(List<Target> myTargets) {
         // ObjectMapper mapper = new ObjectMapper();
         TargetsDef targetsDef = new TargetsDef();
+
+        Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(PrinterDef::getName));
+
+        int i = 1;
+
+        for (PrinterDef printer : printerConfig.getPrinters().getPrinter()) {
+            printer.setRef("Ref_" + i);
+            i++;
+        }
 
         for (Target target : myTargets) {
             TargetDef targetDef = new TargetDef();
@@ -172,8 +187,11 @@ public class XMLWorker {
 
         PrinterDef newPrinter = new PrinterDef();
         newPrinter.setName(name);
+        newPrinter.setRef(name);
 
         printerConfig.getPrinters().getPrinter().add(newPrinter);
+        Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(PrinterDef::getName));
+
         return newPrinter;
     }
 }

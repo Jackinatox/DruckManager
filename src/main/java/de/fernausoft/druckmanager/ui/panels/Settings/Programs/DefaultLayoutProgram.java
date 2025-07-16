@@ -37,7 +37,7 @@ public class DefaultLayoutProgram extends BaseProgram {
                 env.isPrinterDialog() || printer == null);
 
         char printerIndex = env.getEnv().charAt(10);
-        weg.setPrinter(printerIndex, printerWrapper);
+        weg.addPrinter(printerIndex, printerWrapper);
     }
 
     @Override
@@ -70,28 +70,4 @@ public class DefaultLayoutProgram extends BaseProgram {
         return envs;
 
     }
-
-    // public Map<String, String> buildEnvs() {
-    // Map<String, String> envs = new HashMap<>();
-
-    // for (Map.Entry<Character, Formularweg3> entry : formularwegMap.entrySet()) {
-    // Formularweg3 way = entry.getValue();
-    // if (way.getPrinter1().getPrinterDef() != null) {
-    // envs.put(prefix + way.getFWayChar() + sufix + "1",
-    // way.getPrinter1().getPrinterDef().getRef());
-    // }
-    // if (way.getPrinter2().getPrinterDef() != null) {
-    // envs.put(prefix + way.getFWayChar() + sufix + "2",
-    // way.getPrinter2().getPrinterDef().getRef());
-    // }
-    // if (way.getPrinter3().getPrinterDef() != null) {
-    // envs.put(prefix + way.getFWayChar() + sufix + "3",
-    // way.getPrinter3().getPrinterDef().getRef());
-    // }
-
-    // }
-
-    // return envs;
-    // }
-
 }

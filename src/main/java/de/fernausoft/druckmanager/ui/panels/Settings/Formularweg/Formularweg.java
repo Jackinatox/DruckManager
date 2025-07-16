@@ -2,6 +2,7 @@ package de.fernausoft.druckmanager.ui.panels.Settings.Formularweg;
 
 import de.fernausoft.druckmanager.xml.PrinterWrapper;
 import de.fernausoft.druckmanager.xml.XMLWorker;
+import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 abstract public class Formularweg {
     protected Character FWayChar;
@@ -41,6 +42,10 @@ abstract public class Formularweg {
 
     public PrinterWrapper getPrinter3() {
         return null;
+    }
+
+    public Formularweg setPrinter(char printerIndex, PrinterDef printer) {
+        throw new UnsupportedOperationException("This method is not implemented for this Formularweg type.");
     }
 
 }

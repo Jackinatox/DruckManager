@@ -36,6 +36,7 @@ import org.apache.logging.log4j.Logger;
 
 import de.fernausoft.druckmanager.ui.models.PrinterComboBoxModel;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
+import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg3;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.OnlyOnePrinterProgram;
@@ -82,21 +83,19 @@ public class Settings extends JPanel {
         // --- Right Content Panel (Form) ---
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridBagLayout());
-        contentPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); 
+        contentPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
         GridBagConstraints gbcContent = new GridBagConstraints();
         gbcContent.insets = new Insets(5, 5, 5, 5);
 
-     
         gbcContent.gridx = 0;
         gbcContent.gridy = 0;
-        gbcContent.anchor = GridBagConstraints.WEST; 
+        gbcContent.anchor = GridBagConstraints.WEST;
         contentPanel.add(new JLabel("Formular"), gbcContent);
 
-       
-        formularComboBox = new JComboBox<>(); 
-        formularComboBox.setEnabled(false); 
-        formularComboBox.setPreferredSize(new Dimension(160, 25)); 
+        formularComboBox = new JComboBox<>();
+        formularComboBox.setEnabled(false);
+        formularComboBox.setPreferredSize(new Dimension(160, 25));
         formularComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -159,7 +158,7 @@ public class Settings extends JPanel {
 
         gbcContent.gridx = 1;
         gbcContent.gridy = 0;
-        gbcContent.gridwidth = 2; 
+        gbcContent.gridwidth = 2;
         gbcContent.weightx = 1.0;
         gbcContent.fill = GridBagConstraints.HORIZONTAL;
         contentPanel.add(formularComboBox, gbcContent);
@@ -167,33 +166,33 @@ public class Settings extends JPanel {
         // Row 2: Separator Line
         gbcContent.gridx = 0;
         gbcContent.gridy = 1;
-        gbcContent.gridwidth = 3; 
+        gbcContent.gridwidth = 3;
         gbcContent.fill = GridBagConstraints.HORIZONTAL;
-        gbcContent.insets = new Insets(10, 5, 10, 5); 
+        gbcContent.insets = new Insets(10, 5, 10, 5);
         contentPanel.add(new JSeparator(), gbcContent);
 
         // Create printer rows
         drucker1ComboBox = new JComboBox<>();
         drucker1CheckBox = new JCheckBox();
-        createPrinterRow(contentPanel, gbcContent, "Drucker 1", drucker1ComboBox, drucker1CheckBox, 2);
+        createPrinterRow(contentPanel, gbcContent, "Drucker 1", drucker1ComboBox, drucker1CheckBox, 2, '1');
 
         drucker2ComboBox = new JComboBox<>();
         drucker2CheckBox = new JCheckBox();
-        createPrinterRow(contentPanel, gbcContent, "Drucker 2", drucker2ComboBox, drucker2CheckBox, 3);
+        createPrinterRow(contentPanel, gbcContent, "Drucker 2", drucker2ComboBox, drucker2CheckBox, 3, '2');
 
         drucker3ComboBox = new JComboBox<>();
         drucker3CheckBox = new JCheckBox();
-        createPrinterRow(contentPanel, gbcContent, "Drucker 3", drucker3ComboBox, drucker3CheckBox, 4);
+        createPrinterRow(contentPanel, gbcContent, "Drucker 3", drucker3ComboBox, drucker3CheckBox, 4, '3');
 
         // Add a vertical strut to push content to the top
         gbcContent.gridx = 0;
         gbcContent.gridy = 5;
-        gbcContent.weighty = 1.0; 
+        gbcContent.weighty = 1.0;
         gbcContent.gridwidth = 3;
         contentPanel.add(Box.createVerticalGlue(), gbcContent);
 
         // Row for Ok and Abbrechen buttons
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0)); 
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         okButton = new JButton("Ok");
         JButton cancelButton = new JButton("Abbrechen");
 
@@ -201,12 +200,12 @@ public class Settings extends JPanel {
         buttonPanel.add(cancelButton);
 
         gbcContent.gridx = 0;
-        gbcContent.gridy = 6; 
+        gbcContent.gridy = 6;
         gbcContent.gridwidth = 3;
-        gbcContent.fill = GridBagConstraints.NONE; 
-        gbcContent.anchor = GridBagConstraints.SOUTHEAST; 
+        gbcContent.fill = GridBagConstraints.NONE;
+        gbcContent.anchor = GridBagConstraints.SOUTHEAST;
         gbcContent.weighty = 0.0;
-        gbcContent.insets = new Insets(10, 5, 5, 5); 
+        gbcContent.insets = new Insets(10, 5, 5, 5);
         contentPanel.add(buttonPanel, gbcContent);
 
         GridBagConstraints gbcContentPanel = new GridBagConstraints();
@@ -221,10 +220,34 @@ public class Settings extends JPanel {
         setPrinterOptions(xmlWorker.getAllPrinters());
         // setProgram(new WerkstattAuftrag());
 
+        // Add ActionListeners to checkboxes to enable/disable their respective
+        // ComboBoxes
+        drucker1CheckBox.addActionListener(e -> {
+            drucker1ComboBox.setEnabled(drucker1CheckBox.isSelected());
+            Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
+            // if (weg != null) {
+            weg.getPrinter1().setEnabled(drucker1CheckBox.isSelected());
+            // }
+        });
+        drucker2CheckBox.addActionListener(e -> {
+            drucker2ComboBox.setEnabled(drucker2CheckBox.isSelected());
+            Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
+            // if (weg != null) {
+            weg.getPrinter2().setEnabled(drucker2CheckBox.isSelected());
+            // }
+        });
+        drucker3CheckBox.addActionListener(e -> {
+            drucker3ComboBox.setEnabled(drucker3CheckBox.isSelected());
+            Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
+            // if (weg != null) {
+            weg.getPrinter3().setEnabled(drucker3CheckBox.isSelected());
+            // }
+        });
+
     }
 
     private void createPrinterRow(JPanel panel, GridBagConstraints gbc, String label, JComboBox<PrinterDef> comboBox,
-            JCheckBox checkBox, int gridy) {
+            JCheckBox checkBox, int gridy, char printerId) {
         gbc.gridx = 0;
         gbc.gridy = gridy;
         gbc.gridwidth = 1;
@@ -239,13 +262,20 @@ public class Settings extends JPanel {
 
         comboBox.setEnabled(false);
         comboBox.setPreferredSize(new Dimension(150, 25));
+        comboBox.addActionListener(e -> {
+            Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
+            // if (weg != null) {
+            weg.setPrinter(printerId, (PrinterDef) comboBox.getSelectedItem());
+        });
         gbc.gridx = 2;
         gbc.gridy = gridy;
         gbc.gridwidth = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(comboBox, gbc);
 
-        checkBox.addActionListener(e -> comboBox.setEnabled(checkBox.isSelected()));
+        checkBox.addActionListener(e -> {
+            comboBox.setEnabled(checkBox.isSelected());
+        });
     }
 
     /**
@@ -288,8 +318,6 @@ public class Settings extends JPanel {
      */
     public void setPrinterOptions(PrintersDef printerDefs) {
         // printerDefs.getPrinter().sort(Comparator.comparing(PrinterDef::toString));
-
-
 
         // drucker1ComboBox.add(new JSeparator(JSeparator.HORIZONTAL));
         // Clear existing items and add new ones

@@ -24,7 +24,7 @@ public class ThreePrintersProgram extends BaseProgram {
     public void addPrinter(KeyvalueDef env, PrinterDef printer) {
         PrinterWrapper printerWrapper = new PrinterWrapper(printer, env.isEnabled(), env.isPrinterDialog());
 
-        formularweg.setPrinter(env.getEnv().charAt(10), printerWrapper);
+        formularweg.addPrinter(env.getEnv().charAt(10), printerWrapper);
     }
 
     @Override
@@ -52,24 +52,4 @@ public class ThreePrintersProgram extends BaseProgram {
 
         return envs;
     }
-
-    // public Map<String, String> buildEnvssw() {
-    // Map<String, String> envs = new HashMap<>();
-
-    // if (formularweg.getPrinter1().getPrinterDef() != null) {
-    // envs.put(prefix + formularweg.getFWayChar() + "1",
-    // formularweg.getPrinter1().getPrinterDef().getRef());
-    // }
-    // if (formularweg.getPrinter2().getPrinterDef() != null) {
-    // envs.put(prefix + formularweg.getFWayChar() + "2",
-    // formularweg.getPrinter2().getPrinterDef().getRef());
-    // }
-    // if (formularweg.getPrinter3().getPrinterDef() != null) {
-    // envs.put(prefix + formularweg.getFWayChar() + "3",
-    // formularweg.getPrinter3().getPrinterDef().getRef());
-    // }
-
-    // return envs;
-    // }
-
 }

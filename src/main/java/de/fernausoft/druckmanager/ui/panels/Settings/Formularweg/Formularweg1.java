@@ -2,6 +2,7 @@ package de.fernausoft.druckmanager.ui.panels.Settings.Formularweg;
 
 import de.fernausoft.druckmanager.xml.PrinterWrapper;
 import de.fernausoft.druckmanager.xml.XMLWorker;
+import de.fernausoft.druckmanager.xml.schema.PrinterDef;
 
 public class Formularweg1 extends Formularweg {
     private PrinterWrapper printer1 = new PrinterWrapper();
@@ -20,15 +21,22 @@ public class Formularweg1 extends Formularweg {
     public void addPrinter(char printerIndex, PrinterWrapper printer) {
         switch (printerIndex) {
             case '1':
-                setPrinter1(printer);
+                this.printer1 = printer;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid printer index: " + printerIndex);
         }
     }
 
-    public void setPrinter1(PrinterWrapper printer1) {
-        this.printer1 = printer1;
+    @Override
+    public Formularweg1 setPrinter(char printerIndex, PrinterDef printer) {
+        switch (printerIndex) {
+            case '1':
+                this.printer1.setPrinter(printer);
+                return this;
+            default:
+                throw new IllegalArgumentException("Invalid printer index: " + printerIndex);
+        }
     }
 
     @Override
