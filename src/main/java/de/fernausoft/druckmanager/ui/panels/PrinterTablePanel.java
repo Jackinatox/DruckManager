@@ -1,21 +1,27 @@
 package de.fernausoft.druckmanager.ui.panels;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import de.fernausoft.druckmanager.ui.models.PrinterTableModel;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
+import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 
 public class PrinterTablePanel extends JPanel {
     private JTable table;
     private PrinterTableModel tableModel;
-    private List<PrinterDef> printers;
+    private PrintersDef printers;
     private XMLWorker xmlWorker;
 
-    public PrinterTablePanel(List<PrinterDef> printers, XMLWorker xmlWorker) {
+    public PrinterTablePanel(PrintersDef printers, XMLWorker xmlWorker) {
         this.printers = printers;
         this.xmlWorker = xmlWorker;
         setLayout(new java.awt.BorderLayout());
@@ -45,7 +51,7 @@ public class PrinterTablePanel extends JPanel {
 
                                 if (!trimmedName.equals(oldName) && !trimmedName.isEmpty()) {
 
-                                    boolean exists = printers.stream()
+                                    boolean exists = printers.getPrinter().stream()
                                             .anyMatch(p -> p.getName().equals(trimmedName));
                                     if (exists) {
                                         JOptionPane.showMessageDialog(
@@ -112,8 +118,8 @@ public class PrinterTablePanel extends JPanel {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            printers.add(newPrinter);
             tableModel.fireTableDataChanged();
+            
             // TODO: Add to comboBoxes
         }
     }
@@ -121,7 +127,7 @@ public class PrinterTablePanel extends JPanel {
     private void deletePrinter(ActionEvent e) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
-            printers.remove(selectedRow);
+            printers.getPrinter().remove(selectedRow);
             tableModel.fireTableDataChanged();
         } else {
             // JOptionPane.showMessageDialog(this, "Bitte wählen Sie einen Drucker zum Löschen aus.", "Kein Drucker ausgewählt", JOptionPane.WARNING_MESSAGE);

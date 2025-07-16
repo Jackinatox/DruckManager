@@ -1,18 +1,40 @@
 package de.fernausoft.druckmanager.ui.panels.Settings;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Vector; // Using Vector for JComboBox model
-
+import de.fernausoft.druckmanager.ui.models.PrinterComboBoxModel;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
@@ -21,6 +43,7 @@ import de.fernausoft.druckmanager.ui.panels.Settings.Programs.ThreePrintersProgr
 import de.fernausoft.druckmanager.xml.PrinterWrapper;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
+import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 
 public class Settings extends JPanel {
     private static final Logger logger = LogManager.getLogger(Settings.class);
@@ -263,20 +286,20 @@ public class Settings extends JPanel {
      * 
      * @param printerDefs A list of PrinterDef objects to populate the dropdowns.
      */
-    public void setPrinterOptions(List<PrinterDef> printerDefs) {
-        printerDefs.sort(Comparator.comparing(PrinterDef::toString));
+    public void setPrinterOptions(PrintersDef printerDefs) {
+        // printerDefs.getPrinter().sort(Comparator.comparing(PrinterDef::toString));
 
 
 
         // drucker1ComboBox.add(new JSeparator(JSeparator.HORIZONTAL));
         // Clear existing items and add new ones
-        DefaultComboBoxModel<PrinterDef> model1 = new DefaultComboBoxModel<>(new Vector<>(printerDefs));
+        PrinterComboBoxModel model1 = new PrinterComboBoxModel(printerDefs);
         drucker1ComboBox.setModel(model1);
 
-        DefaultComboBoxModel<PrinterDef> model2 = new DefaultComboBoxModel<>(new Vector<>(printerDefs));
+        PrinterComboBoxModel model2 = new PrinterComboBoxModel(printerDefs);
         drucker2ComboBox.setModel(model2);
 
-        DefaultComboBoxModel<PrinterDef> model3 = new DefaultComboBoxModel<>(new Vector<>(printerDefs));
+        PrinterComboBoxModel model3 = new PrinterComboBoxModel(printerDefs);
         drucker3ComboBox.setModel(model3);
     }
 

@@ -77,15 +77,8 @@ public class XMLWorker {
 
     }
 
-    public List<PrinterDef> getAllPrinters() {
-        List<PrinterDef> printerDefs = new ArrayList<>();
-        PrintersDef allPrinters = printerConfig.getPrinters();
-        if (allPrinters != null) {
-            for (PrinterDef printer : allPrinters.getPrinter()) {
-                printerDefs.add(printer);
-            }
-        }
-        return printerDefs;
+    public PrintersDef getAllPrinters() {
+        return printerConfig.getPrinters();
     }
 
     public List<TargetDef> getAllTargets() {
@@ -171,7 +164,8 @@ public class XMLWorker {
     }
 
     public PrinterDef newPrinter(String name) {
-        boolean exists = printerConfig.getPrinters().getPrinter().stream().anyMatch(p -> p.getName().equals(name.trim()));
+        boolean exists = printerConfig.getPrinters().getPrinter().stream()
+                .anyMatch(p -> p.getName().equals(name.trim()));
         if (exists) {
             return null;
         }

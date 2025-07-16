@@ -1,23 +1,23 @@
 package de.fernausoft.druckmanager.ui.forms;
 
-import javax.swing.*;
+import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.GridLayout;
-
+import de.fernausoft.druckmanager.ui.listeners.PCUserSelectionListener;
 import de.fernausoft.druckmanager.ui.panels.PCUserMappingPanel;
 import de.fernausoft.druckmanager.ui.panels.PrinterTablePanel;
 import de.fernausoft.druckmanager.ui.panels.Settings.Settings;
 import de.fernausoft.druckmanager.ui.panels.Settings.Target;
 import de.fernausoft.druckmanager.xml.XMLWorker;
-
-import java.util.ArrayList;
-import java.util.List;
-import de.fernausoft.druckmanager.xml.schema.PrinterDef;
+import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 import de.fernausoft.druckmanager.xml.schema.TargetDef;
-import de.fernausoft.druckmanager.ui.listeners.PCUserSelectionListener;
 
 public class DruckManagerPanel implements PCUserSelectionListener{
 
@@ -46,7 +46,7 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 		// Target target = new Target(xmlWorker.forTesting(), xmlWorker);
 		// myTargets.add(target);
 
-		List<PrinterDef> printers = xmlWorker.getAllPrinters();
+		PrintersDef printers = xmlWorker.getAllPrinters();
 
 		// The 3 Main UI Panels
 		settingsPanel = new Settings(xmlWorker);

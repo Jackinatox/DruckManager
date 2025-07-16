@@ -1,22 +1,21 @@
 package de.fernausoft.druckmanager.ui.models;
 
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
 
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
+import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 
 public class PrinterTableModel extends AbstractTableModel {
     private final String[] columnNames = { "Name", "Beschreibung" };
-    private final List<PrinterDef> printers;
+    private final PrintersDef printers;
 
-    public PrinterTableModel(List<PrinterDef> printers) {
+    public PrinterTableModel(PrintersDef printers) {
         this.printers = printers;
     }
 
     @Override
     public int getRowCount() {
-        return printers.size();
+        return printers.getPrinter().size();
     }
 
     @Override
@@ -31,7 +30,7 @@ public class PrinterTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        PrinterDef printer = printers.get(rowIndex);
+        PrinterDef printer = printers.getPrinter().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return printer.getName();
@@ -44,7 +43,7 @@ public class PrinterTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        PrinterDef printer = printers.get(rowIndex);
+        PrinterDef printer = printers.getPrinter().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 printer.setName(aValue.toString());
@@ -63,6 +62,6 @@ public class PrinterTableModel extends AbstractTableModel {
     }
 
     public PrinterDef getPrinterAt(int rowIndex) {
-        return printers.get(rowIndex);
+        return printers.getPrinter().get(rowIndex);
     }
 }
