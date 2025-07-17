@@ -42,8 +42,10 @@ public class XMLWorker {
     private PrinterconfigDef printerConfig;
     private Map<String, PrinterDef> printerLookup = new java.util.HashMap<>();
     private PrinterDef askingPrinter;
+	private Path pathToFile;
 
     public XMLWorker(Path pathToFile) {
+		this.pathToFile = pathToFile;
         JAXBContext jaxbContext;
         try {
             InputStream xsdStream = getClass().getResourceAsStream("/clientprinterconfig.xsd");
@@ -154,7 +156,7 @@ public class XMLWorker {
 
         try {
             JAXBContext context = JAXBContext.newInstance("de.fernausoft.druckmanager.xml.schema");
-            File xmlFile = new File("newXML.xml");
+			File xmlFile = this.pathToFile.toFile();
 
             Marshaller marshaller = context.createMarshaller();
 

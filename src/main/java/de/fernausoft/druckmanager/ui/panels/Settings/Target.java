@@ -66,7 +66,7 @@ public class Target {
                     case FAHRZEUG_ANKAUF:
                     case SHOP_BARVERKAUF:
                     case BON_BOXENSTOP:
-                    case LEIH_WAGEN_VERTRÄGE:
+                    case LEIH_WAGEN_VERTRAEGE:
                     case LEIH_WAGEN_RECHNUNG:
                     case ETIKETTEN_REIFEN_EINLAGEERUNG:
                     case REIFEN_EINLAGERUNG:
@@ -112,7 +112,7 @@ public class Target {
                     case FAHRZEUG_ANKAUF:
                     case SHOP_BARVERKAUF:
                     case BON_BOXENSTOP:
-                    case LEIH_WAGEN_VERTRÄGE:
+                    case LEIH_WAGEN_VERTRAEGE:
                     case LEIH_WAGEN_RECHNUNG:
                     case ETIKETTEN_REIFEN_EINLAGEERUNG:
                     case REIFEN_EINLAGERUNG:

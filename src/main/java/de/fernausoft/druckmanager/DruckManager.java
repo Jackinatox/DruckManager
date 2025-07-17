@@ -17,15 +17,7 @@ public class DruckManager {
 			return;
 		}
 
-		try {
-			Path backupPath = xmlPath.resolveSibling(xmlPath.getFileName().toString() + ".bak");
-			java.nio.file.Files.copy(xmlPath, backupPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-		} catch (Exception e) {
-			System.err.println("Failed to create backup: " + e.getMessage());
-		}
-		XMLWorker xmlworker = new XMLWorker(xmlPath);
-		xmlworker.verifyRegex();
-		DruckManagerPanel.launch(xmlworker);
+		launch(xmlPath);
 	}
 
 	public static void launch(Path path) {

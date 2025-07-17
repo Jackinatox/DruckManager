@@ -23,7 +23,7 @@ public enum ProgramType {
     SHOP_BARVERKAUF("Shop/Barverkauf", "DR_701KFZ_"),
     BON_BOXENSTOP("Bon Boxenstop", "DR_721KFZ_"),
 
-    LEIH_WAGEN_VERTRÄGE("Leihwagenverträge", "DR_806KFZ_"),
+    LEIH_WAGEN_VERTRAEGE("Leihwagenverträge", "DR_806KFZ_"),
     LEIH_WAGEN_RECHNUNG("Leihwagenrechnungen", "DR_811KFZ_"),
     ETIKETTEN_REIFEN_EINLAGEERUNG("Etiketten Reifeneinlagerungen", "DR_903ETI_"),
     REIFEN_EINLAGERUNG("Reifeneinlagerungen", "DR_903KFZ_"),
@@ -35,7 +35,7 @@ public enum ProgramType {
     PICKERZETTEL_WERKSTATT("Pickerzettel Werkstatt", "DR_PICKER_"),
 
     // Fallback
-    UNBEKANNT("Unbekannter Dokumententyp", null, null);
+    UNBEKANNT("Unbekannter Dokumententyp");
 
     private final String label;
     private String prefix;
@@ -48,12 +48,11 @@ public enum ProgramType {
     }
 
     ProgramType(String label, String prefix) {
-        this.label = label;
-        this.prefix = prefix;
+        this(label, prefix, null);
     }
 
     ProgramType(String label) {
-        this.label = label;
+        this(label, null, null);
     }
 
     public String getLabel() {
