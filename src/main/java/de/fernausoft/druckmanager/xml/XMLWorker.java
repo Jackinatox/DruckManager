@@ -216,17 +216,16 @@ public class XMLWorker {
 
             for (BaseProgram program : target.getPrograms()) {
                 for (var formularweg : program.getFormularwegList()) {
-                    if (formularweg.getPrinter1() != null && formularweg.getPrinter1().getPrinterDef() != null
+                    if (formularweg.getPrinter1() != null && !formularweg.getPrinter1().getAskDialog() && formularweg.getPrinter1().getPrinterDef() != null
                             && formularweg.getPrinter1().getPrinterDef().getRef().equals(printerToDelete.getRef())) {
-
                         printers.add(formularweg.getPrinter1());
                     }
-                    if (formularweg.getPrinter2() != null && formularweg.getPrinter2().getPrinterDef() != null
+                    if (formularweg.getPrinter2() != null && !formularweg.getPrinter2().getAskDialog() && formularweg.getPrinter2().getPrinterDef() != null
                             && formularweg.getPrinter2().getPrinterDef().getRef().equals(printerToDelete.getRef())) {
 
                         printers.add(formularweg.getPrinter2());
                     }
-                    if (formularweg.getPrinter3() != null && formularweg.getPrinter3().getPrinterDef() != null
+                    if (formularweg.getPrinter3() != null && !formularweg.getPrinter3().getAskDialog() && formularweg.getPrinter3().getPrinterDef() != null
                             && formularweg.getPrinter3().getPrinterDef().getRef().equals(printerToDelete.getRef())) {
 
                         printers.add(formularweg.getPrinter3());
@@ -241,14 +240,14 @@ public class XMLWorker {
             switch (selection) {
                 case SET_TO_ASK:
                     printers.forEach(printer -> {
-                        printerConfig.getPrinters().getPrinter().remove(printer.getPrinterDef());
+                        // printerConfig.getPrinters().getPrinter().remove(printer.getPrinterDef());
                         printer.setAskDialog(true);
                         printer.setPrinter(null);
                     });
                     break;
                 case DELETE_MAPPINGS:
                     printers.forEach(printer -> {
-                        printerConfig.getPrinters().getPrinter().remove(printer.getPrinterDef());
+                        // printerConfig.getPrinters().getPrinter().remove(printer.getPrinterDef());
                         printer.setPrinter(null);
 
                         // printer.setAskDialog(false);
@@ -260,6 +259,7 @@ public class XMLWorker {
             }
 
         }
+        printerConfig.getPrinters().getPrinter().remove(printerToDelete);
     }
 
     public PrinterDef getAskingPrinter() {
