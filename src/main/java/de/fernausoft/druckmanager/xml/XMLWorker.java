@@ -2,8 +2,8 @@ package de.fernausoft.druckmanager.xml;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -43,7 +43,7 @@ public class XMLWorker {
     private Map<String, PrinterDef> printerLookup = new java.util.HashMap<>();
     private PrinterDef askingPrinter;
 
-    public XMLWorker(String pathToFile) {
+    public XMLWorker(Path pathToFile) {
         JAXBContext jaxbContext;
         try {
             InputStream xsdStream = getClass().getResourceAsStream("/clientprinterconfig.xsd");
@@ -56,7 +56,7 @@ public class XMLWorker {
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             unmarshaller.setSchema(schema);
 
-            File xmlFile = new File(pathToFile); // Use an XML file that matches the generated schema
+            File xmlFile = pathToFile.toFile(); // Use an XML file that matches the generated schema
 
             Object unmarshalledObject = unmarshaller.unmarshal(xmlFile);
 

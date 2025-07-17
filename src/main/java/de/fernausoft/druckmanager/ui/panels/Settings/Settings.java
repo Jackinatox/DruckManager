@@ -36,7 +36,6 @@ import org.apache.logging.log4j.Logger;
 
 import de.fernausoft.druckmanager.ui.models.PrinterComboBoxModel;
 import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg;
-import de.fernausoft.druckmanager.ui.panels.Settings.Formularweg.Formularweg3;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.BaseProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.DefaultLayoutProgram;
 import de.fernausoft.druckmanager.ui.panels.Settings.Programs.OnlyOnePrinterProgram;

@@ -20,12 +20,12 @@ import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 public class PrinterTablePanel extends JPanel {
     private JTable table;
     private PrinterTableModel tableModel;
-    private PrintersDef printers;
+    // private PrintersDef printers;
     private XMLWorker xmlWorker;
     private List<Target> myTargets;
 
     public PrinterTablePanel(PrintersDef printers, XMLWorker xmlWorker, List<Target> myTargets) {
-        this.printers = printers;
+        // this.printers = printers;
         this.xmlWorker = xmlWorker;
         this.myTargets = myTargets;
         setLayout(new java.awt.BorderLayout());
@@ -99,8 +99,8 @@ public class PrinterTablePanel extends JPanel {
 
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
-        JButton createButton = new JButton("Create");
-        JButton deleteButton = new JButton("Delete");
+        JButton createButton = new JButton("Erstellen");
+        JButton deleteButton = new JButton("Löschen");
         buttonPanel.add(createButton);
         buttonPanel.add(deleteButton);
 
@@ -113,7 +113,7 @@ public class PrinterTablePanel extends JPanel {
     }
 
     private void createPrinter(ActionEvent e) {
-        String printerName = JOptionPane.showInputDialog(this, "Enter new printer name:");
+        String printerName = JOptionPane.showInputDialog(this, "Namen für den Drucker(oder UNC):");
         if (printerName != null && !printerName.trim().isEmpty()) {
             PrinterDef newPrinter = xmlWorker.newPrinter(printerName.trim());
 

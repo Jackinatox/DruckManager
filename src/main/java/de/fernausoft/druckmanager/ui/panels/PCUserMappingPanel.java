@@ -19,6 +19,7 @@ public class PCUserMappingPanel extends JPanel {
     private XMLWorker xmlWorker;
     private List<Target> targets;
 
+
     public PCUserMappingPanel(List<Target> targets, XMLWorker xmlWorker) {
         this.xmlWorker = xmlWorker;
         this.targets = targets;
@@ -42,8 +43,8 @@ public class PCUserMappingPanel extends JPanel {
 
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
-        JButton createButton = new JButton("Create");
-        JButton deleteButton = new JButton("Delete");
+        JButton createButton = new JButton("Erstellen");
+        JButton deleteButton = new JButton("Löschen");
         buttonPanel.add(createButton);
         buttonPanel.add(deleteButton);
 
@@ -57,10 +58,10 @@ public class PCUserMappingPanel extends JPanel {
 
     private void createTarget(ActionEvent e) {
         // For simplicity, let's ask for a username. A more complex UI could be used.
-        String userName = JOptionPane.showInputDialog(this, "Enter username for new target:");
-        if (userName != null && !userName.trim().isEmpty()) {
+        String newHostname = JOptionPane.showInputDialog(this, "Hostname:");
+        if (newHostname != null && !newHostname.trim().isEmpty()) {
             TargetDef newTargetDef = new TargetDef();
-            newTargetDef.setUsername(userName.trim());
+            newTargetDef.setHostname(newHostname.trim());
             Target newTarget = new Target(newTargetDef, xmlWorker);
             targets.add(newTarget);
             tableModel.fireTableDataChanged();
@@ -73,7 +74,7 @@ public class PCUserMappingPanel extends JPanel {
             targets.remove(selectedRow);
             tableModel.fireTableDataChanged();
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a target to delete.", "No Target Selected", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Bitte ein Mapping auswählen.", "Kein Mapping Ausgewählt", JOptionPane.WARNING_MESSAGE);
         }
     }
 
