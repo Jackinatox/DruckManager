@@ -119,9 +119,28 @@ public class Settings extends JPanel {
                     drucker2CheckBox.setEnabled(isPrinter2Enabled);
                     drucker3CheckBox.setEnabled(isPrinter3Enabled);
 
-                    drucker1ComboBox.setSelectedItem(isPrinter1Enabled ? printer1.getPrinterDef() : null);
-                    drucker2ComboBox.setSelectedItem(isPrinter2Enabled ? printer2.getPrinterDef() : null);
-                    drucker3ComboBox.setSelectedItem(isPrinter3Enabled ? printer3.getPrinterDef() : null);
+                    if (isPrinter1Enabled) {
+                        PrinterDef printer = printer1.getPrinterDef();
+                        if (printer1.getAskDialog()) {
+                            printer = xmlWorker.getAskingPrinter();
+                        } 
+                        drucker1ComboBox.setSelectedItem(printer);
+                    }
+
+                    if (isPrinter2Enabled) {
+                        PrinterDef printer = printer2.getPrinterDef();
+                        if (printer2.getAskDialog()) {
+                            printer = xmlWorker.getAskingPrinter();
+                        } 
+                        drucker2ComboBox.setSelectedItem(printer);
+                    }
+                    if (isPrinter3Enabled) {
+                        PrinterDef printer = printer3.getPrinterDef();
+                        if (printer3.getAskDialog()) {
+                            printer = xmlWorker.getAskingPrinter();
+                        } 
+                        drucker3ComboBox.setSelectedItem(printer);
+                    }
 
                     drucker1ComboBox.setEnabled(drucker1CheckBox.isSelected());
                     drucker2ComboBox.setEnabled(drucker2CheckBox.isSelected());

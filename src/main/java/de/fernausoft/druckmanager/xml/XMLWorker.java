@@ -128,6 +128,8 @@ public class XMLWorker {
 
         int i = 1;
 
+        printerConfig.getPrinters().getPrinter().remove(getAskingPrinter());
+
         for (PrinterDef printer : printerConfig.getPrinters().getPrinter()) {
             printer.setRef("Ref_" + i);
             i++;
