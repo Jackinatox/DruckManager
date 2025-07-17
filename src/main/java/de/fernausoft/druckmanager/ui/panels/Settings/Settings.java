@@ -52,7 +52,7 @@ public class Settings extends JPanel {
 
     // JComboBoxes for printers and formular, made accessible for external methods
     private NavPanel navPanel = new NavPanel();
-    // private XMLWorker xmlWorker;
+    private XMLWorker xmlWorker;
     private JComboBox<PrinterDef> drucker1ComboBox;
     private JComboBox<PrinterDef> drucker2ComboBox;
     private JComboBox<PrinterDef> drucker3ComboBox;
@@ -63,7 +63,7 @@ public class Settings extends JPanel {
     private JButton okButton;
 
     public Settings(XMLWorker xmlWorker) {
-        // this.xmlWorker = xmlWorker;
+        this.xmlWorker = xmlWorker;
         setLayout(new GridBagLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10)); // Add some padding around the panel
 
@@ -111,28 +111,22 @@ public class Settings extends JPanel {
                     boolean isPrinter2Enabled = printer2 != null;
                     boolean isPrinter3Enabled = printer3 != null;
 
-                    if (isPrinter1Enabled) {
-                        drucker1ComboBox.setSelectedItem(printer1.getPrinterDef());
-                        drucker1CheckBox.setSelected(printer1.getEnabled());
-                    }
-
-                    if (isPrinter2Enabled) {
-                        drucker2ComboBox.setSelectedItem(printer2.getPrinterDef());
-                        drucker2CheckBox.setSelected(printer2.getEnabled());
-                    }
-
-                    if (isPrinter3Enabled) {
-                        drucker3ComboBox.setSelectedItem(printer3.getPrinterDef());
-                        drucker3CheckBox.setSelected(printer3.getEnabled());
-                    }
-
-                    drucker1ComboBox.setEnabled(isPrinter1Enabled && drucker1CheckBox.isSelected());
-                    drucker2ComboBox.setEnabled(isPrinter2Enabled && drucker2CheckBox.isSelected());
-                    drucker3ComboBox.setEnabled(isPrinter3Enabled && drucker3CheckBox.isSelected());
+                    drucker1CheckBox.setSelected(isPrinter1Enabled ? printer1.getEnabled() : false);
+                    drucker2CheckBox.setSelected(isPrinter2Enabled ? printer2.getEnabled() : false);
+                    drucker3CheckBox.setSelected(isPrinter3Enabled ? printer3.getEnabled() : false);
 
                     drucker1CheckBox.setEnabled(isPrinter1Enabled);
                     drucker2CheckBox.setEnabled(isPrinter2Enabled);
                     drucker3CheckBox.setEnabled(isPrinter3Enabled);
+
+                    drucker1ComboBox.setSelectedItem(isPrinter1Enabled ? printer1.getPrinterDef() : null);
+                    drucker2ComboBox.setSelectedItem(isPrinter2Enabled ? printer2.getPrinterDef() : null);
+                    drucker3ComboBox.setSelectedItem(isPrinter3Enabled ? printer3.getPrinterDef() : null);
+
+                    drucker1ComboBox.setEnabled(drucker1CheckBox.isSelected());
+                    drucker2ComboBox.setEnabled(drucker2CheckBox.isSelected());
+                    drucker3ComboBox.setEnabled(drucker3CheckBox.isSelected());
+
                 }
             }
         });
@@ -264,8 +258,41 @@ public class Settings extends JPanel {
         comboBox.setPreferredSize(new Dimension(150, 25));
         comboBox.addActionListener(e -> {
             Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
-            // if (weg != null) {
-            weg.setPrinter(printerId, (PrinterDef) comboBox.getSelectedItem());
+            PrinterDef printer = (PrinterDef) comboBox.getSelectedItem();
+
+            switch (printerId) {
+                case '1': {
+                    boolean asking = printer == xmlWorker.getAskingPrinter();
+                    PrinterWrapper wrap = weg.getPrinter1();
+                    if (wrap != null) {
+                        wrap.setAskDialog(asking);
+                    }
+                    break;
+                }
+                case '2': {
+                    boolean asking = printer == xmlWorker.getAskingPrinter();
+                    PrinterWrapper wrap = weg.getPrinter2();
+                    if (wrap != null) {
+                        wrap.setAskDialog(asking);
+                    }
+                    break;
+                }
+                case '3': {
+                    boolean asking = printer == xmlWorker.getAskingPrinter();
+                    PrinterWrapper wrap = weg.getPrinter3();
+                    if (wrap != null) {
+                        wrap.setAskDialog(asking);
+                    }
+                    break;
+                }
+            }
+
+            if (printer == xmlWorker.getAskingPrinter()) {
+                weg.setPrinter(printerId, (null));
+
+            } else {
+                weg.setPrinter(printerId, printer);
+            }
         });
         gbc.gridx = 2;
         gbc.gridy = gridy;

@@ -35,12 +35,16 @@ public class OnlyOnePrinterProgram extends BaseProgram {
         List<KeyvalueDef> envs = new ArrayList<>();
         PrinterWrapper printer1 = formularweg.getPrinter1();
 
-        if (printer1.getPrinterDef() != null) {
+        if (printer1.getAskDialog() || printer1.getPrinterDef() != null) {
             KeyvalueDef def = new KeyvalueDef();
+
+            def.setEnv(prefix + formularweg.getFWayChar());
+
             def.setEnabled(printer1.getEnabled());
             def.setPrinterDialog(printer1.getAskDialog());
-            def.setEnv(prefix + formularweg.getFWayChar());
-            def.setRef(printer1.getPrinterDef().getRef());
+
+            def.setRef(printer1.getPrinterDef() != null ? printer1.getPrinterDef().getRef() : null);
+
             envs.add(def);
         }
 

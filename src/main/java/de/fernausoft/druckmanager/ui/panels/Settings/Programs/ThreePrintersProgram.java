@@ -39,12 +39,15 @@ public class ThreePrintersProgram extends BaseProgram {
         Integer i = 1;
         for (PrinterWrapper printer : List.of(formularweg.getPrinter1(), formularweg.getPrinter2(),
                 formularweg.getPrinter3())) {
-            if (printer.getPrinterDef() != null) {
+            if (printer.getAskDialog() || printer.getPrinterDef() != null) {
                 KeyvalueDef def = new KeyvalueDef();
+
+                def.setEnv(prefix + i);
                 def.setEnabled(printer.getEnabled());
                 def.setPrinterDialog(printer.getAskDialog());
-                def.setEnv(prefix + i);
-                def.setRef(printer.getPrinterDef().getRef());
+
+                def.setRef(printer.getPrinterDef() != null ? printer.getPrinterDef().getRef() : null);
+
                 envs.add(def);
             }
             i++;

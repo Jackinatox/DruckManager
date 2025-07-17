@@ -24,7 +24,6 @@ public class Formularweg1 extends Formularweg {
                 this.printer1 = printer;
                 break;
             default:
-                throw new IllegalArgumentException("Invalid printer index: " + printerIndex);
         }
     }
 
@@ -35,7 +34,7 @@ public class Formularweg1 extends Formularweg {
                 this.printer1.setPrinter(printer);
                 return this;
             default:
-                throw new IllegalArgumentException("Invalid printer index: " + printerIndex);
+                return null;
         }
     }
 

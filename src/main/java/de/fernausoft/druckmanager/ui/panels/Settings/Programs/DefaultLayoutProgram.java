@@ -63,7 +63,7 @@ public class DefaultLayoutProgram extends BaseProgram {
                     def.setEnabled(printer.getEnabled());
                     def.setPrinterDialog(printer.getAskDialog());
 
-                    def.setRef(printer.getPrinterDef() != null ? printer.getPrinterDef().getRef() : "");
+                    def.setRef(printer.getPrinterDef() != null ? printer.getPrinterDef().getRef() : null);
 
                     envs.add(def);
                 }

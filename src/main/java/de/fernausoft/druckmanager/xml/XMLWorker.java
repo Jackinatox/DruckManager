@@ -41,6 +41,7 @@ public class XMLWorker {
 
     private PrinterconfigDef printerConfig;
     private Map<String, PrinterDef> printerLookup = new java.util.HashMap<>();
+    private PrinterDef askingPrinter;
 
     public XMLWorker(String pathToFile) {
         JAXBContext jaxbContext;
@@ -70,6 +71,11 @@ public class XMLWorker {
             }
 
             logger.info("XMLFile is an instance of: " + unmarshalledObject.getClass());
+
+            askingPrinter = new PrinterDef();
+            askingPrinter.setName("Dialog beim Drucken");
+
+            printerConfig.getPrinters().getPrinter().add(askingPrinter);
 
             Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(PrinterDef::getName));
             Collections.sort(printerConfig.getTargets().getTarget(), Comparator.comparing(TargetDef::getHostname));
@@ -252,5 +258,9 @@ public class XMLWorker {
             }
 
         }
+    }
+
+    public PrinterDef getAskingPrinter() {
+        return askingPrinter;
     }
 }
