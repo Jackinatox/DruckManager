@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.Box;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -266,20 +267,32 @@ public class Settings extends JPanel {
 
     private void createPrinterRow(JPanel panel, GridBagConstraints gbc, String label, JComboBox<PrinterDef> comboBox,
             JCheckBox checkBox, int gridy, char printerId) {
-        gbc.gridx = 0;
-        gbc.gridy = gridy;
-        gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(new JLabel(label), gbc);
+        // Create a horizontal row with static sizes for label and checkbox, comboBox expands
+        JPanel rowPanel = new JPanel();
+        rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
 
-        gbc.gridx = 1;
-        gbc.gridy = gridy;
-        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(checkBox, gbc);
+        JLabel labelComponent = new JLabel(label);
+        labelComponent.setPreferredSize(new Dimension(90, 25));
+        rowPanel.add(labelComponent);
+
+        checkBox.setPreferredSize(new Dimension(25, 25));
+        rowPanel.add(checkBox);
+
+        rowPanel.add(Box.createHorizontalStrut(10)); // spacing
 
         comboBox.setEnabled(false);
         comboBox.setPreferredSize(new Dimension(150, 25));
+        comboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+        rowPanel.add(comboBox);
+
+        rowPanel.add(Box.createHorizontalGlue()); // allow comboBox to expand
+
+        gbc.gridx = 0;
+        gbc.gridy = gridy;
+        gbc.gridwidth = 3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(rowPanel, gbc);
+
         comboBox.addActionListener(e -> {
             Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
             PrinterDef printer = (PrinterDef) comboBox.getSelectedItem();
@@ -313,16 +326,10 @@ public class Settings extends JPanel {
 
             if (printer == xmlWorker.getAskingPrinter()) {
                 weg.setPrinter(printerId, (null));
-
             } else {
                 weg.setPrinter(printerId, printer);
             }
         });
-        gbc.gridx = 2;
-        gbc.gridy = gridy;
-        gbc.gridwidth = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(comboBox, gbc);
 
         checkBox.addActionListener(e -> {
             comboBox.setEnabled(checkBox.isSelected());
@@ -525,12 +532,12 @@ public class Settings extends JPanel {
 
         @Override
         public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-            return 16;
+            return 64;
         }
 
         @Override
         public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-            return 16;
+            return 64;
         }
 
         @Override

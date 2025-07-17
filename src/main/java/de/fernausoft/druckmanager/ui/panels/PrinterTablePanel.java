@@ -33,6 +33,33 @@ public class PrinterTablePanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8)); // 8px padding on all sides
         tableModel = new PrinterTableModel(printers);
         table = new JTable(tableModel);
+
+                // Add padding to table cells
+        table.setRowHeight(table.getRowHeight() + 10); // Increase row height by 10 pixels
+        table.setIntercellSpacing(new java.awt.Dimension(0, 0)); // Add horizontal and vertical spacing
+        
+        // Set alternating row colors (zebra striping)
+        table.setShowGrid(true);
+        table.setGridColor(new java.awt.Color(200, 200, 200)); // Lighter grid lines
+        
+        table.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public java.awt.Component getTableCellRendererComponent(JTable table, Object value, 
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                java.awt.Component comp = super.getTableCellRendererComponent(
+                        table, value, isSelected, hasFocus, row, column);
+                
+                if (!isSelected) {
+                    if (row % 2 == 0) {
+                        comp.setBackground(new java.awt.Color(240, 240, 250)); // Light blue-gray
+                    } else {
+                        comp.setBackground(java.awt.Color.WHITE);
+                    }
+                }
+                return comp;
+            }
+        });
+        
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
