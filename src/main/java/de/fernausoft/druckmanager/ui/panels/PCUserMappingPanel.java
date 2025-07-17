@@ -19,7 +19,6 @@ public class PCUserMappingPanel extends JPanel {
     private XMLWorker xmlWorker;
     private List<Target> targets;
 
-
     public PCUserMappingPanel(List<Target> targets, XMLWorker xmlWorker) {
         this.xmlWorker = xmlWorker;
         this.targets = targets;
@@ -28,6 +27,7 @@ public class PCUserMappingPanel extends JPanel {
         tableModel = new PCUserTableModel(targets);
         table = new JTable(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setBorder(BorderFactory.createEmptyBorder(0, 8, 8, 8)); // 8px padding on all sides
 
         table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && listener != null) {
@@ -74,7 +74,8 @@ public class PCUserMappingPanel extends JPanel {
             targets.remove(selectedRow);
             tableModel.fireTableDataChanged();
         } else {
-            JOptionPane.showMessageDialog(this, "Bitte ein Mapping auswählen.", "Kein Mapping Ausgewählt", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Bitte ein Mapping auswählen.", "Kein Mapping Ausgewählt",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 

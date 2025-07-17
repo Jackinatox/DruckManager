@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -63,8 +64,13 @@ public class Settings extends JPanel {
 
     public Settings(XMLWorker xmlWorker) {
         this.xmlWorker = xmlWorker;
-        setLayout(new GridBagLayout());
-        setBorder(new EmptyBorder(10, 10, 10, 10)); // Add some padding around the panel
+
+        // Create a visual panel to wrap the Settings panel for spacing
+        JPanel visualPanel = new JPanel(new GridBagLayout());
+        visualPanel.setBorder(new EmptyBorder(0, 8, 8, 8)); // More padding for visual separation
+
+        setLayout(new BorderLayout());
+        add(visualPanel, BorderLayout.CENTER);
 
         // --- Left Navigation Panel ---
         GridBagConstraints gbcNav = new GridBagConstraints();
@@ -77,7 +83,7 @@ public class Settings extends JPanel {
         JScrollPane scrollPane = new JScrollPane(navPanel);
         scrollPane.setPreferredSize(new Dimension(280, 0));
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        add(scrollPane, gbcNav);
+        visualPanel.add(scrollPane, gbcNav);
 
         // --- Right Content Panel (Form) ---
         JPanel contentPanel = new JPanel();
@@ -226,7 +232,7 @@ public class Settings extends JPanel {
         gbcContentPanel.weightx = 0.8;
         gbcContentPanel.weighty = 1.0;
         gbcContentPanel.fill = GridBagConstraints.BOTH;
-        add(contentPanel, gbcContentPanel);
+        visualPanel.add(contentPanel, gbcContentPanel);
 
         // Initialize Values
         setPrinterOptions(xmlWorker.getAllPrinters());

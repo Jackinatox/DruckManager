@@ -19,10 +19,9 @@ import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 import de.fernausoft.druckmanager.xml.schema.TargetDef;
 
-public class DruckManagerPanel implements PCUserSelectionListener{
+public class DruckManagerPanel implements PCUserSelectionListener {
 
-	    private static final Logger logger = LogManager.getLogger(DruckManagerPanel.class);
-
+	private static final Logger logger = LogManager.getLogger(DruckManagerPanel.class);
 
 	private JFrame mainWindow;
 	// private XMLWorker xmlWorker;
@@ -34,6 +33,7 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 	private DruckManagerPanel(XMLWorker xmlWorker) {
 		// this.xmlWorker = xmlWorker;
 		mainWindow = new JFrame();
+		mainWindow.setTitle("Druck-Manager");
 
 		mainWindow.getContentPane().setLayout(new GridLayout(3, 1));
 
@@ -54,7 +54,7 @@ public class DruckManagerPanel implements PCUserSelectionListener{
 		PrinterTablePanel tablePanel = new PrinterTablePanel(printers, xmlWorker, myTargets);
 		pcTaplePanel = new PCUserMappingPanel(myTargets, xmlWorker);
 		pcTaplePanel.setPcUserSelectionListener(this);
-		
+
 		mainWindow.getContentPane().add(tablePanel);
 		mainWindow.getContentPane().add(pcTaplePanel);
 		mainWindow.getContentPane().add(settingsPanel);

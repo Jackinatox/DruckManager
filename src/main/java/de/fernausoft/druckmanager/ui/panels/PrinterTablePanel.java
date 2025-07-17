@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ public class PrinterTablePanel extends JPanel {
         this.xmlWorker = xmlWorker;
         this.myTargets = myTargets;
         setLayout(new java.awt.BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8)); // 8px padding on all sides
         tableModel = new PrinterTableModel(printers);
         table = new JTable(tableModel);
         table.addMouseListener(new MouseAdapter() {
