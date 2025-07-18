@@ -1,10 +1,14 @@
 package de.fernausoft.druckmanager.ui.forms;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,7 +39,7 @@ public class DruckManagerPanel implements PCUserSelectionListener {
 		mainWindow = new JFrame();
 		mainWindow.setTitle("Druck-Manager");
 
-		mainWindow.getContentPane().setLayout(new GridLayout(3, 1));
+		mainWindow.getContentPane().setLayout(new BorderLayout());
 
 		myTargets = new ArrayList<>();
 		for (TargetDef target : xmlWorker.getAllTargets()) {
@@ -55,14 +59,45 @@ public class DruckManagerPanel implements PCUserSelectionListener {
 		pcTaplePanel = new PCUserMappingPanel(myTargets, xmlWorker);
 		pcTaplePanel.setPcUserSelectionListener(this);
 
-		
-		mainWindow.getContentPane().add(tablePanel);
-		mainWindow.getContentPane().add(pcTaplePanel);
-		mainWindow.getContentPane().add(settingsPanel);
-		settingsPanel.getOkButton().addActionListener(e -> {
+		JPanel centerPanel = new JPanel(new GridLayout(3, 1));
+		centerPanel.add(tablePanel);
+		centerPanel.add(pcTaplePanel);
+		centerPanel.add(settingsPanel);
+
+		// Panel for the buttons in the south
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JButton saveButton = new JButton("Speichern");
+		JButton cancelButton = new JButton("Abbrechen");
+
+		buttonPanel.add(saveButton);
+		buttonPanel.add(cancelButton);
+
+		saveButton.addActionListener(e -> {
+			int result = javax.swing.JOptionPane.showConfirmDialog(
+					mainWindow,
+					"Wirklich speichern? Das überschreibt die momentane Drucker Konfiguration",
+					"Bestätigung",
+					javax.swing.JOptionPane.YES_NO_OPTION);
+			if (result != javax.swing.JOptionPane.YES_OPTION) {
+				return;
+			}
 			logger.info("Starting rewrite of XML");
 			xmlWorker.rewriteXML(myTargets);
 		});
+		cancelButton.addActionListener(e -> {
+			int result = javax.swing.JOptionPane.showConfirmDialog(
+					mainWindow,
+					"Wirklich beenden? Änderungen gehen verloren!",
+					"Beenden",
+					javax.swing.JOptionPane.YES_NO_OPTION);
+			if (result != javax.swing.JOptionPane.YES_OPTION) {
+				return;
+			}
+			mainWindow.dispose();
+		});
+
+		mainWindow.getContentPane().add(centerPanel, BorderLayout.CENTER);
+		mainWindow.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 	}
 
 	@Override

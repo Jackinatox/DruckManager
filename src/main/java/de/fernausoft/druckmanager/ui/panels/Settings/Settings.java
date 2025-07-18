@@ -63,7 +63,6 @@ public class Settings extends JPanel {
     private JCheckBox drucker1CheckBox;
     private JCheckBox drucker2CheckBox;
     private JCheckBox drucker3CheckBox;
-    private JButton okButton;
 
     public Settings(XMLWorker xmlWorker) {
         this.xmlWorker = xmlWorker;
@@ -131,7 +130,7 @@ public class Settings extends JPanel {
                         PrinterDef printer = printer1.getPrinterDef();
                         if (printer1.getAskDialog()) {
                             printer = xmlWorker.getAskingPrinter();
-                        } 
+                        }
                         drucker1ComboBox.setSelectedItem(printer);
                     }
 
@@ -139,14 +138,14 @@ public class Settings extends JPanel {
                         PrinterDef printer = printer2.getPrinterDef();
                         if (printer2.getAskDialog()) {
                             printer = xmlWorker.getAskingPrinter();
-                        } 
+                        }
                         drucker2ComboBox.setSelectedItem(printer);
                     }
                     if (isPrinter3Enabled) {
                         PrinterDef printer = printer3.getPrinterDef();
                         if (printer3.getAskDialog()) {
                             printer = xmlWorker.getAskingPrinter();
-                        } 
+                        }
                         drucker3ComboBox.setSelectedItem(printer);
                     }
 
@@ -214,11 +213,6 @@ public class Settings extends JPanel {
 
         // Row for Ok and Abbrechen buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-        okButton = new JButton("Ok");
-        JButton cancelButton = new JButton("Abbrechen");
-
-        buttonPanel.add(okButton);
-        buttonPanel.add(cancelButton);
 
         gbcContent.gridx = 0;
         gbcContent.gridy = 6;
@@ -269,7 +263,8 @@ public class Settings extends JPanel {
 
     private void createPrinterRow(JPanel panel, GridBagConstraints gbc, String label, JComboBox<PrinterDef> comboBox,
             JCheckBox checkBox, int gridy, char printerId) {
-        // Create a horizontal row with static sizes for label and checkbox, comboBox expands
+        // Create a horizontal row with static sizes for label and checkbox, comboBox
+        // expands
         JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
 
@@ -517,10 +512,6 @@ public class Settings extends JPanel {
                 }
             }
         }
-    }
-
-    public JButton getOkButton() {
-        return okButton;
     }
 
     private class NavPanel extends JPanel implements Scrollable {
