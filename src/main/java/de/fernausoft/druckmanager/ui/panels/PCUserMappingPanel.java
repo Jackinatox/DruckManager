@@ -2,15 +2,23 @@ package de.fernausoft.druckmanager.ui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
+import de.fernausoft.druckmanager.ui.listeners.PCUserSelectionListener;
 import de.fernausoft.druckmanager.ui.models.PCUserTableModel;
 import de.fernausoft.druckmanager.ui.panels.Settings.Target;
 import de.fernausoft.druckmanager.xml.XMLWorker;
 import de.fernausoft.druckmanager.xml.schema.TargetDef;
-import de.fernausoft.druckmanager.ui.listeners.PCUserSelectionListener;
 
 public class PCUserMappingPanel extends JPanel {
     private PCUserSelectionListener listener;
@@ -30,18 +38,18 @@ public class PCUserMappingPanel extends JPanel {
 
         table.setRowHeight(table.getRowHeight() + 10); // Increase row height by 10 pixels
         table.setIntercellSpacing(new java.awt.Dimension(1, 1)); // Add horizontal and vertical spacing
-        
+
         // Set alternating row colors (zebra striping)
         table.setShowGrid(true);
         table.setGridColor(new java.awt.Color(200, 200, 200)); // Lighter grid lines
-        
+
         table.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
             @Override
-            public java.awt.Component getTableCellRendererComponent(JTable table, Object value, 
+            public java.awt.Component getTableCellRendererComponent(JTable table, Object value,
                     boolean isSelected, boolean hasFocus, int row, int column) {
                 java.awt.Component comp = super.getTableCellRendererComponent(
                         table, value, isSelected, hasFocus, row, column);
-                
+
                 if (!isSelected) {
                     if (row % 2 == 0) {
                         comp.setBackground(new java.awt.Color(240, 240, 250)); // Light blue-gray
@@ -60,6 +68,71 @@ public class PCUserMappingPanel extends JPanel {
                 if (selectedRow != -1) {
                     Target selectedTarget = tableModel.getTargetAt(selectedRow);
                     listener.onUserSelected(selectedTarget);
+                }
+            }
+        });
+
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int row = table.getSelectedRow();
+                    int column = table.getSelectedColumn();
+                    if (row < 0)
+                        return; // No row selected
+
+                    Target target = tableModel.getTargetAt(row);
+                    switch (column) {
+                        case 0: // First column, so Printer
+                            String newName = JOptionPane.showInputDialog(
+                                    PCUserMappingPanel.this,
+                                    "Hostname ändern:",
+                                    target.getHostname());
+
+                            if (newName != null && !newName.trim().isEmpty()
+                                    && !newName.trim().equals(target.getHostname())) {
+                                String trimmedName = newName.trim();
+                                String oldName = target.getHostname();
+
+                                if (!trimmedName.equals(oldName) && !trimmedName.isEmpty()) {
+
+                                    // boolean exists = targets.stream()
+                                    //         .anyMatch(p -> p.getHostname().equals(trimmedName));
+                                    // if (exists) {
+                                    //     JOptionPane.showMessageDialog(
+                                    //             PCUserMappingPanel.this,
+                                    //             "Ein PC mit diesem Hostnamen existiert bereits.",
+                                    //             "Fehler",
+                                    //             JOptionPane.ERROR_MESSAGE);
+                                    //     return;
+                                    // } else {
+                                        target.setHostname(trimmedName);
+                                        tableModel.fireTableRowsUpdated(row, row);
+                                    // }
+                                }
+                            }
+                            break;
+                        case 1: // Second Columns eg Description
+                            String newDesc = JOptionPane.showInputDialog(
+                                    PCUserMappingPanel.this,
+                                    "Username:",
+                                    target.getUsername());
+
+                            if (newDesc != null) {
+                                String trimmedName = newDesc.trim();
+                                if (newDesc != null && !trimmedName.equals(target.getUsername())) {
+                                    String oldName = target.getUsername();
+
+                                    if (!trimmedName.equals(oldName)) {
+                                        target.setUsername(trimmedName);
+                                        tableModel.fireTableRowsUpdated(row, row);
+                                    }
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         });

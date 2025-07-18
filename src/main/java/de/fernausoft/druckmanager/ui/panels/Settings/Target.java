@@ -199,6 +199,14 @@ public class Target {
         return target.getUsername();
     }
 
+    public void setHostname(String hostname){
+        this.target.setHostname(hostname);
+    }
+
+    public void setUsername(String username){
+        this.target.setUsername(username);
+    }
+
     public List<BaseProgram> getPrograms() {
         return new ArrayList<>(programMap.values());
     }

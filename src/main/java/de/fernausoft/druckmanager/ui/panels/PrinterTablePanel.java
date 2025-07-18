@@ -152,8 +152,6 @@ public class PrinterTablePanel extends JPanel {
                 return;
             }
             tableModel.fireTableDataChanged();
-            
-            // TODO: Add to comboBoxes
         }
     }
 

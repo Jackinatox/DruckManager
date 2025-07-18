@@ -128,6 +128,8 @@ public class XMLWorker {
 
         Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(PrinterDef::getName));
 
+        Collections.sort(printerConfig.getTargets().getTarget(), Comparator.comparing(TargetDef::getHostname));
+
         int i = 1;
 
         printerConfig.getPrinters().getPrinter().remove(getAskingPrinter());
@@ -147,8 +149,9 @@ public class XMLWorker {
                 for (KeyvalueDef entry : program.buildEnvs()) {
 
                     targetDef.getEnv().add(entry);
-                }
+                }   
             }
+            Collections.sort(targetDef.getEnv(), Comparator.comparing(KeyvalueDef::getEnv));
         }
 
         printerConfig.getTargets().getTarget().clear();
