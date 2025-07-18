@@ -36,7 +36,7 @@ public class PrinterTablePanel extends JPanel {
 
                 // Add padding to table cells
         table.setRowHeight(table.getRowHeight() + 10); // Increase row height by 10 pixels
-        table.setIntercellSpacing(new java.awt.Dimension(0, 0)); // Add horizontal and vertical spacing
+        table.setIntercellSpacing(new java.awt.Dimension(1, 1)); // Add horizontal and vertical spacing
         
         // Set alternating row colors (zebra striping)
         table.setShowGrid(true);

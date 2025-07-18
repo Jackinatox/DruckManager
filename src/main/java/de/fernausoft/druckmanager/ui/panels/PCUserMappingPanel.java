@@ -29,8 +29,9 @@ public class PCUserMappingPanel extends JPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         table.setRowHeight(table.getRowHeight() + 10); // Increase row height by 10 pixels
-        table.setIntercellSpacing(new java.awt.Dimension(0, 0)); // Add horizontal and vertical spacing
+        table.setIntercellSpacing(new java.awt.Dimension(1, 1)); // Add horizontal and vertical spacing
         
+        // Set alternating row colors (zebra striping)
         table.setShowGrid(true);
         table.setGridColor(new java.awt.Color(200, 200, 200)); // Lighter grid lines
         
@@ -51,7 +52,6 @@ public class PCUserMappingPanel extends JPanel {
                 return comp;
             }
         });
-
         setBorder(BorderFactory.createEmptyBorder(0, 8, 8, 8)); // 8px padding on all sides
 
         table.getSelectionModel().addListSelectionListener(e -> {

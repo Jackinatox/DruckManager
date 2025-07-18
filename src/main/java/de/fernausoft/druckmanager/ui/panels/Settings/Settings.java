@@ -13,6 +13,8 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -82,7 +84,7 @@ public class Settings extends JPanel {
         gbcNav.fill = GridBagConstraints.BOTH;
 
         JScrollPane scrollPane = new JScrollPane(navPanel);
-        scrollPane.setPreferredSize(new Dimension(280, 0));
+        scrollPane.setPreferredSize(new Dimension(310, 0));
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         visualPanel.add(scrollPane, gbcNav);
 
@@ -488,6 +490,7 @@ public class Settings extends JPanel {
             activeProgram = null;
         }
 
+        Collections.sort(programs, Comparator.comparing(BaseProgram::getName));
         for (BaseProgram pg : programs) {
             JButton button = createNavItem(pg);
             navPanel.add(button);
