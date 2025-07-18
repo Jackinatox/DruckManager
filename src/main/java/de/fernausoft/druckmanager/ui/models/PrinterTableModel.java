@@ -1,5 +1,8 @@
 package de.fernausoft.druckmanager.ui.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 import de.fernausoft.druckmanager.xml.schema.PrinterDef;
@@ -8,14 +11,16 @@ import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 public class PrinterTableModel extends AbstractTableModel {
     private final String[] columnNames = { "Name", "Beschreibung" };
     private final PrintersDef printers;
+    private PrinterDef aksingPrinter;
 
-    public PrinterTableModel(PrintersDef printers) {
+    public PrinterTableModel(PrintersDef printers, PrinterDef askingPrinter) {
         this.printers = printers;
+        this.aksingPrinter = askingPrinter;
     }
 
     @Override
     public int getRowCount() {
-        return printers.getPrinter().size();
+        return getfilterdList().size();
     }
 
     @Override
@@ -30,7 +35,7 @@ public class PrinterTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        PrinterDef printer = printers.getPrinter().get(rowIndex);
+        PrinterDef printer = getfilterdList().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return printer.getName();
@@ -43,7 +48,7 @@ public class PrinterTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        PrinterDef printer = printers.getPrinter().get(rowIndex);
+        PrinterDef printer = getfilterdList().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 printer.setName(aValue.toString());
@@ -62,6 +67,16 @@ public class PrinterTableModel extends AbstractTableModel {
     }
 
     public PrinterDef getPrinterAt(int rowIndex) {
-        return printers.getPrinter().get(rowIndex);
+        return getfilterdList().get(rowIndex);
     }
+
+    private List<PrinterDef> getfilterdList(){{
+        List<PrinterDef> filterd = new ArrayList<>();
+        for (PrinterDef printer : printers.getPrinter()){
+            if (printer != aksingPrinter) {
+                filterd.add(printer);
+            }
+        }
+        return filterd;
+    }}
 }
