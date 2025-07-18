@@ -42,4 +42,9 @@ public class Formularweg1 extends Formularweg {
     public PrinterWrapper getPrinter1() {
         return printer1;
     }
+
+    @Override
+    public boolean getEdited() {
+        return (printer1.getPrinterDef() != null);
+    }
 }

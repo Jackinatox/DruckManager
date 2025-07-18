@@ -55,4 +55,9 @@ public class ThreePrintersProgram extends BaseProgram {
 
         return envs;
     }
+
+    @Override
+    public boolean getEdited() {
+        return formularweg.getEdited();
+    }
 }

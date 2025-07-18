@@ -1,5 +1,6 @@
 package de.fernausoft.druckmanager.ui.panels.Settings;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -8,7 +9,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -18,8 +18,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
@@ -165,11 +165,11 @@ public class Settings extends JPanel {
 
                 if (value instanceof Formularweg) {
                     Formularweg formular = (Formularweg) value;
-                    boolean isEnabled = formular.getEdited();
+                    // boolean isEnabled = formular.getEdited();
                     // boolean isEnabled = false;
-
-                    label.setFont(label.getFont().deriveFont(isEnabled ? Font.BOLD : Font.PLAIN));
-                    label.setText(formular.toString());
+                    String text = formular.toString() + (formular.getEdited() ? "*" : "");
+                    // label.setFont(label.getFont().deriveFont(isEnabled ? Font.BOLD : Font.PLAIN));
+                    label.setText(text);
                 }
 
                 return label;
@@ -341,7 +341,8 @@ public class Settings extends JPanel {
      * @return A styled JButton.
      */
     private JButton createNavItem(BaseProgram program) {
-        JButton button = new JButton(program.getName());
+        String name = program.getName() + " " + (program.getEdited() ? "*" : "");
+        JButton button = new JButton(name);
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setForeground(UIManager.getColor("Button.foreground"));
         button.setFocusPainted(false);
@@ -352,7 +353,10 @@ public class Settings extends JPanel {
         button.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
                 BorderFactory.createEmptyBorder(8, 10, 8, 10)));
+            
         button.setFont(button.getFont().deriveFont(Font.PLAIN, 12f));
+
+
 
         // Add onClick listener to change the selected state
         button.addActionListener(e -> {
@@ -465,16 +469,6 @@ public class Settings extends JPanel {
             }
         }
         System.err.println("Printer with ref '" + selectedPrinterRef + "' not found for dropdown " + dropdownIndex);
-    }
-
-    /**
-     * Method to set the selected formular.
-     * You will implement the logic to determine which formular to select.
-     * 
-     * @param selectedFormular The string value of the formular to be selected.
-     */
-    public void setSelectedFormular(String selectedFormular) {
-        formularComboBox.setSelectedItem(selectedFormular);
     }
 
     public void setPrograms(List<BaseProgram> programs) {

@@ -74,4 +74,23 @@ public class DefaultLayoutProgram extends BaseProgram {
         return envs;
 
     }
+
+    /**
+     * Indicates whether the current layout program has been edited.
+     * <p>
+     * This method overrides the corresponding method in the superclass.
+     * </p>
+     *
+     * @return {@code true} if the layout program has been edited; {@code false} otherwise.
+     * @see super#getEdited()
+     */
+    @Override
+    public boolean getEdited() {
+        for (Map.Entry<Character, Formularweg3> entry : formularwegMap.entrySet()) {
+            if (entry.getValue().getEdited()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

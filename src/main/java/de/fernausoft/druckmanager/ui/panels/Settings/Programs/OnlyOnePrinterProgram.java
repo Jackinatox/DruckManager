@@ -51,4 +51,9 @@ public class OnlyOnePrinterProgram extends BaseProgram {
         return envs;
     }
 
+    @Override
+    public boolean getEdited() {
+        return formularweg.getEdited();
+    }
+
 }

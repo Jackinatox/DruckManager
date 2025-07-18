@@ -15,9 +15,13 @@ abstract public class Formularweg {
         this.xmlWorker = xmlWorker;
     }
 
-    public boolean getEdited() {
-        return true;
-    }
+    /**
+     * Gibt an ob der Formularweg irgendwelche Einstellungen hat,
+     * wird dann in der UI anders dargetsellt.
+     *
+     * @return {@code true} if there is data present; {@code false} otherwise.
+     */
+    abstract public boolean getEdited();
 
     public String getName() {
         return name + " " + FWayChar;

@@ -25,4 +25,5 @@ public abstract class BaseProgram {
 
 
     abstract public List<KeyvalueDef> buildEnvs();
+    abstract public boolean getEdited();
 }
