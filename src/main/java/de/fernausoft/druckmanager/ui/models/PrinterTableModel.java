@@ -12,10 +12,12 @@ public class PrinterTableModel extends AbstractTableModel {
     private final String[] columnNames = { "Name", "Beschreibung" };
     private final PrintersDef printers;
     private PrinterDef aksingPrinter;
+    private PrinterDef linePrinter;
 
-    public PrinterTableModel(PrintersDef printers, PrinterDef askingPrinter) {
+    public PrinterTableModel(PrintersDef printers, PrinterDef askingPrinter, PrinterDef linePrinter) {
         this.printers = printers;
         this.aksingPrinter = askingPrinter;
+        this.linePrinter = linePrinter;
     }
 
     @Override
@@ -73,7 +75,7 @@ public class PrinterTableModel extends AbstractTableModel {
     private List<PrinterDef> getfilterdList(){{
         List<PrinterDef> filterd = new ArrayList<>();
         for (PrinterDef printer : printers.getPrinter()){
-            if (printer != aksingPrinter) {
+            if (printer != aksingPrinter && printer != linePrinter) {
                 filterd.add(printer);
             }
         }

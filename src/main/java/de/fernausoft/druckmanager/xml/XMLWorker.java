@@ -42,6 +42,7 @@ public class XMLWorker {
     private PrinterconfigDef printerConfig;
     private Map<String, PrinterDef> printerLookup = new java.util.HashMap<>();
     private PrinterDef askingPrinter;
+    private PrinterDef linePrinter;
 	private Path pathToFile;
 
     public XMLWorker(Path pathToFile) {
@@ -76,10 +77,27 @@ public class XMLWorker {
 
             askingPrinter = new PrinterDef();
             askingPrinter.setName("Dialog beim Drucken");
+            linePrinter = new PrinterDef();
+            linePrinter.setName("------------------------------");
 
-            printerConfig.getPrinters().getPrinter().add(askingPrinter);
+            List<PrinterDef> printers = printerConfig.getPrinters().getPrinter();
+            printers.remove(askingPrinter);
+            printers.remove(linePrinter);
 
-            Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(PrinterDef::getName));
+            List<PrinterDef> sortedPrinters = new ArrayList<>();
+            for (PrinterDef p : printers) {
+                if (p != askingPrinter && p != linePrinter) {
+                    sortedPrinters.add(p);
+                }
+            }
+            sortedPrinters.sort(Comparator.comparing(PrinterDef::getName));
+
+            // Clear and re-add in desired order
+            printers.clear();
+            printers.add(askingPrinter);
+            printers.add(linePrinter);
+            printers.addAll(sortedPrinters);
+
             Collections.sort(printerConfig.getTargets().getTarget(), Comparator.comparing(TargetDef::getHostname));
 
             for (PrinterDef printer : printerConfig.getPrinters().getPrinter()) {
@@ -133,6 +151,7 @@ public class XMLWorker {
         int i = 1;
 
         printerConfig.getPrinters().getPrinter().remove(getAskingPrinter());
+        printerConfig.getPrinters().getPrinter().remove(getLinePrinter());
 
         for (PrinterDef printer : printerConfig.getPrinters().getPrinter()) {
             printer.setRef("Ref_" + i);
@@ -269,5 +288,9 @@ public class XMLWorker {
 
     public PrinterDef getAskingPrinter() {
         return askingPrinter;
+    }
+
+    public PrinterDef getLinePrinter() {
+        return linePrinter;
     }
 }

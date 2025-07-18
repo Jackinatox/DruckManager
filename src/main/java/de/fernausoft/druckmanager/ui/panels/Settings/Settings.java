@@ -168,7 +168,8 @@ public class Settings extends JPanel {
                     // boolean isEnabled = formular.getEdited();
                     // boolean isEnabled = false;
                     String text = formular.toString() + (formular.getEdited() ? "*" : "");
-                    // label.setFont(label.getFont().deriveFont(isEnabled ? Font.BOLD : Font.PLAIN));
+                    // label.setFont(label.getFont().deriveFont(isEnabled ? Font.BOLD :
+                    // Font.PLAIN));
                     label.setText(text);
                 }
 
@@ -294,6 +295,11 @@ public class Settings extends JPanel {
             Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
             PrinterDef printer = (PrinterDef) comboBox.getSelectedItem();
 
+            if (printer == xmlWorker.getLinePrinter()) {
+                comboBox.setSelectedItem(null);
+                return;
+            }
+
             switch (printerId) {
                 case '1': {
                     boolean asking = printer == xmlWorker.getAskingPrinter();
@@ -353,10 +359,8 @@ public class Settings extends JPanel {
         button.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
                 BorderFactory.createEmptyBorder(8, 10, 8, 10)));
-            
+
         button.setFont(button.getFont().deriveFont(Font.PLAIN, 12f));
-
-
 
         // Add onClick listener to change the selected state
         button.addActionListener(e -> {

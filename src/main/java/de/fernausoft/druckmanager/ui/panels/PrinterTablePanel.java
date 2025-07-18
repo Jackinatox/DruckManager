@@ -31,7 +31,7 @@ public class PrinterTablePanel extends JPanel {
         this.myTargets = myTargets;
         setLayout(new java.awt.BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8)); // 8px padding on all sides
-        tableModel = new PrinterTableModel(printers, xmlWorker.getAskingPrinter());
+        tableModel = new PrinterTableModel(printers, xmlWorker.getAskingPrinter(), xmlWorker.getLinePrinter());
         table = new JTable(tableModel);
 
                 // Add padding to table cells
