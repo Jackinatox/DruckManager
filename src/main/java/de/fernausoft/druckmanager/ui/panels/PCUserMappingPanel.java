@@ -1,6 +1,7 @@
 package de.fernausoft.druckmanager.ui.panels;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -57,11 +59,28 @@ public class PCUserMappingPanel extends JPanel {
                         comp.setBackground(java.awt.Color.WHITE);
                     }
                 }
+                if (comp instanceof JLabel label) {
+                    label.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // top, left, bottom, right
+                }
                 return comp;
             }
         });
-        setBorder(BorderFactory.createEmptyBorder(0, 8, 8, 8)); // 8px padding on all sides
+        // setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new
+        // java.awt.Color(120, 120, 120)),
+        // "PCs/Nutzer",
+        // javax.swing.border.TitledBorder.LEFT,
+        // javax.swing.border.TitledBorder.TOP));
 
+        setLayout(new java.awt.BorderLayout());
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(4, 4, 4, 4),
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createTitledBorder(
+                                BorderFactory.createLineBorder(new java.awt.Color(120, 120, 120)),
+                                "PCs/Nutzer",
+                                javax.swing.border.TitledBorder.LEFT,
+                                javax.swing.border.TitledBorder.TOP),
+                        BorderFactory.createEmptyBorder(4, 4, 0, 4))));
         table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && listener != null) {
                 int selectedRow = table.getSelectedRow();
@@ -97,17 +116,17 @@ public class PCUserMappingPanel extends JPanel {
                                 if (!trimmedName.equals(oldName) && !trimmedName.isEmpty()) {
 
                                     // boolean exists = targets.stream()
-                                    //         .anyMatch(p -> p.getHostname().equals(trimmedName));
+                                    // .anyMatch(p -> p.getHostname().equals(trimmedName));
                                     // if (exists) {
-                                    //     JOptionPane.showMessageDialog(
-                                    //             PCUserMappingPanel.this,
-                                    //             "Ein PC mit diesem Hostnamen existiert bereits.",
-                                    //             "Fehler",
-                                    //             JOptionPane.ERROR_MESSAGE);
-                                    //     return;
+                                    // JOptionPane.showMessageDialog(
+                                    // PCUserMappingPanel.this,
+                                    // "Ein PC mit diesem Hostnamen existiert bereits.",
+                                    // "Fehler",
+                                    // JOptionPane.ERROR_MESSAGE);
+                                    // return;
                                     // } else {
-                                        target.setHostname(trimmedName);
-                                        tableModel.fireTableRowsUpdated(row, row);
+                                    target.setHostname(trimmedName);
+                                    tableModel.fireTableRowsUpdated(row, row);
                                     // }
                                 }
                             }
@@ -140,7 +159,7 @@ public class PCUserMappingPanel extends JPanel {
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         // Create a panel for the buttons
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 6));
         JButton createButton = new JButton("Erstellen");
         JButton deleteButton = new JButton("Löschen");
         buttonPanel.add(createButton);

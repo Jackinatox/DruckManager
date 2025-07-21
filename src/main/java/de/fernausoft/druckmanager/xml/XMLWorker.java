@@ -98,7 +98,7 @@ public class XMLWorker {
             printers.add(linePrinter);
             printers.addAll(sortedPrinters);
 
-            Collections.sort(printerConfig.getTargets().getTarget(), Comparator.comparing(TargetDef::getHostname));
+            Collections.sort(printerConfig.getTargets().getTarget(), Comparator.comparing(target -> target.getHostname().toLowerCase()));
 
             for (PrinterDef printer : printerConfig.getPrinters().getPrinter()) {
                 printerLookup.put(printer.getRef(), printer);
@@ -144,9 +144,9 @@ public class XMLWorker {
         // ObjectMapper mapper = new ObjectMapper();
         TargetsDef targetsDef = new TargetsDef();
 
-        Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(PrinterDef::getName));
+        Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(printer -> printer.getName().toLowerCase()));
 
-        Collections.sort(printerConfig.getTargets().getTarget(), Comparator.comparing(TargetDef::getHostname));
+        Collections.sort(printerConfig.getTargets().getTarget(), Comparator.comparing(target -> target.getHostname().toLowerCase()));
 
         int i = 1;
 
@@ -170,7 +170,7 @@ public class XMLWorker {
                     targetDef.getEnv().add(entry);
                 }   
             }
-            Collections.sort(targetDef.getEnv(), Comparator.comparing(KeyvalueDef::getEnv));
+            Collections.sort(targetDef.getEnv(), Comparator.comparing(keyvalue -> keyvalue.getEnv().toLowerCase()));
         }
 
         printerConfig.getTargets().getTarget().clear();
@@ -224,7 +224,7 @@ public class XMLWorker {
         newPrinter.setRef(name);
 
         printerConfig.getPrinters().getPrinter().add(newPrinter);
-        Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(PrinterDef::getName));
+        Collections.sort(printerConfig.getPrinters().getPrinter(), Comparator.comparing(printer -> printer.getName().toLowerCase()));
 
         return newPrinter;
     }

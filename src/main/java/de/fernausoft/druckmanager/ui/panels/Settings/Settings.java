@@ -69,7 +69,15 @@ public class Settings extends JPanel {
 
         // Create a visual panel to wrap the Settings panel for spacing
         JPanel visualPanel = new JPanel(new GridBagLayout());
-        visualPanel.setBorder(new EmptyBorder(0, 8, 8, 8)); // More padding for visual separation
+        visualPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(4, 4, 4, 4),
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createTitledBorder(
+                                BorderFactory.createLineBorder(new java.awt.Color(120, 120, 120)),
+                                "Einstellungen",
+                                javax.swing.border.TitledBorder.LEFT,
+                                javax.swing.border.TitledBorder.TOP),
+                        BorderFactory.createEmptyBorder(4, 4, 0, 4))));
 
         setLayout(new BorderLayout());
         add(visualPanel, BorderLayout.CENTER);
@@ -483,7 +491,7 @@ public class Settings extends JPanel {
             activeProgram = null;
         }
 
-        Collections.sort(programs, Comparator.comparing(BaseProgram::getName));
+        Collections.sort(programs, Comparator.comparing(program -> program.getName().toLowerCase()));
         for (BaseProgram pg : programs) {
             JButton button = createNavItem(pg);
             navPanel.add(button);

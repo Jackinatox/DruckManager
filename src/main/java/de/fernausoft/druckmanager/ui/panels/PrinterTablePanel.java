@@ -1,5 +1,6 @@
 package de.fernausoft.druckmanager.ui.panels;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,36 +32,46 @@ public class PrinterTablePanel extends JPanel {
         this.xmlWorker = xmlWorker;
         this.myTargets = myTargets;
         setLayout(new java.awt.BorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8)); // 8px padding on all sides
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(4, 4, 4, 4),
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createTitledBorder(
+                                BorderFactory.createLineBorder(new java.awt.Color(120, 120, 120)),
+                                "Drucker",
+                                javax.swing.border.TitledBorder.LEFT,
+                                javax.swing.border.TitledBorder.TOP),
+                        BorderFactory.createEmptyBorder(4, 4, 0, 4))));
         tableModel = new PrinterTableModel(printers, xmlWorker.getAskingPrinter(), xmlWorker.getLinePrinter());
         table = new JTable(tableModel);
 
-                // Add padding to table cells
-        table.setRowHeight(table.getRowHeight() + 10); // Increase row height by 10 pixels
-        table.setIntercellSpacing(new java.awt.Dimension(1, 1)); // Add horizontal and vertical spacing
-        
-        // Set alternating row colors (zebra striping)
+        // Add padding to table cells
+        table.setRowHeight(table.getRowHeight() + 10);
+
         table.setShowGrid(true);
-        table.setGridColor(new java.awt.Color(200, 200, 200)); // Lighter grid lines
-        
+        table.setGridColor(new java.awt.Color(200, 200, 200));
+
         table.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
             @Override
-            public java.awt.Component getTableCellRendererComponent(JTable table, Object value, 
+            public java.awt.Component getTableCellRendererComponent(JTable table, Object value,
                     boolean isSelected, boolean hasFocus, int row, int column) {
                 java.awt.Component comp = super.getTableCellRendererComponent(
                         table, value, isSelected, hasFocus, row, column);
-                
+
                 if (!isSelected) {
                     if (row % 2 == 0) {
-                        comp.setBackground(new java.awt.Color(240, 240, 250)); // Light blue-gray
+                        comp.setBackground(new java.awt.Color(240, 240, 250));
                     } else {
                         comp.setBackground(java.awt.Color.WHITE);
                     }
                 }
+
+                if (comp instanceof JLabel label) {
+                    label.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // top, left, bottom, right
+                }
                 return comp;
             }
         });
-        
+
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -126,14 +138,12 @@ public class PrinterTablePanel extends JPanel {
         });
         add(new JScrollPane(table), java.awt.BorderLayout.CENTER);
 
-        // Create a panel for the buttons
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 6));
         JButton createButton = new JButton("Erstellen");
         JButton deleteButton = new JButton("Löschen");
         buttonPanel.add(createButton);
         buttonPanel.add(deleteButton);
 
-        // Add the button panel to the south of the main panel
         add(buttonPanel, java.awt.BorderLayout.SOUTH);
 
         // Add action listeners for the buttons
@@ -162,7 +172,8 @@ public class PrinterTablePanel extends JPanel {
             xmlWorker.tryDeletePrinter(myTargets, selectedPrinter);
             tableModel.fireTableDataChanged();
         } else {
-            JOptionPane.showMessageDialog(this, "Bitte wählen Sie einen Drucker zum Löschen aus.", "Kein Drucker ausgewählt", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Bitte wählen Sie einen Drucker zum Löschen aus.",
+                    "Kein Drucker ausgewählt", JOptionPane.WARNING_MESSAGE);
         }
     }
 }
