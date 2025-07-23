@@ -6,11 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -72,7 +69,7 @@ public class Settings extends JPanel {
         this.xmlWorker = xmlWorker;
 
         // Create a visual panel to wrap the Settings panel for spacing
-        JPanel visualPanel = new JPanel(new GridBagLayout());
+        JPanel visualPanel = new JPanel(new BorderLayout());
         visualPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEmptyBorder(4, 4, 4, 4),
                 BorderFactory.createCompoundBorder(
@@ -84,33 +81,23 @@ public class Settings extends JPanel {
                         BorderFactory.createEmptyBorder(4, 4, 0, 4))));
 
         setLayout(new BorderLayout());
+        visualPanel.setLayout(new BorderLayout());
         add(visualPanel, BorderLayout.CENTER);
 
         // --- Left Navigation Panel ---
-        GridBagConstraints gbcNav = new GridBagConstraints();
-        gbcNav.gridx = 0;
-        gbcNav.gridy = 0;
-        gbcNav.weighty = 1.0;
-        gbcNav.anchor = GridBagConstraints.NORTHWEST;
-        gbcNav.fill = GridBagConstraints.BOTH;
-
         JScrollPane scrollPane = new JScrollPane(navPanel);
         scrollPane.setPreferredSize(new Dimension(310, 0));
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        visualPanel.add(scrollPane, gbcNav);
+        visualPanel.add(scrollPane, BorderLayout.WEST);
 
         // --- Right Content Panel (Form) ---
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new GridBagLayout());
+        JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
-        GridBagConstraints gbcContent = new GridBagConstraints();
-        gbcContent.insets = new Insets(5, 5, 5, 5);
-
-        gbcContent.gridx = 0;
-        gbcContent.gridy = 0;
-        gbcContent.anchor = GridBagConstraints.WEST;
-        contentPanel.add(new JLabel("Formular"), gbcContent);
+        // Top panel for formular selection
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        topPanel.add(new JLabel("Formular"), BorderLayout.WEST);
 
         formularComboBox = new JComboBox<>();
         formularComboBox.setEnabled(false);
@@ -190,60 +177,42 @@ public class Settings extends JPanel {
             }
         });
 
-        gbcContent.gridx = 1;
-        gbcContent.gridy = 0;
-        gbcContent.gridwidth = 2;
-        gbcContent.weightx = 1.0;
-        gbcContent.fill = GridBagConstraints.HORIZONTAL;
-        contentPanel.add(formularComboBox, gbcContent);
+        topPanel.add(formularComboBox, BorderLayout.CENTER);
+        contentPanel.add(topPanel, BorderLayout.NORTH);
 
-        // Row 2: Separator Line
-        gbcContent.gridx = 0;
-        gbcContent.gridy = 1;
-        gbcContent.gridwidth = 3;
-        gbcContent.fill = GridBagConstraints.HORIZONTAL;
-        gbcContent.insets = new Insets(10, 5, 10, 5);
-        contentPanel.add(new JSeparator(), gbcContent);
+        // Center panel for printer rows
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        // Add separator
+        centerPanel.add(new JSeparator());
+        centerPanel.add(Box.createVerticalStrut(10));
 
         // Create printer rows
         drucker1ComboBox = new JComboBox<>();
         drucker1CheckBox = new JCheckBox();
-        createPrinterRow(contentPanel, gbcContent, "Drucker 1", drucker1ComboBox, drucker1CheckBox, 2, '1');
+        centerPanel.add(createPrinterRowPanel("Drucker 1", drucker1ComboBox, drucker1CheckBox, '1'));
+        centerPanel.add(Box.createVerticalStrut(5));
 
         drucker2ComboBox = new JComboBox<>();
         drucker2CheckBox = new JCheckBox();
-        createPrinterRow(contentPanel, gbcContent, "Drucker 2", drucker2ComboBox, drucker2CheckBox, 3, '2');
+        centerPanel.add(createPrinterRowPanel("Drucker 2", drucker2ComboBox, drucker2CheckBox, '2'));
+        centerPanel.add(Box.createVerticalStrut(5));
 
         drucker3ComboBox = new JComboBox<>();
         drucker3CheckBox = new JCheckBox();
-        createPrinterRow(contentPanel, gbcContent, "Drucker 3", drucker3ComboBox, drucker3CheckBox, 4, '3');
+        centerPanel.add(createPrinterRowPanel("Drucker 3", drucker3ComboBox, drucker3CheckBox, '3'));
 
-        // Add a vertical strut to push content to the top
-        gbcContent.gridx = 0;
-        gbcContent.gridy = 5;
-        gbcContent.weighty = 1.0;
-        gbcContent.gridwidth = 3;
-        contentPanel.add(Box.createVerticalGlue(), gbcContent);
+        contentPanel.add(centerPanel, BorderLayout.CENTER);
 
-        // Row for Ok and Abbrechen buttons
+        // Bottom panel for buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
+        contentPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        gbcContent.gridx = 0;
-        gbcContent.gridy = 6;
-        gbcContent.gridwidth = 3;
-        gbcContent.fill = GridBagConstraints.NONE;
-        gbcContent.anchor = GridBagConstraints.SOUTHEAST;
-        gbcContent.weighty = 0.0;
-        gbcContent.insets = new Insets(10, 5, 5, 5);
-        contentPanel.add(buttonPanel, gbcContent);
 
-        GridBagConstraints gbcContentPanel = new GridBagConstraints();
-        gbcContentPanel.gridx = 1;
-        gbcContentPanel.gridy = 0;
-        gbcContentPanel.weightx = 0.8;
-        gbcContentPanel.weighty = 1.0;
-        gbcContentPanel.fill = GridBagConstraints.BOTH;
-        visualPanel.add(contentPanel, gbcContentPanel);
+        visualPanel.add(contentPanel, BorderLayout.CENTER);
 
         // Initialize Values
         setPrinterOptions(xmlWorker.getAllPrinters());
@@ -275,10 +244,8 @@ public class Settings extends JPanel {
 
     }
 
-    private void createPrinterRow(JPanel panel, GridBagConstraints gbc, String label, JComboBox<PrinterDef> comboBox,
-            JCheckBox checkBox, int gridy, char printerId) {
-        // Create a horizontal row with static sizes for label and checkbox, comboBox
-        // expands
+    private JPanel createPrinterRowPanel(String label, JComboBox<PrinterDef> comboBox, JCheckBox checkBox, char printerId) {
+        // Create a horizontal row with static sizes for label and checkbox, comboBox expands
         JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
 
@@ -297,12 +264,6 @@ public class Settings extends JPanel {
         rowPanel.add(comboBox);
 
         rowPanel.add(Box.createHorizontalGlue()); // allow comboBox to expand
-
-        gbc.gridx = 0;
-        gbc.gridy = gridy;
-        gbc.gridwidth = 3;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(rowPanel, gbc);
 
         comboBox.addActionListener(e -> {
             Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
@@ -350,6 +311,8 @@ public class Settings extends JPanel {
         checkBox.addActionListener(e -> {
             comboBox.setEnabled(checkBox.isSelected());
         });
+
+        return rowPanel;
     }
 
     /**
