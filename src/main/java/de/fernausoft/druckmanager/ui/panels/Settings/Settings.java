@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -22,6 +23,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -33,7 +35,6 @@ import javax.swing.JSeparator;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,6 +52,9 @@ import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 
 public class Settings extends JPanel {
     private static final Logger logger = LogManager.getLogger(Settings.class);
+    private static final ImageIcon NOT_EDITED = new ImageIcon(new ImageIcon(Settings.class.getResource("/not_edited.png")).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    private static final ImageIcon EDITED = new ImageIcon(new ImageIcon(Settings.class.getResource("/edited.png")).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+
     private BaseProgram activeProgram;
 
     // JComboBoxes for printers and formular, made accessible for external methods
@@ -173,12 +177,13 @@ public class Settings extends JPanel {
 
                 if (value instanceof Formularweg) {
                     Formularweg formular = (Formularweg) value;
-                    // boolean isEnabled = formular.getEdited();
-                    // boolean isEnabled = false;
-                    String text = formular.toString() + (formular.getEdited() ? "*" : "");
-                    // label.setFont(label.getFont().deriveFont(isEnabled ? Font.BOLD :
-                    // Font.PLAIN));
+
+                    String text = formular.toString();
+
+                    // label.setFont(new Font(Font.MONOSPACED, formular.getEdited() ? Font.BOLD :
+                    // Font.PLAIN, 12));
                     label.setText(text);
+                    label.setIcon(formular.getEdited() ? EDITED : NOT_EDITED);
                 }
 
                 return label;
@@ -355,7 +360,7 @@ public class Settings extends JPanel {
      * @return A styled JButton.
      */
     private JButton createNavItem(BaseProgram program) {
-        String name = program.getName() + " " + (program.getEdited() ? "*" : "");
+        String name = program.getName();
         JButton button = new JButton(name);
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setForeground(UIManager.getColor("Button.foreground"));
@@ -369,6 +374,7 @@ public class Settings extends JPanel {
                 BorderFactory.createEmptyBorder(8, 10, 8, 10)));
 
         button.setFont(button.getFont().deriveFont(Font.PLAIN, 12f));
+        button.setIcon(program.getEdited() ? EDITED : NOT_EDITED);
 
         // Add onClick listener to change the selected state
         button.addActionListener(e -> {

@@ -24,3 +24,4 @@ out/
 
 # Other temporary files
 *.tmp
+bin/
