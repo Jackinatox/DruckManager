@@ -45,6 +45,6 @@ public class Formularweg1 extends Formularweg {
 
     @Override
     public boolean getEdited() {
-        return (printer1.getPrinterDef() != null);
+        return (printer1.getEnabled());
     }
 }

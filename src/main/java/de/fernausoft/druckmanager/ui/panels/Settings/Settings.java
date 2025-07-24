@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -18,7 +19,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -49,8 +49,11 @@ import de.fernausoft.druckmanager.xml.schema.PrintersDef;
 
 public class Settings extends JPanel {
     private static final Logger logger = LogManager.getLogger(Settings.class);
-    private static final ImageIcon NOT_EDITED = new ImageIcon(new ImageIcon(Settings.class.getResource("/not_edited.png")).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-    private static final ImageIcon EDITED = new ImageIcon(new ImageIcon(Settings.class.getResource("/edited.png")).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    private static final ImageIcon NOT_EDITED = new ImageIcon(
+            new ImageIcon(Settings.class.getResource("/not_edited.png")).getImage().getScaledInstance(16, 16,
+                    Image.SCALE_SMOOTH));
+    private static final ImageIcon EDITED = new ImageIcon(new ImageIcon(Settings.class.getResource("/edited.png"))
+            .getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
     private BaseProgram activeProgram;
 
@@ -131,6 +134,8 @@ public class Settings extends JPanel {
                             printer = xmlWorker.getAskingPrinter();
                         }
                         drucker1ComboBox.setSelectedItem(printer);
+                    } else {
+                        drucker2ComboBox.setSelectedItem(null);
                     }
 
                     if (isPrinter2Enabled) {
@@ -139,6 +144,8 @@ public class Settings extends JPanel {
                             printer = xmlWorker.getAskingPrinter();
                         }
                         drucker2ComboBox.setSelectedItem(printer);
+                    } else {
+                        drucker2ComboBox.setSelectedItem(null);
                     }
                     if (isPrinter3Enabled) {
                         PrinterDef printer = printer3.getPrinterDef();
@@ -146,7 +153,9 @@ public class Settings extends JPanel {
                             printer = xmlWorker.getAskingPrinter();
                         }
                         drucker3ComboBox.setSelectedItem(printer);
-                    } else { drucker3ComboBox.setSelectedItem(-1);}
+                    } else {
+                        drucker3ComboBox.setSelectedItem(null);
+                    }
 
                     drucker1ComboBox.setEnabled(drucker1CheckBox.isSelected());
                     drucker2ComboBox.setEnabled(drucker2CheckBox.isSelected());
@@ -211,7 +220,6 @@ public class Settings extends JPanel {
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-
         visualPanel.add(contentPanel, BorderLayout.CENTER);
 
         // Initialize Values
@@ -241,11 +249,12 @@ public class Settings extends JPanel {
             weg.getPrinter3().setEnabled(drucker3CheckBox.isSelected());
             // }
         });
-
     }
 
-    private JPanel createPrinterRowPanel(String label, JComboBox<PrinterDef> comboBox, JCheckBox checkBox, char printerId) {
-        // Create a horizontal row with static sizes for label and checkbox, comboBox expands
+    private JPanel createPrinterRowPanel(String label, JComboBox<PrinterDef> comboBox, JCheckBox checkBox,
+            char printerId) {
+        // Create a horizontal row with static sizes for label and checkbox, comboBox
+        // expands
         JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
 
@@ -307,10 +316,13 @@ public class Settings extends JPanel {
             } else {
                 weg.setPrinter(printerId, printer);
             }
+            formularComboBox.repaint();
         });
 
         checkBox.addActionListener(e -> {
             comboBox.setEnabled(checkBox.isSelected());
+            formularComboBox.repaint();
+            navPanel.repaint();
         });
 
         return rowPanel;
@@ -325,12 +337,11 @@ public class Settings extends JPanel {
      */
     private JButton createNavItem(BaseProgram program) {
         String name = program.getName();
-        JButton button = new JButton(name);
+        PaintAwareButton button = new PaintAwareButton(program, name);
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setForeground(UIManager.getColor("Button.foreground"));
         button.setFocusPainted(false);
         button.setOpaque(true);
-        button.putClientProperty("program", program);
 
         button.setBackground(Color.WHITE);
         button.setBorder(BorderFactory.createCompoundBorder(
@@ -338,18 +349,14 @@ public class Settings extends JPanel {
                 BorderFactory.createEmptyBorder(8, 10, 8, 10)));
 
         button.setFont(button.getFont().deriveFont(Font.PLAIN, 12f));
-        button.setIcon(program.getEdited() ? EDITED : NOT_EDITED);
 
         // Add onClick listener to change the selected state
         button.addActionListener(e -> {
-            activeProgram = (BaseProgram) ((JButton) e.getSource()).getClientProperty("program");
-            button.setIcon(program.getEdited() ? EDITED : NOT_EDITED);
+            activeProgram = button.getProgram();
             setProgram(activeProgram);
             updateNavPanel();
             logger.info("setting to: " + activeProgram.getName());
         });
-
-        
 
         return button;
     }
@@ -427,33 +434,35 @@ public class Settings extends JPanel {
      *                           Drucker 2, 3 for Drucker 3).
      * @param selectedPrinterRef The 'ref' of the PrinterDef to be selected.
      */
-    // public void setSelectedPrinter(int dropdownIndex, String selectedPrinterRef) {
-    //     JComboBox<PrinterDef> targetComboBox;
-    //     switch (dropdownIndex) {
-    //         case 1:
-    //             targetComboBox = drucker1ComboBox;
-    //             break;
-    //         case 2:
-    //             targetComboBox = drucker2ComboBox;
-    //             break;
-    //         case 3:
-    //             targetComboBox = drucker3ComboBox;
-    //             break;
-    //         default:
-    //             System.err.println("Invalid dropdown index: " + dropdownIndex);
-    //             return;
-    //     }
+    // public void setSelectedPrinter(int dropdownIndex, String selectedPrinterRef)
+    // {
+    // JComboBox<PrinterDef> targetComboBox;
+    // switch (dropdownIndex) {
+    // case 1:
+    // targetComboBox = drucker1ComboBox;
+    // break;
+    // case 2:
+    // targetComboBox = drucker2ComboBox;
+    // break;
+    // case 3:
+    // targetComboBox = drucker3ComboBox;
+    // break;
+    // default:
+    // System.err.println("Invalid dropdown index: " + dropdownIndex);
+    // return;
+    // }
 
-    //     // Iterate through the model to find the PrinterDef with the matching ref
-    //     ComboBoxModel<PrinterDef> model = targetComboBox.getModel();
-    //     for (int i = 0; i < model.getSize(); i++) {
-    //         PrinterDef printer = model.getElementAt(i);
-    //         if (printer != null && printer.getRef().equals(selectedPrinterRef)) {
-    //             targetComboBox.setSelectedItem(printer);
-    //             return;
-    //         }
-    //     }
-    //     System.err.println("Printer with ref '" + selectedPrinterRef + "' not found for dropdown " + dropdownIndex);
+    // // Iterate through the model to find the PrinterDef with the matching ref
+    // ComboBoxModel<PrinterDef> model = targetComboBox.getModel();
+    // for (int i = 0; i < model.getSize(); i++) {
+    // PrinterDef printer = model.getElementAt(i);
+    // if (printer != null && printer.getRef().equals(selectedPrinterRef)) {
+    // targetComboBox.setSelectedItem(printer);
+    // return;
+    // }
+    // }
+    // System.err.println("Printer with ref '" + selectedPrinterRef + "' not found
+    // for dropdown " + dropdownIndex);
     // }
 
     public void setPrograms(List<BaseProgram> programs) {
@@ -522,5 +531,29 @@ public class Settings extends JPanel {
         public boolean getScrollableTracksViewportHeight() {
             return false;
         }
+    }
+
+    private class PaintAwareButton extends JButton {
+        private BaseProgram program;
+
+        private String name;
+
+        public PaintAwareButton(BaseProgram program, String name) {
+            super(name);
+            this.program = program;
+            this.name = name;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            this.setIcon(program.getEdited() ? EDITED : NOT_EDITED);
+
+            super.paintComponent(g);
+        }
+
+        public BaseProgram getProgram() {
+            return program;
+        }
+
     }
 }

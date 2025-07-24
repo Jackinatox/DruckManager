@@ -190,6 +190,10 @@ public class PCUserMappingPanel extends JPanel {
         if (selectedRow != -1) {
             targets.remove(selectedRow);
             tableModel.fireTableDataChanged();
+            if (table.getRowCount() > 0) {
+                int selectNow = Math.min(table.getRowCount() - 1, selectedRow);
+                table.setRowSelectionInterval(selectNow, selectNow);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Bitte ein Mapping auswählen.", "Kein Mapping Ausgewählt",
                     JOptionPane.WARNING_MESSAGE);

@@ -57,9 +57,9 @@ public class Formularweg3 extends Formularweg {
 
     @Override
     public boolean getEdited() {
-        return printer1.getPrinterDef() != null ||
-                printer2.getPrinterDef() != null ||
-                printer3.getPrinterDef() != null;
+        return printer1.getEnabled() ||
+                printer2.getEnabled() || 
+                printer3.getEnabled();
     }
 
     @Override
