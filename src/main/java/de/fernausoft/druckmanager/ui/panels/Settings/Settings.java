@@ -300,6 +300,7 @@ public class Settings extends JPanel {
                         wrap.setAskDialog(asking);
                     }
                     break;
+                    //testing git build
                 }
                 case '3': {
                     boolean asking = printer == xmlWorker.getAskingPrinter();
