@@ -21,7 +21,7 @@ public abstract class BaseProgram {
 
     public String getName() {
         return this.name;
-    }
+     }
 
 
     abstract public List<KeyvalueDef> buildEnvs();

@@ -108,7 +108,7 @@ public class DruckManagerPanel implements PCUserSelectionListener {
 
 	public void show() {
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainWindow.setSize(650, 900); // Example size
+		mainWindow.setSize(750, 900);
 		mainWindow.setVisible(true);
 		SwingUtilities.invokeLater(() -> {
 			pcTaplePanel.selectFirstRow();

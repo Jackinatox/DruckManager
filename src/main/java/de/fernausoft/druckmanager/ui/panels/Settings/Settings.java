@@ -86,7 +86,7 @@ public class Settings extends JPanel {
 
         // --- Left Navigation Panel ---
         JScrollPane scrollPane = new JScrollPane(navPanel);
-        scrollPane.setPreferredSize(new Dimension(310, 0));
+        scrollPane.setPreferredSize(new Dimension(350, 0));
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         visualPanel.add(scrollPane, BorderLayout.WEST);
 
@@ -146,7 +146,7 @@ public class Settings extends JPanel {
                             printer = xmlWorker.getAskingPrinter();
                         }
                         drucker3ComboBox.setSelectedItem(printer);
-                    }
+                    } else { drucker3ComboBox.setSelectedItem(-1);}
 
                     drucker1ComboBox.setEnabled(drucker1CheckBox.isSelected());
                     drucker2ComboBox.setEnabled(drucker2CheckBox.isSelected());
@@ -270,8 +270,9 @@ public class Settings extends JPanel {
             PrinterDef printer = (PrinterDef) comboBox.getSelectedItem();
 
             if (printer == xmlWorker.getLinePrinter()) {
-                comboBox.setSelectedItem(null);
-                return;
+                comboBox.setSelectedItem(xmlWorker.getAskingPrinter());
+                printer = (PrinterDef) comboBox.getSelectedItem();
+                // return;
             }
 
             switch (printerId) {
@@ -342,10 +343,13 @@ public class Settings extends JPanel {
         // Add onClick listener to change the selected state
         button.addActionListener(e -> {
             activeProgram = (BaseProgram) ((JButton) e.getSource()).getClientProperty("program");
+            button.setIcon(program.getEdited() ? EDITED : NOT_EDITED);
             setProgram(activeProgram);
             updateNavPanel();
             logger.info("setting to: " + activeProgram.getName());
         });
+
+        
 
         return button;
     }
@@ -423,44 +427,44 @@ public class Settings extends JPanel {
      *                           Drucker 2, 3 for Drucker 3).
      * @param selectedPrinterRef The 'ref' of the PrinterDef to be selected.
      */
-    public void setSelectedPrinter(int dropdownIndex, String selectedPrinterRef) {
-        JComboBox<PrinterDef> targetComboBox;
-        switch (dropdownIndex) {
-            case 1:
-                targetComboBox = drucker1ComboBox;
-                break;
-            case 2:
-                targetComboBox = drucker2ComboBox;
-                break;
-            case 3:
-                targetComboBox = drucker3ComboBox;
-                break;
-            default:
-                System.err.println("Invalid dropdown index: " + dropdownIndex);
-                return;
-        }
+    // public void setSelectedPrinter(int dropdownIndex, String selectedPrinterRef) {
+    //     JComboBox<PrinterDef> targetComboBox;
+    //     switch (dropdownIndex) {
+    //         case 1:
+    //             targetComboBox = drucker1ComboBox;
+    //             break;
+    //         case 2:
+    //             targetComboBox = drucker2ComboBox;
+    //             break;
+    //         case 3:
+    //             targetComboBox = drucker3ComboBox;
+    //             break;
+    //         default:
+    //             System.err.println("Invalid dropdown index: " + dropdownIndex);
+    //             return;
+    //     }
 
-        // Iterate through the model to find the PrinterDef with the matching ref
-        ComboBoxModel<PrinterDef> model = targetComboBox.getModel();
-        for (int i = 0; i < model.getSize(); i++) {
-            PrinterDef printer = model.getElementAt(i);
-            if (printer != null && printer.getRef().equals(selectedPrinterRef)) {
-                targetComboBox.setSelectedItem(printer);
-                return;
-            }
-        }
-        System.err.println("Printer with ref '" + selectedPrinterRef + "' not found for dropdown " + dropdownIndex);
-    }
+    //     // Iterate through the model to find the PrinterDef with the matching ref
+    //     ComboBoxModel<PrinterDef> model = targetComboBox.getModel();
+    //     for (int i = 0; i < model.getSize(); i++) {
+    //         PrinterDef printer = model.getElementAt(i);
+    //         if (printer != null && printer.getRef().equals(selectedPrinterRef)) {
+    //             targetComboBox.setSelectedItem(printer);
+    //             return;
+    //         }
+    //     }
+    //     System.err.println("Printer with ref '" + selectedPrinterRef + "' not found for dropdown " + dropdownIndex);
+    // }
 
     public void setPrograms(List<BaseProgram> programs) {
         navPanel.removeAll();
+        Collections.sort(programs, Comparator.comparing(program -> program.getName().toLowerCase()));
         if (programs != null && !programs.isEmpty()) {
             activeProgram = programs.get(0);
         } else {
             activeProgram = null;
         }
 
-        Collections.sort(programs, Comparator.comparing(program -> program.getName().toLowerCase()));
         for (BaseProgram pg : programs) {
             JButton button = createNavItem(pg);
             navPanel.add(button);

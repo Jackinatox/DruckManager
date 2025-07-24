@@ -25,3 +25,5 @@ out/
 # Other temporary files
 *.tmp
 bin/
+clientprinterconfig.xml.bak
+clientprinterconfig.xml
