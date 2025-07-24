@@ -233,21 +233,27 @@ public class Settings extends JPanel {
             Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
             // if (weg != null) {
             weg.getPrinter1().setEnabled(drucker1CheckBox.isSelected());
-            // }
+            if (drucker1ComboBox.getSelectedItem() == null) {
+                drucker1ComboBox.setSelectedItem(xmlWorker.getAskingPrinter());
+            }
         });
         drucker2CheckBox.addActionListener(e -> {
             drucker2ComboBox.setEnabled(drucker2CheckBox.isSelected());
             Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
             // if (weg != null) {
             weg.getPrinter2().setEnabled(drucker2CheckBox.isSelected());
-            // }
+            if (drucker2ComboBox.getSelectedItem() == null) {
+                drucker2ComboBox.setSelectedItem(xmlWorker.getAskingPrinter());
+            }
         });
         drucker3CheckBox.addActionListener(e -> {
             drucker3ComboBox.setEnabled(drucker3CheckBox.isSelected());
             Formularweg weg = (Formularweg) formularComboBox.getSelectedItem();
             // if (weg != null) {
             weg.getPrinter3().setEnabled(drucker3CheckBox.isSelected());
-            // }
+            if (drucker3ComboBox.getSelectedItem() == null) {
+                drucker3ComboBox.setSelectedItem(xmlWorker.getAskingPrinter());
+            }
         });
     }
 
@@ -300,7 +306,7 @@ public class Settings extends JPanel {
                         wrap.setAskDialog(asking);
                     }
                     break;
-                    //testing git build
+                    // testing git build
                 }
                 case '3': {
                     boolean asking = printer == xmlWorker.getAskingPrinter();
@@ -355,7 +361,7 @@ public class Settings extends JPanel {
         button.addActionListener(e -> {
             activeProgram = button.getProgram();
             setProgram(activeProgram);
-            updateNavPanel();
+            navPanel.repaint();
             logger.info("setting to: " + activeProgram.getName());
         });
 
@@ -426,46 +432,6 @@ public class Settings extends JPanel {
         }
     }
 
-    /**
-     * Method to set the selected printer for a specific dropdown.
-     * You will implement the logic to determine which printer to select based on
-     * your application's state.
-     * 
-     * @param dropdownIndex      The index of the dropdown (1 for Drucker 1, 2 for
-     *                           Drucker 2, 3 for Drucker 3).
-     * @param selectedPrinterRef The 'ref' of the PrinterDef to be selected.
-     */
-    // public void setSelectedPrinter(int dropdownIndex, String selectedPrinterRef)
-    // {
-    // JComboBox<PrinterDef> targetComboBox;
-    // switch (dropdownIndex) {
-    // case 1:
-    // targetComboBox = drucker1ComboBox;
-    // break;
-    // case 2:
-    // targetComboBox = drucker2ComboBox;
-    // break;
-    // case 3:
-    // targetComboBox = drucker3ComboBox;
-    // break;
-    // default:
-    // System.err.println("Invalid dropdown index: " + dropdownIndex);
-    // return;
-    // }
-
-    // // Iterate through the model to find the PrinterDef with the matching ref
-    // ComboBoxModel<PrinterDef> model = targetComboBox.getModel();
-    // for (int i = 0; i < model.getSize(); i++) {
-    // PrinterDef printer = model.getElementAt(i);
-    // if (printer != null && printer.getRef().equals(selectedPrinterRef)) {
-    // targetComboBox.setSelectedItem(printer);
-    // return;
-    // }
-    // }
-    // System.err.println("Printer with ref '" + selectedPrinterRef + "' not found
-    // for dropdown " + dropdownIndex);
-    // }
-
     public void setPrograms(List<BaseProgram> programs) {
         navPanel.removeAll();
         Collections.sort(programs, Comparator.comparing(program -> program.getName().toLowerCase()));
@@ -485,21 +451,6 @@ public class Settings extends JPanel {
 
         if (activeProgram != null) {
             setProgram(activeProgram);
-            updateNavPanel();
-        }
-    }
-
-    private void updateNavPanel() {
-        for (Component comp : navPanel.getComponents()) {
-            if (comp instanceof JButton) {
-                JButton button = (JButton) comp;
-                BaseProgram program = (BaseProgram) button.getClientProperty("program");
-                if (program != null && program.equals(activeProgram)) {
-                    button.setBackground(Color.LIGHT_GRAY);
-                } else {
-                    button.setBackground(Color.WHITE);
-                }
-            }
         }
     }
 
@@ -537,18 +488,23 @@ public class Settings extends JPanel {
     private class PaintAwareButton extends JButton {
         private BaseProgram program;
 
-        private String name;
+        // private String name;
 
         public PaintAwareButton(BaseProgram program, String name) {
             super(name);
             this.program = program;
-            this.name = name;
+            // this.name = name;
         }
 
         @Override
         protected void paintComponent(Graphics g) {
             this.setIcon(program.getEdited() ? EDITED : NOT_EDITED);
-
+            // if (program == Settings.this.activeProgram) {
+            this.setBackground(program == Settings.this.activeProgram ? new Color(27, 102, 201) : Color.WHITE);
+            this.setOpaque(true);
+            // this.setForeground(program == Settings.this.activeProgram ? Color.LIGHT_GRAY
+            // : Color.WHITE);
+            // }
             super.paintComponent(g);
         }
 
